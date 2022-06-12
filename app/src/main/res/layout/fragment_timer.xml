@@ -11,18 +11,26 @@
             android:id="@+id/timer_timepicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timer_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/timer_countdown" />
 
-        <TextView
-            android:id="@+id/timer_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/start_time"
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/timer_countdown"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:textSize="50sp"
+            app:isHideTimeBackground="true"
+            app:isShowHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:timeTextColor="@color/TextColor"
+            app:timeTextSize="50dp"
+            app:isTimeTextBold="true"
+            app:suffixTextSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline3"
             app:layout_constraintEnd_toEndOf="@id/timer_timepicker"
             app:layout_constraintStart_toStartOf="@+id/timer_timepicker"
@@ -42,10 +50,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/timer_start_btn"
+            android:text="@string/start_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/timer_timepicker"
             app:layout_constraintTop_toBottomOf="@+id/timer_timepicker" />
+
+        <Button
+            android:id="@+id/timer_stop_reset_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/stop_btn"
+            app:layout_constraintEnd_toEndOf="@+id/timer_start_btn"
+            app:layout_constraintStart_toStartOf="@+id/timer_start_btn"
+            app:layout_constraintTop_toBottomOf="@+id/timer_start_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

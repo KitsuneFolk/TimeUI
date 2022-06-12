@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.databinding.FragmentStopwatchBinding
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 
 class StopWatchFragment : Fragment() {
@@ -25,13 +27,18 @@ class StopWatchFragment : Fragment() {
         initViews()
 
         return binding.root
+
     }
 
     private fun initViews() {
 
-        binding.stopwatchStartBtn.setOnClickListener { startTimer() }
+        binding.stopwatchStartBtn.setOnClickListener {
+            startTimer()
+
+
+        }
         binding.stopwatchStopBtn.setOnClickListener { stopTimer() }
-        binding.stopwatchClearBtn.setOnClickListener { resetTimer() }
+        binding.stopwatchResetBtn.setOnClickListener { resetTimer() }
 
     }
 
@@ -45,6 +52,7 @@ class StopWatchFragment : Fragment() {
 
 
     private fun startTimer() {
+
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, 9999)
         timer = object : CountDownTimer(calendar.timeInMillis, 1000) {
@@ -66,6 +74,7 @@ class StopWatchFragment : Fragment() {
 
         timer.cancel()
         timer.start()
+
 
 
     }

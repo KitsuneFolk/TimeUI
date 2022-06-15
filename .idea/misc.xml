@@ -5,7 +5,8 @@
       <map>
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/bottom_navigation_background.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/bottom_navigation_bar_selector.xml" value="0.1" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/bottom_navigation_style.xml" value="0.1" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/app_bar_navigation.xml" value="0.29453125" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/content_navigation.xml" value="0.29453125" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_clocks.xml" value="0.25" />

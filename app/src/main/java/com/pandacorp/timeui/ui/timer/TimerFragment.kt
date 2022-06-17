@@ -1,16 +1,14 @@
 package com.pandacorp.timeui.ui.timer
 
-import android.content.ContentValues
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.pandacorp.timeui.R
 import com.pandacorp.timeui.databinding.FragmentTimerBinding
-import com.pandacorp.timeui.ui.DBHelper
-
 
 class TimerFragment : Fragment() {
     val TAG = "MyLogs"
@@ -20,18 +18,9 @@ class TimerFragment : Fragment() {
     private var seconds = 0
 
     private var time: Long = 0
-    private var remainTime: Long = 0
-    private var currentTime: Long = 0
-    private var isShowStop: Int = 1
-    private var isFreeze: Int = 0
 
-    private val contentValues = ContentValues()
-
-    private var itemListCurrentTime = arrayListOf<Long>()
-    private var itemListRemainTime = arrayListOf<Long>()
-    private var itemListIsFreeze = arrayListOf<Int>()
-    private var itemListIsShowStop = arrayListOf<Int>()
-
+    private lateinit var sp: SharedPreferences
+    private lateinit var edit: SharedPreferences.Editor
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,98 +36,72 @@ class TimerFragment : Fragment() {
     }
 
     private fun initViews() {
-        //Creating DBHelper object
-        val db = DBHelper(requireContext(), null)
+        //Creating sharedPreferences objects
+        sp = activity?.getSharedPreferences("Timer_SP", Context.MODE_PRIVATE)!!
+        edit = sp.edit()
 
-        //Uploading the countdown when opening the app
-        val cursor = db.getName(DBHelper.TIMER_TABLE)
-        cursor!!.moveToFirst()
-        val remainTime_col = cursor.getColumnIndex(DBHelper.REMAIN_TIME_COl)
-        val currentTime_col = cursor.getColumnIndex(DBHelper.CURRENT_TIME_COL)
-        val isShowStop_col = cursor.getColumnIndex(DBHelper.IS_SHOW_STOP_COL)
-        val isFreeze_col = cursor.getColumnIndex(DBHelper.IS_FREEZE_COl)
-        while (cursor.moveToNext()) {
-            itemListRemainTime.add(cursor.getLong(remainTime_col) - System.currentTimeMillis());
-            itemListCurrentTime.add(cursor.getLong(currentTime_col));
-            itemListIsFreeze.add(cursor.getInt(isFreeze_col))
-            itemListIsShowStop.add(cursor.getInt(isShowStop_col))
-            remainTime = cursor.getLong(remainTime_col)
-            currentTime = cursor.getLong(currentTime_col)
-            isFreeze = cursor.getInt(isFreeze_col)
-            isShowStop = cursor.getInt(isShowStop_col)
-        }
-
-        Log.d(TAG, "initViews: time = $time")
-
-        //Checking if the time is stopped to set it
-        try {
-            if (isFreeze == 1) {
-                // 0 = false
-                // 1 = true
-                binding.timerCountdown.stop()
-                binding.timerCountdown.updateShow(currentTime.toLong())
-                Log.d(TAG, "initViews: isFreeze = true")
-
-            } else {
-                // Without itemListRemainTime.lastIndex it won't work
-                binding.timerCountdown.start(remainTime)
-                Log.d(TAG, "initViews: isFreeze = false")
-                //TODO: При повторном заходе обнуляется таймер
-                // When app is loading first time
-
+        //Reinstall the timer when open the app
+        time = sp.getLong("Remain_time", 0) - System.currentTimeMillis()
+        val FreezeTime = sp.getBoolean("FreezeTime", false)
+        Log.d(TAG, "initViews: VAR FreezeTime = $FreezeTime")
+        when (FreezeTime){
+            true -> {
+                binding.timerCountdown.updateShow(sp.getLong("Current_time", 0))
+                Log.d(TAG, "initViews: FreezeTime = true")
             }
 
-        } catch (e: Exception) {
-            //When app is starting first time
+            false -> {
+                binding.timerCountdown.start(time)
+                Log.d(TAG, "initViews: FreezeTime = false")
+            }
         }
-
-        cursor.close()
 
         binding.timerTimepicker.setIs24HourView(true)
         binding.timerTimepicker.currentHour = 0
         binding.timerTimepicker.currentMinute = 0
         binding.timerTimepicker.setCurrentSecond(0)
         binding.timerStartBtn.setOnClickListener {
-            hours = binding.timerTimepicker.currentHour
-            minutes = binding.timerTimepicker.currentMinute
-            seconds = binding.timerTimepicker.currentSeconds
-            //Setting time in hours, minutes, seconds to time in Milliseconds
-            val hoursInMilliseconds: Long = (hours * 60 * 60 * 1000).toLong()
-            val minutesInMilliseconds: Long = (minutes * 60 * 1000).toLong()
-            val secondsInMilliseconds: Long = (seconds * 1000).toLong()
-            time =
-                hoursInMilliseconds + minutesInMilliseconds + secondsInMilliseconds
-            binding.timerStopResetBtn.text = resources.getString(R.string.stop_btn)
-            binding.timerCountdown.start(time)
-//            contentValues.put(DBHelper.TIME_COl, time) TODO: Нужно ли это выражение?
-            contentValues.put(DBHelper.IS_SHOW_STOP_COL, false)
+            when (FreezeTime){
+                true -> {
+                    binding.timerCountdown.start(sp.getLong("Current_time", 0))
+                    edit.putBoolean("FreezeTime", false)
+                    Log.d(TAG, "initViews: FreezeTime = true")
+
+                }
+
+
+                false -> {
+                    hours = binding.timerTimepicker.currentHour
+                    minutes = binding.timerTimepicker.currentMinute
+                    seconds = binding.timerTimepicker.currentSeconds
+                    //Setting time in hours, minutes, seconds to time in Milliseconds
+                    val hoursInMilliseconds: Long = (hours * 60 * 60 * 1000).toLong()
+                    val minutesInMilliseconds: Long = (minutes * 60 * 1000).toLong()
+                    val secondsInMilliseconds: Long = (seconds * 1000).toLong()
+                    time =
+                        hoursInMilliseconds + minutesInMilliseconds + secondsInMilliseconds
+
+                    binding.timerCountdown.start(time)
+//                    edit.putBoolean("FreezeTime", true)
+                    Log.d(TAG, "initViews: FreezeTime = false")
+
+                }
+
+            }
+
 
 
         }
-        binding.timerStopResetBtn.setOnClickListener {
-            //TODO: Было бы не плохо улучшить логику получения результата при нажатии на определённый элемент списка
-            if (isShowStop == 0) {
-                binding.timerCountdown.stop()
-                binding.timerStopResetBtn.text = resources.getString(R.string.reset_btn)
-                Log.d(TAG, "initViews: stop")
-                val contentValues = ContentValues()
-                contentValues.put(DBHelper.IS_SHOW_STOP_COL, true)
-                contentValues.put(DBHelper.IS_FREEZE_COl, 1)
-                contentValues.put(DBHelper.REMAIN_TIME_COl, 0L)
+        binding.timerStopBtn.setOnClickListener {
+            binding.timerCountdown.stop()
+            edit.putBoolean("FreezeTime", true)
 
 
-            } else {
-                //TODO: Доработать нажатие на кнопку reset
-                binding.timerCountdown.allShowZero()
-                binding.timerCountdown.restart()
-                //Clearing the SharedPreference value
-                Log.d(TAG, "initViews: reset")
-                contentValues.put(DBHelper.IS_SHOW_STOP_COL, 0)
-                contentValues.put(DBHelper.IS_FREEZE_COl, 1)
-                contentValues.put(DBHelper.REMAIN_TIME_COl, 0L)
-
-
-            }
+        }
+        binding.timerResetBtn.setOnClickListener {
+            binding.timerCountdown.stop()
+            binding.timerCountdown.start(100)
+            binding.timerCountdown.allShowZero()
 
         }
 
@@ -146,22 +109,13 @@ class TimerFragment : Fragment() {
 
 
     override fun onDestroy() {
-
-        val db = DBHelper(requireContext(), null)
-        val wdb = db.writableDatabase
-        contentValues.put(DBHelper.CURRENT_TIME_COL, binding.timerCountdown.remainTime)
-        contentValues.put(
-            DBHelper.REMAIN_TIME_COl,
+        edit.putLong("Current_time", binding.timerCountdown.remainTime)
+        edit.putLong(
+            "Remain_time",
             System.currentTimeMillis() + binding.timerCountdown.remainTime
         )
+        edit.apply()
 
-        wdb.replace(DBHelper.TIMER_TABLE, DBHelper.CURRENT_TIME_COL + "=?", contentValues)
-
-        Log.d(TAG, "onDestroy: CURRENT_TIME_COL = ${binding.timerCountdown.remainTime}")
-        Log.d(
-            TAG,
-            "onDestroy: REMAIN_TIME_COl = ${System.currentTimeMillis() + binding.timerCountdown.remainTime}"
-        )
 
         super.onDestroy()
 

@@ -49,21 +49,36 @@
             android:id="@+id/timer_start_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:text="@string/start_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/timer_timepicker"
             app:layout_constraintTop_toBottomOf="@+id/timer_timepicker" />
 
         <Button
-            android:id="@+id/timer_stop_reset_btn"
+            android:id="@+id/timer_stop_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="@string/stop_btn"
             app:layout_constraintEnd_toEndOf="@+id/timer_start_btn"
             app:layout_constraintStart_toStartOf="@+id/timer_start_btn"
             app:layout_constraintTop_toBottomOf="@+id/timer_start_btn" />
+
+        <Button
+            android:id="@+id/timer_reset_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reset_btn"
+            app:layout_constraintEnd_toEndOf="@+id/timer_stop_btn"
+            app:layout_constraintStart_toStartOf="@+id/timer_stop_btn"
+            app:layout_constraintTop_toBottomOf="@+id/timer_stop_btn" />
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/timer_reset_btn"
+            app:layout_constraintStart_toStartOf="@+id/timer_reset_btn"
+            app:layout_constraintTop_toBottomOf="@+id/timer_reset_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

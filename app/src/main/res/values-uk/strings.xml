@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_clocks">Часы</string>
+    <string name="title_timer">Таймер</string>
+    <string name="title_stopwatch">Секундомер</string>
+
+    <string name="set_btn">Установить</string>
+    <string name="start_btn">Старт</string>
+    <string name="stop_btn">Стоп</string>
+    <string name="reset_btn">Сброс</string>
+
+    <string name="title_activity_settings">Настройки</string>
+
+    <!-- Preference Titles -->
+    <string name="settings_design">Зовнiшний вигляд</string>
+    <string name="Language_text">Мова</string>
+    <string name="Theme_text">Тема</string>
+    <string name="version">Версія</string>
+
+    <string name="settings_theme_summary">Синя</string>
+    <string name="settings_theme_default_value">blue</string>
+    <string name="settings_language_default_value">uk</string>
+    <string name="settings_language_summary">Українська</string>
+
+    <!--  Share views  -->
+    <string name="share_thanks">Дякую що поширили наш додаток!</string>
+    <string name="settings_another">Iнше</string>
+
+
+</resources>

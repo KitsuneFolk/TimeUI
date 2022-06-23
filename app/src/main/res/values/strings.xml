@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TimeUI</string>
+    <string name="app_name" translatable="false">TimeUI</string>
 
     <string name="title_clocks">Clocks</string>
     <string name="title_timer">Timer</string>
@@ -10,6 +10,22 @@
     <string name="stop_btn">Stop</string>
     <string name="reset_btn">Reset</string>
 
-    <string name="start_time">00:00:00</string>
+    <string name="start_time" translatable="false">00:00:00</string>
+    <string name="title_activity_settings">Settings</string>
 
+    <!-- Preference Titles -->
+    <string name="settings_design">Design</string>
+    <string name="Language_text">Language</string>
+    <string name="Theme_text">Theme</string>
+    <string name="version">Version</string>
+
+    <string name="settings_theme_default_value">blue</string>
+    <string name="settings_theme_summary">Blue</string>
+    <string name="settings_language_default_value">en</string>
+    <string name="settings_language_summary">English</string>
+
+
+    <!--  Share views  -->
+    <string name="share_thanks">Thanks for sharing the app!</string>
+    <string name="settings_another">Another</string>
 </resources>

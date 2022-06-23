@@ -34,6 +34,7 @@ class StopWatchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentStopwatchBinding.inflate(inflater, container, false)
         initViews()
 

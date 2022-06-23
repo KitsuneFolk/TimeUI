@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="BlueTheme" parent="Theme.Material3.Light">
+    <style name="BlueTheme" parent="Theme.Material3.Dark">
 
         <item name="android:colorBackground">@color/BlueTheme_Background</item>
         <item name="colorPrimary">@color/BlueTheme_colorPrimary</item>
@@ -10,12 +10,17 @@
         <item name="android:navigationBarColor">@color/BlueTheme_colorPrimary</item>
         <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
 
+        <!--  Needed for Bottom Navigation Menu selected item color  -->
+        <item name="colorSecondaryContainer">@android:color/white</item>
+
         <item name="buttonStyle">@style/BlueTheme_Button</item>
         <item name="editTextStyle">@style/BlueTheme_EditText</item>
         <item name="toolbarStyle">@style/BlueTheme_Toolbar</item>
         <item name="alertDialogTheme">@style/BlueTheme_AlertDialog</item>
         <item name="drawerArrowStyle">@style/BlueTheme_DrawerArrowToggle</item>
         <item name="snackbarStyle">@style/BlueTheme_SnackBar</item>
+        <item name="bottomNavigationStyle">@style/BlueTheme_BottomNavigationView</item>
+
 
     </style>
 
@@ -26,34 +31,34 @@
         <item name="cornerSize">15dp</item>
 
     </style>
-
     <style name="BlueTheme_EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:textColorHint">@color/TextColor</item>
     </style>
-
     <style name="BlueTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:colorPrimary">@color/TextColor</item>
         <item name="android:background">@color/BlueTheme_colorPrimaryDark</item>
     </style>
-
     <style name="BlueTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="android:background">@color/TextColor</item>
         <item name="color">@color/TextColor</item>
 
     </style>
-
     <style name="BlueTheme_AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/BlueTheme_Background</item>
-        <item name="android:textColorSecondary">#448AFF</item>
         <item name="textColorAlertDialogListItem">@color/TextColor</item>
         <item name="color">@color/BlueTheme_Background</item>
 
     </style>
-
     <style name="BlueTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/BlueTheme_colorPrimary</item>
+        <item name="iconTint">@drawable/bottom_navigation_style</item>
+    </style>
+    <style name="BlueTheme_BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/BlueTheme_Background</item>
+        <item name="itemIconTint">@drawable/bottom_navigation_style</item>
+        <item name="android:foregroundTint">@color/BlueTheme_colorAccent</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.Material3.Dark">
@@ -73,6 +78,7 @@
         <item name="drawerArrowStyle">@style/DarkTheme_DrawerArrowToggle</item>
         <item name="alertDialogTheme">@style/DarkTheme_AlertDialog</item>
         <item name="snackbarStyle">@style/DarkTheme_SnackBar</item>
+        <item name="bottomNavigationStyle">@style/DarkTheme_BottomNavigationView</item>
 
 
     </style>
@@ -83,25 +89,21 @@
         <item name="android:textColor">@color/TextColor</item>
         <item name="cornerSize">15dp</item>
     </style>
-
     <style name="DarkTheme_EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
         <item name="android:textColor">@color/DarkTheme_TextColor</item>
         <item name="android:textColorHighlight">@color/DarkTheme_TextColor</item>
     </style>
-
     <style name="DarkTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:textColor">@color/DarkTheme_TextColor</item>
         <item name="android:background">@color/DarkTheme_colorPrimaryDark</item>
         <item name="actionMenuTextColor">@color/TextColor</item>
 
     </style>
-
     <style name="DarkTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/DarkTheme_TextColor</item>
 
     </style>
-
     <style name="DarkTheme_AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/DarkTheme_Background</item>
@@ -109,12 +111,16 @@
         <item name="textColorAlertDialogListItem">@color/DarkTheme_TextColor</item>
         <item name="color">@color/DarkTheme_Background</item>
     </style>
-
     <style name="DarkTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/DarkTheme_ButtonColor</item>
     </style>
+    <style name="DarkTheme_BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/DarkTheme_Background</item>
+        <item name="itemIconTint">@drawable/bottom_navigation_style</item>
+        <item name="android:foregroundTint">@color/DarkTheme_colorAccent</item>
+    </style>
 
-    <style name="RedTheme" parent="Theme.Material3.Light">
+    <style name="RedTheme" parent="Theme.Material3.Dark">
 
         <item name="android:colorBackground">@color/RedTheme_Background</item>
         <item name="colorPrimary">@color/RedTheme_colorPrimaryDark</item>
@@ -130,6 +136,8 @@
         <item name="drawerArrowStyle">@style/RedTheme_DrawerArrowToggle</item>
         <item name="alertDialogTheme">@style/RedTheme_AlertDialog</item>
         <item name="snackbarStyle">@style/RedTheme_SnackBar</item>
+        <item name="actionBarStyle">@style/RedTheme_ActionBar</item>
+        <item name="bottomNavigationStyle">@style/RedTheme_BottomNavigationView</item>
 
 
     </style>
@@ -140,24 +148,20 @@
         <item name="android:textColor">@color/TextColor</item>
         <item name="cornerSize">15dp</item>
     </style>
-
     <style name="RedTheme_EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/TextColor</item>
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:textColorHighlight">@color/TextColor</item>
     </style>
-
     <style name="RedTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="android:background">@color/TextColor</item>
         <item name="color">@color/TextColor</item>
 
     </style>
-
-    <style name="RedTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
+    <style name="RedTheme_ActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:textColor">@color/TextColor</item>
-        <item name="android:background">@color/RedTheme_colorPrimaryDark</item>
+        <item name="background">@color/RedTheme_colorPrimaryDark</item>
     </style>
-
     <style name="RedTheme_AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/RedTheme_Background</item>
@@ -165,9 +169,14 @@
         <item name="textColorAlertDialogListItem">@color/TextColor</item>
         <item name="color">@color/RedTheme_Background</item>
     </style>
-
     <style name="RedTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/RedTheme_ButtonColor</item>
+    </style>
+
+    <style name="RedTheme_BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/RedTheme_Background</item>
+        <item name="itemIconTint">@drawable/bottom_navigation_style</item>
+        <item name="android:foregroundTint">@color/Red</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.Button.Rounded" parent="">
@@ -177,15 +186,12 @@
     </style>
 
     <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DarkTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="DarkTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="RedTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="RedTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

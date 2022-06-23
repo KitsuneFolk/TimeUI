@@ -27,6 +27,7 @@ class TimerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         //binding init
         binding = FragmentTimerBinding.inflate(inflater, container, false)
 

@@ -19,6 +19,8 @@ import com.pandacorp.timeui.R;
 public class SettingsActivity extends AppCompatActivity {
     private final String TAG = "MyLogs";
 
+    private SharedPreferences sp;
+    private SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
+        sp = getSharedPreferences("sp", MODE_PRIVATE);
+        edit = sp.edit();
     }
 
     @Override
@@ -45,45 +49,13 @@ public class SettingsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: //Метод обработки нажатия на кнопку home.
                 Log.w(TAG, "onOptionsItemSelected: home button is pressed");
+                setResult(1);
                 finish();
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "SettingsActivity.onDestroy");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "SettingsActivity.onRestart");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "SettingsActivity.onPause");
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "SettingsActivity.onResume");
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "SettingsActivity.onStop");
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {

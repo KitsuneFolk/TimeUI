@@ -19,12 +19,17 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "MyLogs"
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity.onCreate")
         MySettings(this).start()
         setContentView(R.layout.activity_main)
+
+        initViews()
+
+    }
+
+    private fun initViews() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -47,18 +53,22 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
+                //Needed for recreate the app after applying the settings
+                // and to not reset timers. If use onRestart{recreate} it will reset timers.
+                startActivityForResult(Intent(this, SettingsActivity::class.java), 1)
+
             }
         }
 
         return true
     }
 
-
-    override fun onRestart() {
-        super.onRestart()
-        recreate()
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            recreate()
+        }
     }
+
 
 }

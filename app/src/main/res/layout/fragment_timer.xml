@@ -1,85 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:paddingTop="10dp"
+        android:id="@+id/timer_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/timer_list_item" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/timer_add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:backgroundTint="?android:attr/colorAccent"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
-        <com.ikovac.timepickerwithseconds.TimePicker
-            android:id="@+id/timer_timepicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timer_countdown" />
-
-        <cn.iwgang.countdownview.CountdownView
-            android:id="@+id/timer_countdown"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:textSize="50sp"
-            app:isHideTimeBackground="true"
-            app:isShowHour="true"
-            app:isShowMinute="true"
-            app:isShowSecond="true"
-            app:timeTextColor="@color/TextColor"
-            app:timeTextSize="50dp"
-            app:isTimeTextBold="true"
-            app:suffixTextSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline3"
-            app:layout_constraintEnd_toEndOf="@id/timer_timepicker"
-            app:layout_constraintStart_toStartOf="@+id/timer_timepicker"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.632"
-            tools:text="11:40" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.3" />
-
-        <Button
-            android:id="@+id/timer_start_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/start_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/timer_timepicker"
-            app:layout_constraintTop_toBottomOf="@+id/timer_timepicker" />
-
-        <Button
-            android:id="@+id/timer_stop_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stop_btn"
-            app:layout_constraintEnd_toEndOf="@+id/timer_start_btn"
-            app:layout_constraintStart_toStartOf="@+id/timer_start_btn"
-            app:layout_constraintTop_toBottomOf="@+id/timer_start_btn" />
-
-        <Button
-            android:id="@+id/timer_reset_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reset_btn"
-            app:layout_constraintEnd_toEndOf="@+id/timer_stop_btn"
-            app:layout_constraintStart_toStartOf="@+id/timer_stop_btn"
-            app:layout_constraintTop_toBottomOf="@+id/timer_stop_btn" />
-
-        <DigitalClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/timer_reset_btn"
-            app:layout_constraintStart_toStartOf="@+id/timer_reset_btn"
-            app:layout_constraintTop_toBottomOf="@+id/timer_reset_btn" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

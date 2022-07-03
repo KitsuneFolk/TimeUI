@@ -22,6 +22,8 @@
     <string name="settings_language_default_value">uk</string>
     <string name="settings_language_summary">Українська</string>
 
+    <string name="delete">Видалити</string>
+
     <!--  Share views  -->
     <string name="share_thanks">Дякую що поширили наш додаток!</string>
     <string name="settings_another">Iнше</string>

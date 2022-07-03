@@ -11,6 +11,8 @@
 
     <string name="title_activity_settings">Настройки</string>
 
+    <string name="delete">Удалить</string>
+
     <!-- Preference Titles -->
     <string name="settings_design">Внешний вид</string>
     <string name="Language_text">Язык</string>

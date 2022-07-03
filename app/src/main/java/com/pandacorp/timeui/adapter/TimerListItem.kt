@@ -1,3 +1,3 @@
 package com.pandacorp.timeui.adapter
 
-data class TimerListItem (var currentTime: Long, var remainTime: String, var freezeTime: Boolean = false)
+data class TimerListItem(var currentTime: Long, var remainTime: Long, var isFreeze: Int = 0)

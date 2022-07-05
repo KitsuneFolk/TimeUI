@@ -36,12 +36,12 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
         holder.timer_start_btn.setOnClickListener {
             holder.timer_countdown.start(timer.currentTime)
-            timer.isFreeze = 0
+            timer.isFreeze = false
             db.updateOneTimerInDatabase(timer, position)
         }
         holder.timer_stop_btn.setOnClickListener {
             holder.timer_countdown.stop()
-            timer.isFreeze = 1
+            timer.isFreeze = true
             db.updateOneTimerInDatabase(timer, position)
 
 
@@ -56,26 +56,14 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
         // Updating format from database. 0 = false, 1 = true
         Log.d(TAG, "checkIsFreeze: timers[$position].isFreeze = ${timers[position].isFreeze}")
         when (timers[position].isFreeze) {
-            1 -> {
+            true -> {
                 holder.timer_countdown.stop()
                 holder.timer_countdown.updateShow(timers[position].currentTime)
             }
 
-            0 -> {
+            false -> {
                 holder.timer_countdown.start(timers[position].remainTime - System.currentTimeMillis())
 
-                Log.d(
-                    TAG,
-                    "onBindViewHolder: System.currentTimeInMillis() = ${System.currentTimeMillis()}"
-                )
-                Log.d(
-                    TAG,
-                    "onBindViewHolder: timers[position].remainTime = ${timers[position].remainTime}"
-                )
-                Log.d(
-                    TAG,
-                    "onBindViewHolder: timers[position].remainTime - System.currentTimeMillis()  = ${timers[position].remainTime - System.currentTimeMillis()}"
-                )
             }
 //            else -> {throw Exception("value can be only 0 or 1 !")}
         }

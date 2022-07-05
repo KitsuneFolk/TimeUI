@@ -56,7 +56,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         fab.setOnClickListener {
             val currentTime = (1000 * 60 * 60 * 3).toLong()
             val remainTime = currentTime
-            val isFreeze = 0
+            val isFreeze = false
 
             val timerListItem = TimerListItem(currentTime, remainTime, isFreeze)
             timers.add(timerListItem)
@@ -82,20 +82,38 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         //Uploading the timers when opening the app
         val CURRENT_TIME_COL = cursor.getColumnIndex(DBHelper.CURRENT_TIME_COL)
         val REMAIN_TIME_COL = cursor.getColumnIndex(DBHelper.REMAIN_TIME_COl)
-        val IS_FREEZE_COL = cursor.getColumnIndex(DBHelper.REMAIN_TIME_COl)
+        val IS_FREEZE_COL = cursor.getColumnIndex(DBHelper.IS_FREEZE_COl)
         if (cursor.moveToFirst()) {
             do {
                 val timer = TimerListItem(
                     cursor.getLong(CURRENT_TIME_COL),
                     cursor.getLong(REMAIN_TIME_COL),
-                    cursor.getInt(IS_FREEZE_COL)
+                    when (cursor.getInt(IS_FREEZE_COL)) {
+                        0 -> true
+                        1 -> false
+                        else -> throw Exception(
+                            "Value can be only 0 or 1, value = ${
+                                cursor.getInt(
+                                    IS_FREEZE_COL
+                                )
+                            }"
+                        )
+                    }
+
                 )
 
                 timers.add(timer)
+                Log.d(
+                    TAG,
+                    "setRecyclerView: value can only be 0 or 1, value = ${
+                        cursor.getInt(IS_FREEZE_COL)
+                    }"
+                )
 
             } while (cursor.moveToNext())
         }
         Log.d(TAG, "setRecyclerView: timers = $timers")
+        //-826162799
 
         customAdapter = TimerCustomAdapter(timers)
 
@@ -137,14 +155,12 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
     override fun onDestroy() {
         val db = DBHelper(requireContext(), null)
 
-        val wdb = db.writableDatabase
         for ((index, timer) in timers.withIndex()) {
-            val viewHolder = recyclerView.findViewHolderForAdapterPosition(index)
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(index)!!
             timer.currentTime =
-                viewHolder?.itemView?.timer_countdown?.remainTime ?: timer.currentTime
+                viewHolder.itemView.timer_countdown.remainTime
             timer.remainTime = System.currentTimeMillis() + timer.currentTime
             timer.isFreeze = timer.isFreeze
-            Log.d(TAG, "onDestroy: timers.size = ${timers.size}")
             Log.d(
                 TAG,
                 "onDestroy: timers[$index] = ${timers[index].currentTime}, ${timers[index].remainTime}, ${timers[index].isFreeze}"

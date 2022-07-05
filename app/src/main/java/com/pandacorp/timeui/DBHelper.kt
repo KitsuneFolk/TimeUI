@@ -15,6 +15,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     override fun onCreate(db: SQLiteDatabase) {
         val query = ("CREATE TABLE " + TIMER_TABLE + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, "
+                + START_TIME_COL + " INTEGER,"
                 + REMAIN_TIME_COl + " INTEGER,"
                 + CURRENT_TIME_COL + " INTEGER,"
                 + IS_FREEZE_COl + " INTEGER" + ")")
@@ -28,10 +29,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     fun getCursor(TABLE_NAME: String): Cursor? {
-
-        // here we are creating a readable
-        // variable of our database
-        // as we want to read value from it
         val db = this.readableDatabase
 
         // below code returns a cursor to
@@ -44,6 +41,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val db = this.writableDatabase
         val cv = ContentValues()
 
+        cv.put(START_TIME_COL, timerListItem.startTime)
         cv.put(CURRENT_TIME_COL, timerListItem.currentTime)
         cv.put(REMAIN_TIME_COl, timerListItem.remainTime)
         cv.put(
@@ -78,7 +76,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         var numberOfIds = 0
         //var of position of the deleted item
         var deletedPosition: Int?
-
 
         if (cursor!!.moveToFirst()) {
             val ID_COL = cursor.getColumnIndex(DBHelper.ID_COL)
@@ -151,6 +148,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         // below is the variable for id column
         val ID_COL = "id"
+
+        // variable needed for time of starting the timer
+        val START_TIME_COL = "START_TIME_COL"
 
         val REMAIN_TIME_COl = "remain_time"
 

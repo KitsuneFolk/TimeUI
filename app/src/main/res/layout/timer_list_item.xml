@@ -58,6 +58,18 @@
             app:layout_constraintTop_toTopOf="@id/timer_countdown"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <ImageButton
+            android:id="@+id/timer_reset_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?android:attr/windowBackground"
+            android:src="@drawable/ic_reset"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/timer_countdown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/timer_countdown"
+            tools:ignore="SpeakableTextPresentCheck" />
+
         <cn.iwgang.countdownview.CountdownView
             android:id="@+id/timer_countdown"
             android:layout_width="0dp"

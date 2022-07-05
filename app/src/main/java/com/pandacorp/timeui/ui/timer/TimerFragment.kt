@@ -54,11 +54,12 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
         fab = root.findViewById(R.id.timer_add_fab)
         fab.setOnClickListener {
-            val currentTime = (1000 * 60 * 60 * 3).toLong()
+            val startTime = (1000 * 60 * 60 * 3).toLong()
+            val currentTime = startTime
             val remainTime = currentTime
             val isFreeze = false
 
-            val timerListItem = TimerListItem(currentTime, remainTime, isFreeze)
+            val timerListItem = TimerListItem(startTime, currentTime, remainTime, isFreeze)
             timers.add(timerListItem)
             customAdapter.notifyItemInserted(timers.size)
             db.add(timerListItem)
@@ -80,12 +81,14 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         cursor = db.getCursor(DBHelper.TIMER_TABLE)!!
 
         //Uploading the timers when opening the app
+        val START_TIME_COL = cursor.getColumnIndex(DBHelper.START_TIME_COL)
         val CURRENT_TIME_COL = cursor.getColumnIndex(DBHelper.CURRENT_TIME_COL)
         val REMAIN_TIME_COL = cursor.getColumnIndex(DBHelper.REMAIN_TIME_COl)
         val IS_FREEZE_COL = cursor.getColumnIndex(DBHelper.IS_FREEZE_COl)
         if (cursor.moveToFirst()) {
             do {
                 val timer = TimerListItem(
+                    cursor.getLong(START_TIME_COL),
                     cursor.getLong(CURRENT_TIME_COL),
                     cursor.getLong(REMAIN_TIME_COL),
                     when (cursor.getInt(IS_FREEZE_COL)) {
@@ -110,6 +113,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
                     }"
                 )
 
+
             } while (cursor.moveToNext())
         }
         Log.d(TAG, "setRecyclerView: timers = $timers")
@@ -123,7 +127,6 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
         enableSwipe()
         registerForContextMenu(recyclerView)
-
 
     }
 

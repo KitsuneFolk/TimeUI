@@ -28,5 +28,7 @@
     <string name="share_thanks">Дякую що поширили наш додаток!</string>
     <string name="settings_another">Iнше</string>
 
+    <string name="timer_dialog_title">Час</string>
+
 
 </resources>

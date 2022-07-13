@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.preference.PreferenceManager
 import com.pandacorp.timeui.R
+import org.jetbrains.anko.defaultSharedPreferences
 import java.util.*
 
 class MySettings(var context: Context) {
@@ -55,6 +56,24 @@ class MySettings(var context: Context) {
                 context.resources.updateConfiguration(configuration, null)
 
             }
+        }
+
+    }
+
+    companion object {
+        fun getBackgroundColor(context: Context): Int {
+
+            val sp = context.defaultSharedPreferences
+
+            val theme = when (sp.getString("Themes", "blue")!!) {
+                "blue" -> R.color.BlueTheme_Background
+                "dark" -> R.color.DarkTheme_Background
+                "red" -> R.color.RedTheme_Background
+                else -> {
+                    throw Exception("Value cannot be else! ")
+                }
+            }
+            return theme
         }
 
     }

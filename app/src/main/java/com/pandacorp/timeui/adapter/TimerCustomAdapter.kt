@@ -33,27 +33,52 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val timer = timers[position]
-
+        Log.d(TAG, "onBindViewHolder: currentTime = ${timer.currentTime}")
         holder.timer_start_btn.setOnClickListener {
             // if the stop btn is pressed, then when the start btn
             //  is pressed, start counting from currentTime,
             // if the reset btn is pressed then when start btn
             //  is pressed, start counting from startTime
-            if (timer.isFreeze == true) {
-                //
-                holder.timer_countdown.start(timer.currentTime)
+            when (timer.isFreeze) {
+                TimerListItem.ADDED -> {
+                    holder.timer_countdown.start(timer.startTime)
 
-                holder.timer_stop_btn.visibility = View.VISIBLE
-                holder.timer_reset_btn.visibility = View.INVISIBLE
-                db.updateOneTimerInDatabase(timer, position)
-            } else {
-                holder.timer_countdown.start(timer.startTime)
+                    holder.timer_stop_btn.visibility = View.VISIBLE
+                    holder.timer_reset_btn.visibility = View.INVISIBLE
 
-                timer.isFreeze == true
+                    timer.isFreeze = TimerListItem.RUNNING
+                    db.updateOneTimerInDatabase(timer, position)
+                }
+                TimerListItem.FREEZED -> {
 
-                holder.timer_stop_btn.visibility = View.VISIBLE
-                holder.timer_reset_btn.visibility = View.INVISIBLE
-                db.updateOneTimerInDatabase(timer, position)
+                    holder.timer_countdown.start(timer.currentTime)
+
+                    holder.timer_stop_btn.visibility = View.VISIBLE
+                    holder.timer_reset_btn.visibility = View.INVISIBLE
+
+                    timer.isFreeze = TimerListItem.RUNNING
+                    db.updateOneTimerInDatabase(timer, position)
+                }
+                TimerListItem.RUNNING -> {
+                    holder.timer_countdown.start(timer.startTime)
+
+                    holder.timer_stop_btn.visibility = View.VISIBLE
+                    holder.timer_reset_btn.visibility = View.INVISIBLE
+
+                    timer.isFreeze = TimerListItem.RUNNING
+                    db.updateOneTimerInDatabase(timer, position)
+                }
+                TimerListItem.RESETED -> {
+                    holder.timer_countdown.start(timer.startTime)
+
+                    holder.timer_stop_btn.visibility = View.VISIBLE
+                    holder.timer_reset_btn.visibility = View.INVISIBLE
+
+                    timer.isFreeze = TimerListItem.RUNNING
+                    db.updateOneTimerInDatabase(timer, position)
+
+
+                }
             }
 
 
@@ -61,7 +86,7 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
         holder.timer_reset_btn.setOnClickListener {
             holder.timer_countdown.stop()
 
-            timer.isFreeze = false
+            timer.isFreeze = TimerListItem.RESETED
             holder.timer_stop_btn.visibility = View.VISIBLE
             holder.timer_reset_btn.visibility = View.INVISIBLE
             db.updateOneTimerInDatabase(timer, position)
@@ -74,24 +99,29 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
             timer.currentTime = holder.timer_countdown.remainTime
 
-            timer.isFreeze = true
+            timer.isFreeze = TimerListItem.FREEZED
             holder.timer_stop_btn.visibility = View.INVISIBLE
             holder.timer_reset_btn.visibility = View.VISIBLE
             db.updateOneTimerInDatabase(timer, position)
 
 
         }
-        Log.d(TAG, "onBindViewHolder: timer.isFreeze = ${timer.isFreeze}")
+
 
         checkIsFreeze(holder, position)
 
     }
 
+
     private fun checkIsFreeze(holder: ViewHolder, position: Int) {
         // Updating format from database. 0 = false, 1 = true
-        Log.d(TAG, "checkIsFreeze: timers[$position].isFreeze = ${timers[position].isFreeze}")
-        when (timers[position].isFreeze) {
-            true -> {
+        val timer = timers[position]
+
+        when (timer.isFreeze) {
+            TimerListItem.ADDED -> {
+                holder.timer_countdown.updateShow(timer.startTime)
+            }
+            TimerListItem.FREEZED -> {
                 holder.timer_countdown.stop()
                 holder.timer_countdown.updateShow(timers[position].currentTime)
                 holder.timer_stop_btn.visibility = View.INVISIBLE
@@ -99,36 +129,40 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
             }
 
-            false -> {
+            TimerListItem.RUNNING -> {
                 holder.timer_countdown.start(timers[position].remainTime - System.currentTimeMillis())
                 holder.timer_stop_btn.visibility = View.VISIBLE
                 holder.timer_reset_btn.visibility = View.INVISIBLE
 
             }
-//            else -> {throw Exception("value can be only 0 or 1 !")}
+            TimerListItem.RESETED -> {
+                //TODO: Тут доделать
+                holder.timer_countdown.stop()
+                holder.timer_countdown.updateShow(timers[position].startTime)
+
+                holder.timer_stop_btn.visibility = View.VISIBLE
+                holder.timer_reset_btn.visibility = View.INVISIBLE
+
+            }
         }
 
     }
 
 
     private fun resetItem(timer: TimerListItem, position: Int) {
+        timer.currentTime = timer.startTime
+        timer.remainTime = timer.startTime
+        timer.isFreeze = TimerListItem.RESETED
+
         val cv = ContentValues()
         cv.put(DBHelper.START_TIME_COL, timer.startTime)
         cv.put(DBHelper.CURRENT_TIME_COL, timer.startTime)
         cv.put(DBHelper.REMAIN_TIME_COl, timer.startTime)
-        cv.put(
-            DBHelper.IS_FREEZE_COl, when (timer.isFreeze) {
-                false -> 0
-                true -> 1
+        cv.put(DBHelper.IS_FREEZE_COl, timer.isFreeze)
 
-            }
-        )
         val id = db.getDatabaseItemIdByRecyclerViewItemId(position)
         wdb.update(DBHelper.TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
 
-        timer.currentTime = timer.startTime
-        timer.remainTime = timer.startTime
-        timer.isFreeze = true
 
     }
 

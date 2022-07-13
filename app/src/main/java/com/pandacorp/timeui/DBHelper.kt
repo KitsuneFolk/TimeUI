@@ -43,17 +43,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         cv.put(START_TIME_COL, timerListItem.startTime)
         cv.put(CURRENT_TIME_COL, timerListItem.currentTime)
+        Log.d(TAG, "add: currentTime = ${timerListItem.currentTime}")
         cv.put(REMAIN_TIME_COl, timerListItem.remainTime)
-        cv.put(
-            IS_FREEZE_COl, when (timerListItem.isFreeze) {
-                false -> 0
-                true -> 1
-
-                else -> throw Exception("Value can be only 0 or 1")
-            }
-        )
-        Log.d(TAG, "add: timer.isFreeze = ${timerListItem.isFreeze}")
-        //timer.isFreeze = 0 RESULT_OK
+        cv.put(IS_FREEZE_COl, (timerListItem.isFreeze))
 
         db.insert(TIMER_TABLE, null, cv)
 
@@ -103,13 +95,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             val cv = ContentValues()
             cv.put(CURRENT_TIME_COL, timer.currentTime)
             cv.put(REMAIN_TIME_COl, timer.remainTime)
-            cv.put(
-                IS_FREEZE_COl, when (timer.isFreeze) {
-                    true -> 0
-                    false -> 1
-
-                }
-            )
+            cv.put(IS_FREEZE_COl, timer.isFreeze)
             val id = getDatabaseItemIdByRecyclerViewItemId(timers.indexOf(timer))
             db.update(TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
         }
@@ -120,13 +106,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val cv = ContentValues()
         cv.put(CURRENT_TIME_COL, timer.currentTime)
         cv.put(REMAIN_TIME_COl, timer.remainTime)
-        cv.put(
-            IS_FREEZE_COl, when (timer.isFreeze) {
-                false -> 0
-                true -> 1
-
-            }
-        )
+        cv.put(IS_FREEZE_COl, timer.isFreeze)
         val id = getDatabaseItemIdByRecyclerViewItemId(position)
         db.update(TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
 

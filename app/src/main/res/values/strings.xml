@@ -30,4 +30,7 @@
     <!--  Share views  -->
     <string name="share_thanks">Thanks for sharing the app!</string>
     <string name="settings_another">Another</string>
+
+    <string name="timer_dialog_title">Time</string>
+    <string name="ok">OK</string>
 </resources>

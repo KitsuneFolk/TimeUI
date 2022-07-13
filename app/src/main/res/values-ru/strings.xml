@@ -28,4 +28,7 @@
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
     <string name="settings_another">Другое</string>
 
+    <string name="timer_dialog_title">Время</string>
+
+
 </resources>

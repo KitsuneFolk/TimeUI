@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_dialog_close.xml" value="0.102" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_menu_settings.xml" value="0.102" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_reset.xml" value="0.1015" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_stop.xml" value="0.1015" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_main.xml" value="0.14629629629629629" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_stopwatch.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_list_item.xml" value="0.5" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_time_picker.xml" value="0.22" />
       </map>

@@ -49,8 +49,10 @@
         <item name="android:colorBackground">@color/BlueTheme_Background</item>
         <item name="textColorAlertDialogListItem">@color/TextColor</item>
         <item name="color">@color/BlueTheme_Background</item>
-
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
+
     <style name="BlueTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/BlueTheme_colorPrimary</item>
         <item name="iconTint">@drawable/bottom_navigation_style</item>
@@ -72,6 +74,9 @@
         <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
         <item name="android:navigationBarColor">@color/DarkTheme_colorPrimary</item>
 
+        <!--  Needed for Bottom Navigation Menu selected item color  -->
+        <item name="colorSecondaryContainer">@android:color/white</item>
+
         <item name="buttonStyle">@style/DarkTheme_Button</item>
         <item name="editTextStyle">@style/DarkTheme_EditText</item>
         <item name="toolbarStyle">@style/DarkTheme_Toolbar</item>
@@ -87,7 +92,6 @@
         <item name="android:background">@color/DarkTheme_ButtonColor</item>
         <item name="color">@color/DarkTheme_ButtonColor</item>
         <item name="android:textColor">@color/TextColor</item>
-        <item name="cornerSize">15dp</item>
     </style>
     <style name="DarkTheme_EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
@@ -104,12 +108,15 @@
         <item name="color">@color/DarkTheme_TextColor</item>
 
     </style>
+
     <style name="DarkTheme_AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/DarkTheme_Background</item>
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="textColorAlertDialogListItem">@color/DarkTheme_TextColor</item>
         <item name="color">@color/DarkTheme_Background</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
     <style name="DarkTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/DarkTheme_ButtonColor</item>
@@ -130,6 +137,9 @@
         <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
         <item name="android:textColorHint">@color/TextColor</item>
         <item name="android:navigationBarColor">@color/RedTheme_colorPrimary</item>
+
+        <!--  Needed for Bottom Navigation Menu selected item color  -->
+        <item name="colorSecondaryContainer">@android:color/white</item>
 
         <item name="buttonStyle">@style/RedTheme_Button</item>
         <item name="editTextStyle">@style/RedTheme_EditText</item>
@@ -162,12 +172,15 @@
         <item name="android:textColor">@color/TextColor</item>
         <item name="background">@color/RedTheme_colorPrimaryDark</item>
     </style>
+
     <style name="RedTheme_AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/RedTheme_Background</item>
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="textColorAlertDialogListItem">@color/TextColor</item>
         <item name="color">@color/RedTheme_Background</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
     <style name="RedTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/RedTheme_ButtonColor</item>
@@ -185,13 +198,24 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/TextColor</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/TextColor</item>
+    </style>
+
     <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DarkTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="DarkTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="RedTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="RedTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

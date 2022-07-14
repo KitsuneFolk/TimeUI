@@ -27,13 +27,15 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/stopwatch_start_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/TextColor"
             android:layout_marginTop="15dp"
             android:text="@string/start_btn"
 
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.Button.Rounded"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:textColor="@color/TextColor"
             android:text="@string/stop_btn"
             app:layout_constraintEnd_toEndOf="@+id/stopwatch_start_btn"
             app:layout_constraintStart_toStartOf="@+id/stopwatch_start_btn"
@@ -54,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:textColor="@color/TextColor"
             android:text="@string/reset_btn"
             app:layout_constraintEnd_toEndOf="@+id/stopwatch_stop_btn"
             app:layout_constraintHorizontal_bias="0.0"

@@ -24,6 +24,7 @@ import com.pandacorp.timeui.adapter.TimerRecyclerItemTouchHelper
 import com.pandacorp.timeui.settings.MySettings
 import com.pandacorp.timeui.ui.DBHelper
 import kotlinx.android.synthetic.main.timer_list_item.view.*
+import kotlinx.coroutines.*
 import org.jetbrains.anko.defaultSharedPreferences
 
 
@@ -47,38 +48,52 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
     private lateinit var customAdapter: TimerCustomAdapter
 
+    private var job: Job? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         root = inflater.inflate(R.layout.fragment_timer, container, false)
 
-        initViews()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            initViews()
+
+            checkIsFirstTime()
+        }
+
+
+        return root
+
+
+    }
+
+    private suspend fun initViews() {
+        setRecyclerView()
+
+
+        fab = root.findViewById(R.id.timer_add_fab)
+        fab.setOnClickListener { setDialog() }
+
+
+    }
+
+    private fun checkIsFirstTime() {
         //If app opened first time then add one test timer for user.
         val sp = requireActivity().defaultSharedPreferences
         val edit = sp.edit()
         if (sp.getBoolean("isFirstTime", true)) {
             val startTime = (5 * 60 * 1000).toLong()
-            val timerListItem = TimerListItem(startTime, startTime, startTime, TimerListItem.ADDED)
+            val timerListItem =
+                TimerListItem(startTime, startTime, startTime, TimerListItem.ADDED)
             timers.add(timerListItem)
             customAdapter.notifyItemInserted(timers.size)
             db.add(timerListItem)
             edit.putBoolean("isFirstTime", false)
             edit.apply()
         }
-
-        return root
-    }
-
-    private fun initViews() {
-        setRecyclerView()
-
-        fab = root.findViewById(R.id.timer_add_fab)
-        fab.setOnClickListener { setDialog() }
-
-
     }
 
     private fun setDialog() {
@@ -131,7 +146,21 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         return timeInMillis.toLong()
     }
 
-    private fun setRecyclerView() {
+    private suspend fun setRecyclerView() = withContext(Dispatchers.Main) {
+        getDatabaseTimers()
+        customAdapter = TimerCustomAdapter(timers)
+
+        recyclerView = root.findViewById(R.id.timer_recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = customAdapter
+
+        enableSwipe()
+        registerForContextMenu(recyclerView)
+
+
+    }
+
+    private fun getDatabaseTimers() {
         //Creating DBHelper object
         db = DBHelper(requireContext(), null)
 
@@ -161,17 +190,6 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
             } while (cursor.moveToNext())
         }
-
-
-        customAdapter = TimerCustomAdapter(timers)
-
-        recyclerView = root.findViewById(R.id.timer_recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = customAdapter
-
-        enableSwipe()
-        registerForContextMenu(recyclerView)
-
     }
 
     private fun enableSwipe() {
@@ -203,11 +221,13 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         val db = DBHelper(requireContext(), null)
 
         for ((index, timer) in timers.withIndex()) {
-            val viewHolder = recyclerView.findViewHolderForAdapterPosition(index)!!
-            timer.currentTime =
-                viewHolder.itemView.timer_countdown.remainTime
-            timer.remainTime = System.currentTimeMillis() + timer.currentTime
-            timer.isFreeze = timer.isFreeze
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(index)
+            if (viewHolder != null) {
+                timer.currentTime =
+                    viewHolder.itemView.timer_countdown.remainTime
+                timer.remainTime = System.currentTimeMillis() + timer.currentTime
+                timer.isFreeze = timer.isFreeze
+            }
 
 
         }

@@ -65,6 +65,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         }
 
 
+
         return root
 
 

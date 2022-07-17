@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import cn.iwgang.countdownview.CountdownView
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.ui.DBHelper
+import kotlinx.android.synthetic.main.timer_list_item.view.*
 
 class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
     RecyclerView.Adapter<TimerCustomAdapter.ViewHolder>() {
@@ -107,11 +109,12 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
         }
 
-
         checkIsFreeze(holder, position)
 
+        createPopUpMenu(holder, position)
     }
 
+    override fun getItemCount() = timers.size
 
     private fun checkIsFreeze(holder: ViewHolder, position: Int) {
         // Updating format from database. 0 = false, 1 = true
@@ -148,7 +151,6 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
     }
 
-
     private fun resetItem(timer: TimerListItem, position: Int) {
         timer.currentTime = timer.startTime
         timer.remainTime = timer.startTime
@@ -174,13 +176,32 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
     }
 
-    override fun getItemCount() = timers.size
+    private fun createPopUpMenu(holder: ViewHolder, position: Int) {
+        holder.timer_three_dots_menu.setOnClickListener {
+            val menu = PopupMenu(holder.itemView.context, holder.itemView.timer_three_dots_menu)
+            val inflater = menu.menuInflater
+            inflater.inflate(R.menu.timer_list_item_menu, menu.menu)
+            menu.setOnMenuItemClickListener { menu_item ->
+                when (menu_item.itemId) {
+                    R.id.menu_item_delete -> {
+                        removeItem(position)
+                        db.removeById(position)
+                    }
+
+                }
+                return@setOnMenuItemClickListener true
+            }
+            menu.show()
+        }
+
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val timer_stop_btn = itemView.findViewById<ImageButton>(R.id.timer_stop_btn)
         val timer_reset_btn = itemView.findViewById<ImageButton>(R.id.timer_reset_btn)
         val timer_start_btn = itemView.findViewById<ImageButton>(R.id.timer_start_btn)
         val timer_countdown = itemView.findViewById<CountdownView>(R.id.timer_countdown)
+        val timer_three_dots_menu = itemView.findViewById<ImageButton>(R.id.timer_three_dots_menu)
 
         //        val background = itemView.findViewById<RelativeLayout>(R.id.background)
         val foreground = itemView.findViewById<ConstraintLayout>(R.id.foreground)

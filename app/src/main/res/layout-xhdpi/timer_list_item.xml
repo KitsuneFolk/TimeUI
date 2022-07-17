@@ -49,8 +49,8 @@
 
         <ImageButton
             android:id="@+id/timer_stop_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:backgroundTint="?android:attr/windowBackground"
             android:src="@drawable/ic_stop"
             app:layout_constraintBottom_toBottomOf="@+id/timer_countdown"
@@ -60,8 +60,8 @@
 
         <ImageButton
             android:id="@+id/timer_reset_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:backgroundTint="?android:attr/windowBackground"
             android:src="@drawable/ic_reset"
             android:visibility="gone"
@@ -80,24 +80,36 @@
             app:isShowSecond="true"
             app:isTimeTextBold="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/timer_start_btn"
+            app:layout_constraintEnd_toStartOf="@+id/timer_start_btn"
             app:layout_constraintStart_toEndOf="@id/timer_stop_btn"
             app:layout_constraintTop_toTopOf="parent"
             app:suffixTextColor="@android:color/white"
-            app:suffixTextSize="45sp"
+            app:suffixTextSize="40sp"
             app:timeTextColor="@color/TextColor"
-            app:timeTextSize="45sp" />
+            app:timeTextSize="40dp" />
 
         <ImageButton
             android:id="@+id/timer_start_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="5dp"
             android:backgroundTint="?android:attr/windowBackground"
             android:src="@drawable/ic_start"
             app:layout_constraintBottom_toBottomOf="@id/timer_countdown"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/timer_three_dots_menu"
             app:layout_constraintTop_toTopOf="@id/timer_countdown"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/timer_three_dots_menu"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_three_dots_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

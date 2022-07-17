@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -119,12 +118,10 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
                 dialog_timePicker.currentSeconds
             )
             val currentTime = startTime
-            Log.d(TAG, "setDialog: currentTime = $currentTime")
             val remainTime = currentTime
             val isFreeze = TimerListItem.ADDED
 
             val timerListItem = TimerListItem(startTime, currentTime, remainTime, isFreeze)
-            Log.d(TAG, "setDialog: timerListItem.currentTime = ${timerListItem.currentTime}")
             timers.add(timerListItem)
             customAdapter.notifyItemInserted(timers.size)
             db.add(timerListItem)
@@ -143,7 +140,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
     }
 
     private fun timeToTimeInMillis(hours: Int, minutes: Int, seconds: Int): Long {
-        val timeInMillis = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 60 * 1000)
+        val timeInMillis = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 1000)
         return timeInMillis.toLong()
     }
 

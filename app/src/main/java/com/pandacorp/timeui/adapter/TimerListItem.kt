@@ -4,7 +4,7 @@ data class TimerListItem(
     var startTime: Long,
     var currentTime: Long,
     var remainTime: Long,
-    var isFreeze: Int
+    var status: Int
 ) {
     companion object STATUS {
         //If timer was added

@@ -45,7 +45,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         cv.put(CURRENT_TIME_COL, timerListItem.currentTime)
         Log.d(TAG, "add: currentTime = ${timerListItem.currentTime}")
         cv.put(REMAIN_TIME_COl, timerListItem.remainTime)
-        cv.put(IS_FREEZE_COl, (timerListItem.isFreeze))
+        cv.put(IS_FREEZE_COl, (timerListItem.status))
 
         db.insert(TIMER_TABLE, null, cv)
 
@@ -95,7 +95,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             val cv = ContentValues()
             cv.put(CURRENT_TIME_COL, timer.currentTime)
             cv.put(REMAIN_TIME_COl, timer.remainTime)
-            cv.put(IS_FREEZE_COl, timer.isFreeze)
+            cv.put(IS_FREEZE_COl, timer.status)
             val id = getDatabaseItemIdByRecyclerViewItemId(timers.indexOf(timer))
             db.update(TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
         }
@@ -106,7 +106,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val cv = ContentValues()
         cv.put(CURRENT_TIME_COL, timer.currentTime)
         cv.put(REMAIN_TIME_COl, timer.remainTime)
-        cv.put(IS_FREEZE_COl, timer.isFreeze)
+        cv.put(IS_FREEZE_COl, timer.status)
         val id = getDatabaseItemIdByRecyclerViewItemId(position)
         db.update(TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
 

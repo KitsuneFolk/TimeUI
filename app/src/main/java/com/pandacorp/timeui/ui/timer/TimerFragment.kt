@@ -70,9 +70,9 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
     }
 
+
     private suspend fun initViews() {
         setRecyclerView()
-
 
         fab = root.findViewById(R.id.timer_add_fab)
         fab.setOnClickListener { setDialog() }
@@ -119,9 +119,9 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
             )
             val currentTime = startTime
             val remainTime = currentTime
-            val isFreeze = TimerListItem.ADDED
+            val status = TimerListItem.ADDED
 
-            val timerListItem = TimerListItem(startTime, currentTime, remainTime, isFreeze)
+            val timerListItem = TimerListItem(startTime, currentTime, remainTime, status)
             timers.add(timerListItem)
             customAdapter.notifyItemInserted(timers.size)
             db.add(timerListItem)
@@ -146,7 +146,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
     private suspend fun setRecyclerView() = withContext(Dispatchers.Main) {
         getDatabaseTimers()
-        customAdapter = TimerCustomAdapter(timers)
+        customAdapter = TimerCustomAdapter(this@TimerFragment.requireActivity(), timers)
 
         recyclerView = root.findViewById(R.id.timer_recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -224,7 +224,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
                 timer.currentTime =
                     viewHolder.itemView.timer_countdown.remainTime
                 timer.remainTime = System.currentTimeMillis() + timer.currentTime
-                timer.isFreeze = timer.isFreeze
+                timer.status = timer.status
             }
 
 

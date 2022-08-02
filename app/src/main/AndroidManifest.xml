@@ -10,10 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/BlueTheme">
         <activity
+            android:name=".ui.timer.TimerActivity"
+            android:exported="false"
+            android:label="@string/title_timer"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".settings.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

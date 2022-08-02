@@ -1,8 +1,9 @@
 package com.pandacorp.timeui.adapter
 
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +14,20 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.iwgang.countdownview.CountdownView
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.ui.DBHelper
+import com.pandacorp.timeui.ui.timer.TimerActivity
 import kotlinx.android.synthetic.main.timer_list_item.view.*
 
-class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
+class TimerCustomAdapter(
+    private var context: Context,
+    private var timers: MutableList<TimerListItem>
+) :
     RecyclerView.Adapter<TimerCustomAdapter.ViewHolder>() {
     private val TAG = "MyLogs"
     private lateinit var db: DBHelper
     private lateinit var wdb: SQLiteDatabase
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         //Creating DBHelper object
         db = DBHelper(parent.context, null)
 
@@ -35,20 +41,29 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val timer = timers[position]
-        Log.d(TAG, "onBindViewHolder: currentTime = ${timer.currentTime}")
+        holder.timer_countdown.setOnClickListener {
+            val intent = Intent(context, TimerActivity::class.java)
+            intent.putExtra("list_id", position)
+            intent.putExtra("startTime", timer.startTime)
+            intent.putExtra("currentTime", timer.currentTime)
+            intent.putExtra("remainTime", timer.remainTime)
+            intent.putExtra("status", timer.status)
+
+            context.startActivity(intent)
+        }
         holder.timer_start_btn.setOnClickListener {
             // if the stop btn is pressed, then when the start btn
             //  is pressed, start counting from currentTime,
             // if the reset btn is pressed then when start btn
             //  is pressed, start counting from startTime
-            when (timer.isFreeze) {
+            when (timer.status) {
                 TimerListItem.ADDED -> {
                     holder.timer_countdown.start(timer.startTime)
 
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
 
-                    timer.isFreeze = TimerListItem.RUNNING
+                    timer.status = TimerListItem.RUNNING
                     db.updateOneTimerInDatabase(timer, position)
                 }
                 TimerListItem.FREEZED -> {
@@ -58,7 +73,7 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
 
-                    timer.isFreeze = TimerListItem.RUNNING
+                    timer.status = TimerListItem.RUNNING
                     db.updateOneTimerInDatabase(timer, position)
                 }
                 TimerListItem.RUNNING -> {
@@ -67,7 +82,7 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
 
-                    timer.isFreeze = TimerListItem.RUNNING
+                    timer.status = TimerListItem.RUNNING
                     db.updateOneTimerInDatabase(timer, position)
                 }
                 TimerListItem.RESETED -> {
@@ -76,7 +91,7 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
 
-                    timer.isFreeze = TimerListItem.RUNNING
+                    timer.status = TimerListItem.RUNNING
                     db.updateOneTimerInDatabase(timer, position)
 
 
@@ -88,7 +103,7 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
         holder.timer_reset_btn.setOnClickListener {
             holder.timer_countdown.stop()
 
-            timer.isFreeze = TimerListItem.RESETED
+            timer.status = TimerListItem.RESETED
             holder.timer_stop_btn.visibility = View.VISIBLE
             holder.timer_reset_btn.visibility = View.INVISIBLE
             db.updateOneTimerInDatabase(timer, position)
@@ -101,7 +116,7 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
             timer.currentTime = holder.timer_countdown.remainTime
 
-            timer.isFreeze = TimerListItem.FREEZED
+            timer.status = TimerListItem.FREEZED
             holder.timer_stop_btn.visibility = View.INVISIBLE
             holder.timer_reset_btn.visibility = View.VISIBLE
             db.updateOneTimerInDatabase(timer, position)
@@ -109,18 +124,20 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
 
         }
 
-        checkIsFreeze(holder, position)
+
+        checkStatus(holder, position)
 
         createPopUpMenu(holder, position)
+
     }
 
     override fun getItemCount() = timers.size
 
-    private fun checkIsFreeze(holder: ViewHolder, position: Int) {
+    private fun checkStatus(holder: ViewHolder, position: Int) {
         // Updating format from database. 0 = false, 1 = true
         val timer = timers[position]
 
-        when (timer.isFreeze) {
+        when (timer.status) {
             TimerListItem.ADDED -> {
                 holder.timer_countdown.updateShow(timer.startTime)
             }
@@ -154,13 +171,13 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
     private fun resetItem(timer: TimerListItem, position: Int) {
         timer.currentTime = timer.startTime
         timer.remainTime = timer.startTime
-        timer.isFreeze = TimerListItem.RESETED
+        timer.status = TimerListItem.RESETED
 
         val cv = ContentValues()
         cv.put(DBHelper.START_TIME_COL, timer.startTime)
         cv.put(DBHelper.CURRENT_TIME_COL, timer.startTime)
         cv.put(DBHelper.REMAIN_TIME_COl, timer.startTime)
-        cv.put(DBHelper.IS_FREEZE_COl, timer.isFreeze)
+        cv.put(DBHelper.IS_FREEZE_COl, timer.status)
 
         val id = db.getDatabaseItemIdByRecyclerViewItemId(position)
         wdb.update(DBHelper.TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
@@ -202,8 +219,9 @@ class TimerCustomAdapter(private var timers: MutableList<TimerListItem>) :
         val timer_start_btn = itemView.findViewById<ImageButton>(R.id.timer_start_btn)
         val timer_countdown = itemView.findViewById<CountdownView>(R.id.timer_countdown)
         val timer_three_dots_menu = itemView.findViewById<ImageButton>(R.id.timer_three_dots_menu)
+        val timer_countDown = itemView.findViewById<CountdownView>(R.id.timer_countdown)
 
-        //        val background = itemView.findViewById<RelativeLayout>(R.id.background)
         val foreground = itemView.findViewById<ConstraintLayout>(R.id.foreground)
+
     }
 }

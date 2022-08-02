@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.timer.TimerActivity">
+
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/timer_activity_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:isHideTimeBackground="true"
+        app:isShowHour="true"
+        app:isShowMinute="true"
+        app:isShowSecond="true"
+        app:isTimeTextBold="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.367"
+        app:suffixTextColor="@android:color/white"
+        app:suffixTextSize="40sp"
+        app:timeTextColor="@color/TextColor"
+        app:timeTextSize="40dp" />
+
+    <ImageButton
+        android:id="@+id/timer_activity_start_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="?android:attr/windowBackground"
+        android:src="@drawable/ic_start"
+        app:layout_constraintEnd_toEndOf="@+id/timer_activity_countdown"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/timer_activity_countdown"
+        app:layout_constraintTop_toBottomOf="@+id/timer_activity_countdown"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/timer_activity_stop_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="?android:attr/windowBackground"
+        android:src="@drawable/ic_stop"
+        app:layout_constraintEnd_toEndOf="@+id/timer_activity_start_btn"
+        app:layout_constraintStart_toStartOf="@+id/timer_activity_start_btn"
+        app:layout_constraintTop_toBottomOf="@+id/timer_activity_start_btn"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/timer_activity_reset_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="?android:attr/windowBackground"
+        android:src="@drawable/ic_reset"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/timer_activity_start_btn"
+        app:layout_constraintStart_toStartOf="@+id/timer_activity_start_btn"
+        app:layout_constraintTop_toBottomOf="@+id/timer_activity_start_btn"
+
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

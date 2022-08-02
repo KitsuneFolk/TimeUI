@@ -43,9 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_settings -> {
-                //Needed for recreate the app after applying the settings
-                // and to not reset timers. If use onRestart{recreate} it will reset timers.
-                startActivityForResult(Intent(this, SettingsActivity::class.java), 1)
+                startActivity(Intent(this, SettingsActivity::class.java))
 
             }
         }
@@ -53,11 +51,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            recreate()
-        }
+    override fun onRestart() {
+        super.onRestart()
+
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+        overridePendingTransition(0, 0)
+
+
     }
 
 

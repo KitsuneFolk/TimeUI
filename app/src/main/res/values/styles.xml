@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="BlueTheme" parent="Theme.Material3.Dark">
 
@@ -9,6 +9,7 @@
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:navigationBarColor">@color/BlueTheme_colorPrimary</item>
         <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <!--  Needed for Bottom Navigation Menu selected item color  -->
         <item name="colorSecondaryContainer">@android:color/white</item>
@@ -52,7 +53,6 @@
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
-
     <style name="BlueTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/BlueTheme_colorPrimary</item>
         <item name="iconTint">@drawable/bottom_navigation_style</item>
@@ -73,6 +73,7 @@
         <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
         <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
         <item name="android:navigationBarColor">@color/DarkTheme_colorPrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <!--  Needed for Bottom Navigation Menu selected item color  -->
         <item name="colorSecondaryContainer">@android:color/white</item>
@@ -137,6 +138,7 @@
         <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
         <item name="android:textColorHint">@color/TextColor</item>
         <item name="android:navigationBarColor">@color/RedTheme_colorPrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <!--  Needed for Bottom Navigation Menu selected item color  -->
         <item name="colorSecondaryContainer">@android:color/white</item>

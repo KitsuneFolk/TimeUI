@@ -8,15 +8,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.pandacorp.timeui.R
-import com.pandacorp.timeui.databinding.FragmentStopwatchBinding
 import java.util.*
 
 
 class StopWatchFragment : Fragment() {
     private val TAG = "MyLogs"
-    private lateinit var binding: FragmentStopwatchBinding
+
+    private lateinit var root: View
+    private lateinit var stopwatchStartBtn: Button
+    private lateinit var stopwatchStopBtn: Button
+    private lateinit var stopwatchResetBtn: Button
+    private lateinit var stopwatchTextview: TextView
+
     private lateinit var timer: CountDownTimer
 
     private lateinit var sp: SharedPreferences
@@ -34,8 +41,8 @@ class StopWatchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        root = inflater.inflate(R.layout.fragment_stopwatch, container, false)
 
-        binding = FragmentStopwatchBinding.inflate(inflater, container, false)
         initViews()
 
         //Getting seconds from shared preferences
@@ -58,7 +65,7 @@ class StopWatchFragment : Fragment() {
             Log.d(TAG, "onCreateView: seconds = $seconds")
             Log.d(TAG, "onCreateView: secs = $secs")
 
-            binding.stopwatchTextview.text = time
+            stopwatchTextview.text = time
         }
 
 
@@ -75,19 +82,24 @@ class StopWatchFragment : Fragment() {
         }
 
 
-        return binding.root
+        return root
 
     }
 
     private fun initViews() {
+        stopwatchStartBtn = root.findViewById(R.id.stopwatch_start_btn)
+        stopwatchStopBtn = root.findViewById(R.id.stopwatch_stop_btn)
+        stopwatchResetBtn = root.findViewById(R.id.stopwatch_reset_btn)
+        stopwatchTextview = root.findViewById(R.id.stopwatch_textview)
+
         //Creating shared preferences objects
         sp = activity?.getSharedPreferences("StopWatch_SP", Context.MODE_PRIVATE)!!
         edit = sp.edit()
 
         //Setting stopwatch buttons OnClickListener
-        binding.stopwatchStartBtn.setOnClickListener { startStopWatch() }
-        binding.stopwatchStopBtn.setOnClickListener { stopStopWatch() }
-        binding.stopwatchResetBtn.setOnClickListener { resetStopWatch() }
+        stopwatchStartBtn.setOnClickListener { startStopWatch() }
+        stopwatchStopBtn.setOnClickListener { stopStopWatch() }
+        stopwatchResetBtn.setOnClickListener { resetStopWatch() }
 
         initTimer()
 
@@ -122,7 +134,7 @@ class StopWatchFragment : Fragment() {
             secs
         )
 
-        binding.stopwatchTextview.text = time
+        stopwatchTextview.text = time
 
     }
 
@@ -132,7 +144,7 @@ class StopWatchFragment : Fragment() {
         timer.cancel()
         seconds = 0
 
-        binding.stopwatchTextview.text = resources.getString(R.string.start_time)
+        stopwatchTextview.text = resources.getString(R.string.start_time)
     }
 
 
@@ -150,7 +162,7 @@ class StopWatchFragment : Fragment() {
                     secs
                 )
 
-                binding.stopwatchTextview.text = time
+                stopwatchTextview.text = time
                 seconds++
 
 

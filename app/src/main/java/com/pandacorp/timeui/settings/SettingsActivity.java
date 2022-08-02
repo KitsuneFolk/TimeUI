@@ -49,7 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: //Метод обработки нажатия на кнопку home.
                 Log.w(TAG, "onOptionsItemSelected: home button is pressed");
-                setResult(1);
                 finish();
                 return super.onOptionsItemSelected(item);
             default:

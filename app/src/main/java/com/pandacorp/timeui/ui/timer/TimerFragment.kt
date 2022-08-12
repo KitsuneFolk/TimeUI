@@ -17,13 +17,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.pandacorp.timeui.R
-import com.pandacorp.timeui.adapter.TimerCustomAdapter
-import com.pandacorp.timeui.adapter.TimerListItem
-import com.pandacorp.timeui.adapter.TimerRecyclerItemTouchHelper
 import com.pandacorp.timeui.settings.MySettings
 import com.pandacorp.timeui.ui.DBHelper
+import com.pandacorp.timeui.ui.timer.adapter.TimerCustomAdapter
+import com.pandacorp.timeui.ui.timer.adapter.TimerListItem
+import com.pandacorp.timeui.ui.timer.adapter.TimerRecyclerItemTouchHelper
 import kotlinx.android.synthetic.main.timer_list_item.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.anko.defaultSharedPreferences
 
 
@@ -46,27 +49,23 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
     private var timers = arrayListOf<TimerListItem>()
 
     private lateinit var customAdapter: TimerCustomAdapter
-
-    private var job: Job? = null
-
+    
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         root = inflater.inflate(R.layout.fragment_timer, container, false)
-
-
+        
+        
         CoroutineScope(Dispatchers.Main).launch {
             initViews()
-
             checkIsFirstTime()
+            
         }
-
-
-
+        
         return root
-
 
     }
 
@@ -77,21 +76,20 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         fab = root.findViewById(R.id.timer_add_fab)
         fab.setOnClickListener { setDialog() }
 
-
     }
 
     private fun checkIsFirstTime() {
         //If app opened first time then add one test timer for user.
         val sp = requireActivity().defaultSharedPreferences
         val edit = sp.edit()
-        if (sp.getBoolean("isFirstTime", true)) {
+        if (sp.getBoolean("isTimerFirstTime", true)) {
             val startTime = (5 * 60 * 1000).toLong()
             val timerListItem =
                 TimerListItem(startTime, startTime, startTime, TimerListItem.ADDED)
             timers.add(timerListItem)
             customAdapter.notifyItemInserted(timers.size)
-            db.add(timerListItem)
-            edit.putBoolean("isFirstTime", false)
+            db.add(DBHelper.TIMER_TABLE, timerListItem)
+            edit.putBoolean("isTimerFirstTime", false)
             edit.apply()
         }
     }
@@ -124,7 +122,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
             val timerListItem = TimerListItem(startTime, currentTime, remainTime, status)
             timers.add(timerListItem)
             customAdapter.notifyItemInserted(timers.size)
-            db.add(timerListItem)
+            db.add(DBHelper.TIMER_TABLE, timerListItem)
             //Close the dialog. Without this expression dialog won't close
             // when accept btn is clicked
             dialog.dismiss()
@@ -209,7 +207,7 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
         if (viewHolder is TimerCustomAdapter.ViewHolder) {
             customAdapter.removeItem(position)
             // deleting database item
-            db.removeById(position)
+            db.removeById(DBHelper.TIMER_TABLE, position)
 
         }
     }
@@ -229,11 +227,11 @@ class TimerFragment : Fragment(), TimerRecyclerItemTouchHelper.RecyclerItemTouch
 
 
         }
-        db.updateAllTimersInDatabase(timers)
+        db.updateAllTimersInDatabase(DBHelper.TIMER_TABLE, timers)
 
 
         super.onDestroy()
-
+    
     }
 
 }

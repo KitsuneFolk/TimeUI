@@ -11,20 +11,22 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import cn.iwgang.countdownview.CountdownView
 import com.pandacorp.timeui.R
-import com.pandacorp.timeui.adapter.TimerListItem
 import com.pandacorp.timeui.settings.MySettings
 import com.pandacorp.timeui.settings.SettingsActivity
 import com.pandacorp.timeui.ui.DBHelper
+import com.pandacorp.timeui.ui.timer.adapter.TimerListItem
 
 class TimerActivity : AppCompatActivity() {
+    private val table = DBHelper.TIMER_TABLE
+    
     private lateinit var timer_stop_btn: ImageButton
     private lateinit var timer_reset_btn: ImageButton
     private lateinit var timer_start_btn: ImageButton
     private lateinit var timer_countdown: CountdownView
-
+    
     private lateinit var db: DBHelper
     private lateinit var wdb: SQLiteDatabase
-
+    
     private var list_id = -10
     private var startTime = -10L
     private var currentTime = -10L
@@ -109,32 +111,32 @@ class TimerActivity : AppCompatActivity() {
                 }
 
             }
-            db.updateOneTimerInDatabase(timer, list_id)
+            db.updateOneItemInDatabase(DBHelper.TIMER_TABLE, timer, list_id)
 
 
         }
 
         timer_stop_btn.setOnClickListener {
             timer_countdown.stop()
-
+    
             timer.currentTime = timer_countdown.remainTime
-
+    
             timer.status = TimerListItem.FREEZED
             timer_stop_btn.visibility = View.INVISIBLE
             timer_reset_btn.visibility = View.VISIBLE
-            db.updateOneTimerInDatabase(timer, list_id)
-
-
+            db.updateOneItemInDatabase(DBHelper.TIMER_TABLE, timer, list_id)
+    
+    
         }
 
         timer_reset_btn.setOnClickListener {
             timer_countdown.stop()
-
+    
             timer.status = TimerListItem.RESETED
             timer_stop_btn.visibility = View.VISIBLE
             timer_reset_btn.visibility = View.INVISIBLE
-            db.updateOneTimerInDatabase(timer, list_id)
-
+            db.updateOneItemInDatabase(DBHelper.TIMER_TABLE, timer, list_id)
+    
             resetItem(timer, list_id)
             timer_countdown.updateShow(timer.startTime)
         }
@@ -153,8 +155,8 @@ class TimerActivity : AppCompatActivity() {
         cv.put(DBHelper.CURRENT_TIME_COL, timer.startTime)
         cv.put(DBHelper.REMAIN_TIME_COl, timer.startTime)
         cv.put(DBHelper.IS_FREEZE_COl, timer.status)
-
-        val id = db.getDatabaseItemIdByRecyclerViewItemId(position)
+    
+        val id = db.getDatabaseItemIdByRecyclerViewItemId(table, position)
         wdb.update(DBHelper.TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
 
 
@@ -214,7 +216,7 @@ class TimerActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        db.updateOneTimerInDatabase(timer, list_id)
+        db.updateOneItemInDatabase(DBHelper.TIMER_TABLE, timer, list_id)
         super.onDestroy()
     }
 

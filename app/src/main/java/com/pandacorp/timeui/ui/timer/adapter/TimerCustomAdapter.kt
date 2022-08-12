@@ -1,4 +1,4 @@
-package com.pandacorp.timeui.adapter
+package com.pandacorp.timeui.ui.timer.adapter
 
 import android.content.ContentValues
 import android.content.Context
@@ -23,22 +23,24 @@ class TimerCustomAdapter(
 ) :
     RecyclerView.Adapter<TimerCustomAdapter.ViewHolder>() {
     private val TAG = "MyLogs"
+    private val table = DBHelper.TIMER_TABLE
+    
     private lateinit var db: DBHelper
     private lateinit var wdb: SQLiteDatabase
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
+        
         //Creating DBHelper object
         db = DBHelper(parent.context, null)
-
+        
         //Creating WritableDatabase object
         wdb = db.writableDatabase
-
+        
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.timer_list_item, parent, false)
         return ViewHolder(itemView)
     }
-
+    
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val timer = timers[position]
         holder.timer_countdown.setOnClickListener {
@@ -48,7 +50,7 @@ class TimerCustomAdapter(
             intent.putExtra("currentTime", timer.currentTime)
             intent.putExtra("remainTime", timer.remainTime)
             intent.putExtra("status", timer.status)
-
+    
             context.startActivity(intent)
         }
         holder.timer_start_btn.setOnClickListener {
@@ -59,84 +61,82 @@ class TimerCustomAdapter(
             when (timer.status) {
                 TimerListItem.ADDED -> {
                     holder.timer_countdown.start(timer.startTime)
-
+    
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
-
+    
                     timer.status = TimerListItem.RUNNING
-                    db.updateOneTimerInDatabase(timer, position)
+                    db.updateOneItemInDatabase(table, timer, position)
                 }
                 TimerListItem.FREEZED -> {
-
+    
                     holder.timer_countdown.start(timer.currentTime)
-
+    
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
-
+    
                     timer.status = TimerListItem.RUNNING
-                    db.updateOneTimerInDatabase(timer, position)
+                    db.updateOneItemInDatabase(table, timer, position)
                 }
                 TimerListItem.RUNNING -> {
                     holder.timer_countdown.start(timer.startTime)
-
+    
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
-
+    
                     timer.status = TimerListItem.RUNNING
-                    db.updateOneTimerInDatabase(timer, position)
+                    db.updateOneItemInDatabase(table, timer, position)
                 }
                 TimerListItem.RESETED -> {
                     holder.timer_countdown.start(timer.startTime)
-
+    
                     holder.timer_stop_btn.visibility = View.VISIBLE
                     holder.timer_reset_btn.visibility = View.INVISIBLE
-
+    
                     timer.status = TimerListItem.RUNNING
-                    db.updateOneTimerInDatabase(timer, position)
-
-
+                    db.updateOneItemInDatabase(table, timer, position)
+    
+    
                 }
             }
-
-
+    
+    
         }
         holder.timer_reset_btn.setOnClickListener {
             holder.timer_countdown.stop()
-
+    
             timer.status = TimerListItem.RESETED
             holder.timer_stop_btn.visibility = View.VISIBLE
             holder.timer_reset_btn.visibility = View.INVISIBLE
-            db.updateOneTimerInDatabase(timer, position)
-
+            db.updateOneItemInDatabase(table, timer, position)
+    
             resetItem(timer, position)
             holder.timer_countdown.updateShow(timer.startTime)
         }
         holder.timer_stop_btn.setOnClickListener {
             holder.timer_countdown.stop()
-
+    
             timer.currentTime = holder.timer_countdown.remainTime
-
+    
             timer.status = TimerListItem.FREEZED
             holder.timer_stop_btn.visibility = View.INVISIBLE
             holder.timer_reset_btn.visibility = View.VISIBLE
-            db.updateOneTimerInDatabase(timer, position)
-
-
+            db.updateOneItemInDatabase(table, timer, position)
+    
+    
         }
-
-
         checkStatus(holder, position)
-
+        
         createPopUpMenu(holder, position)
-
+        
     }
-
+    
     override fun getItemCount() = timers.size
-
+    
     private fun checkStatus(holder: ViewHolder, position: Int) {
         // Updating format from database. 0 = false, 1 = true
         val timer = timers[position]
-
+        
         when (timer.status) {
             TimerListItem.ADDED -> {
                 holder.timer_countdown.updateShow(timer.startTime)
@@ -146,53 +146,52 @@ class TimerCustomAdapter(
                 holder.timer_countdown.updateShow(timers[position].currentTime)
                 holder.timer_stop_btn.visibility = View.INVISIBLE
                 holder.timer_reset_btn.visibility = View.VISIBLE
-
+    
             }
-
+            
             TimerListItem.RUNNING -> {
                 holder.timer_countdown.start(timers[position].remainTime - System.currentTimeMillis())
                 holder.timer_stop_btn.visibility = View.VISIBLE
                 holder.timer_reset_btn.visibility = View.INVISIBLE
-
+                
             }
             TimerListItem.RESETED -> {
-                //TODO: Тут доделать
                 holder.timer_countdown.stop()
                 holder.timer_countdown.updateShow(timers[position].startTime)
-
+    
                 holder.timer_stop_btn.visibility = View.VISIBLE
                 holder.timer_reset_btn.visibility = View.INVISIBLE
-
+    
             }
         }
-
+        
     }
-
+    
     private fun resetItem(timer: TimerListItem, position: Int) {
         timer.currentTime = timer.startTime
         timer.remainTime = timer.startTime
         timer.status = TimerListItem.RESETED
-
+        
         val cv = ContentValues()
         cv.put(DBHelper.START_TIME_COL, timer.startTime)
         cv.put(DBHelper.CURRENT_TIME_COL, timer.startTime)
         cv.put(DBHelper.REMAIN_TIME_COl, timer.startTime)
         cv.put(DBHelper.IS_FREEZE_COl, timer.status)
-
-        val id = db.getDatabaseItemIdByRecyclerViewItemId(position)
+        
+        val id = db.getDatabaseItemIdByRecyclerViewItemId(table, position)
         wdb.update(DBHelper.TIMER_TABLE, cv, "id = ?", arrayOf(id.toString()))
-
-
+        
+        
     }
-
+    
     fun removeItem(position: Int) {
         timers.removeAt(position)
-
+        
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, timers.size)
-
+        
     }
-
+    
     private fun createPopUpMenu(holder: ViewHolder, position: Int) {
         holder.timer_three_dots_menu.setOnClickListener {
             val menu = PopupMenu(holder.itemView.context, holder.itemView.timer_three_dots_menu)
@@ -202,26 +201,25 @@ class TimerCustomAdapter(
                 when (menu_item.itemId) {
                     R.id.menu_item_delete -> {
                         removeItem(position)
-                        db.removeById(position)
+                        db.removeById(table, position)
                     }
-
+    
                 }
                 return@setOnMenuItemClickListener true
             }
             menu.show()
         }
-
+        
     }
-
+    
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val timer_stop_btn = itemView.findViewById<ImageButton>(R.id.timer_stop_btn)
         val timer_reset_btn = itemView.findViewById<ImageButton>(R.id.timer_reset_btn)
         val timer_start_btn = itemView.findViewById<ImageButton>(R.id.timer_start_btn)
         val timer_countdown = itemView.findViewById<CountdownView>(R.id.timer_countdown)
         val timer_three_dots_menu = itemView.findViewById<ImageButton>(R.id.timer_three_dots_menu)
-        val timer_countDown = itemView.findViewById<CountdownView>(R.id.timer_countdown)
-
-        val foreground = itemView.findViewById<ConstraintLayout>(R.id.foreground)
-
+        
+        val foreground = itemView.findViewById<ConstraintLayout>(R.id.timer_foreground)
+        
     }
 }

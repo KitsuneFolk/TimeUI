@@ -1,189 +1,222 @@
 package com.pandacorp.timeui.ui.stopwatch
 
-import android.content.Context
-import android.content.SharedPreferences
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ikovac.timepickerwithseconds.TimePicker
 import com.pandacorp.timeui.R
-import java.util.*
+import com.pandacorp.timeui.ui.DBHelper
+import com.pandacorp.timeui.ui.stopwatch.adapter.StopWatchCustomAdapter
+import com.pandacorp.timeui.ui.stopwatch.adapter.StopWatchRecyclerItemTouchHelper
+import com.pandacorp.timeui.ui.timer.adapter.TimerListItem
+import kotlinx.android.synthetic.main.stopwatch_list_item.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.anko.defaultSharedPreferences
+import java.text.SimpleDateFormat
 
 
-class StopWatchFragment : Fragment() {
+class StopWatchFragment : Fragment(),
+    StopWatchRecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     private val TAG = "MyLogs"
-
+    private val table = DBHelper.STOPWATCH_TABLE
+    
     private lateinit var root: View
-    private lateinit var stopwatchStartBtn: Button
-    private lateinit var stopwatchStopBtn: Button
-    private lateinit var stopwatchResetBtn: Button
-    private lateinit var stopwatchTextview: TextView
-
-    private lateinit var timer: CountDownTimer
-
-    private lateinit var sp: SharedPreferences
-    private lateinit var edit: SharedPreferences.Editor
-
-    private var seconds: Long = 0L
-
-    //    private lateinit var running: Boolean
-    private var running = false
-    private var stopped = false
-
-
+    
+    private var stopwatches = arrayListOf<TimerListItem>()
+    
+    private lateinit var customAdapter: StopWatchCustomAdapter
+    
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var fab: FloatingActionButton
+    private lateinit var dialog_timePicker: TimePicker
+    
+    private lateinit var dialog_button_accept: Button
+    private lateinit var dialog_button_close: ImageButton
+    
+    private lateinit var db: DBHelper
+    private lateinit var wdb: SQLiteDatabase
+    private lateinit var cursor: Cursor
+    
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         root = inflater.inflate(R.layout.fragment_stopwatch, container, false)
-
-        initViews()
-
-        //Getting seconds from shared preferences
-        seconds = sp.getLong("seconds", 0)
-
-        //Reinstall stopwatch when open app and stop it if stop button was clicked
-        stopped = sp.getBoolean("stopped", false)
-        if (stopped) {
-            //Without this text will be like 9 but not 00:00:09
-            val hours = seconds / 3600
-            val minutes = seconds % 3600 / 60
-            val secs = seconds % 60
-            val time: String = java.lang.String.format(
-                Locale.getDefault(),
-                "%02d:%02d:%02d",
-                hours,
-                minutes,
-                secs
-            )
-            Log.d(TAG, "onCreateView: seconds = $seconds")
-            Log.d(TAG, "onCreateView: secs = $secs")
-
-            stopwatchTextview.text = time
+        
+        CoroutineScope(Dispatchers.Main).launch {
+            initViews()
+            checkIsFirstTime()
+            
         }
-
-
-        running = sp.getBoolean("running", false)
-        if (running) {
-            //Reinstall stopwatch when open app and add seconds when app wasn't active
-            seconds += ((System.currentTimeMillis() -
-                    sp.getLong("TimeInMillis", System.currentTimeMillis()))
-                    / 1000).toLong()
-
-            timer.cancel()
-            timer.start()
-
-        }
-
-
+        
         return root
-
+        
     }
-
-    private fun initViews() {
-        stopwatchStartBtn = root.findViewById(R.id.stopwatch_start_btn)
-        stopwatchStopBtn = root.findViewById(R.id.stopwatch_stop_btn)
-        stopwatchResetBtn = root.findViewById(R.id.stopwatch_reset_btn)
-        stopwatchTextview = root.findViewById(R.id.stopwatch_textview)
-
-        //Creating shared preferences objects
-        sp = activity?.getSharedPreferences("StopWatch_SP", Context.MODE_PRIVATE)!!
-        edit = sp.edit()
-
-        //Setting stopwatch buttons OnClickListener
-        stopwatchStartBtn.setOnClickListener { startStopWatch() }
-        stopwatchStopBtn.setOnClickListener { stopStopWatch() }
-        stopwatchResetBtn.setOnClickListener { resetStopWatch() }
-
-        initTimer()
-
-
+    
+    private suspend fun initViews() {
+        
+        setRecyclerView()
+        
+        fab = root.findViewById(R.id.stopwatch_add_fab)
+        fab.setOnClickListener { setDialog() }
+        
     }
-
-
-    private fun startStopWatch() {
-        running = true
-        stopped = false
-
-        timer.cancel()
-        timer.start()
-
-
-    }
-
-    private fun stopStopWatch() {
-        running = false
-        stopped = true
-        timer.cancel()
-        //It will increase by one seconds value so here I decrease by one.
-        seconds--
-        val hours = seconds / 3600
-        val minutes = seconds % 3600 / 60
-        val secs = seconds % 60
-        val time: String = java.lang.String.format(
-            Locale.getDefault(),
-            "%02d:%02d:%02d",
-            hours,
-            minutes,
-            secs
-        )
-
-        stopwatchTextview.text = time
-
-    }
-
-    private fun resetStopWatch() {
-        running = false
-        stopped = true
-        timer.cancel()
-        seconds = 0
-
-        stopwatchTextview.text = resources.getString(R.string.start_time)
-    }
-
-
-    private fun initTimer() {
-        timer = object : CountDownTimer(1000_000_000_000_00, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val hours = seconds / 3600
-                val minutes = seconds % 3600 / 60
-                val secs = seconds % 60
-                val time: String = java.lang.String.format(
-                    Locale.getDefault(),
-                    "%02d:%02d:%02d",
-                    hours,
-                    minutes,
-                    secs
-                )
-
-                stopwatchTextview.text = time
-                seconds++
-
-
-            }
-
-            override fun onFinish() {
-
-            }
+    
+    private fun checkIsFirstTime() {
+        //If app opened first time then add one test timer for user.
+        val sp = requireActivity().defaultSharedPreferences
+        val edit = sp.edit()
+        if (sp.getBoolean("isStopWatchFirstTime", true)) {
+            val timerListItem =
+                TimerListItem(0, 0, 0, TimerListItem.ADDED)
+            stopwatches.add(timerListItem)
+            customAdapter.notifyItemInserted(stopwatches.size)
+            db.add(DBHelper.STOPWATCH_TABLE, timerListItem)
+            edit.putBoolean("isStopWatchFirstTime", false)
+            edit.apply()
         }
     }
-
-    override fun onDestroy() {
-        timer.cancel()
-        edit.putLong("TimeInMillis", System.currentTimeMillis())
-        edit.putLong("seconds", seconds)
-        edit.putBoolean("running", running)
-        edit.putBoolean("stopped", stopped)
-        edit.apply()
-
-        super.onDestroy()
-
-
+    
+    private fun setDialog() {
+        val time = 0L
+        val startTime = time
+        val currentTime = time
+        val remainTime = time
+        val status = TimerListItem.ADDED
+        
+        val timerListItem = TimerListItem(startTime, currentTime, remainTime, status)
+        stopwatches.add(timerListItem)
+        customAdapter.notifyItemInserted(stopwatches.size)
+        db.add(DBHelper.STOPWATCH_TABLE, timerListItem)
+        //Close the dialog. Without this expression dialog won't close
+        // when accept btn is clicked
+        
+        
     }
+    
+    private fun timeToTimeInMillis(hours: Int, minutes: Int, seconds: Int): Long {
+        val timeInMillis = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 1000)
+        return timeInMillis.toLong()
+    }
+    
+    private suspend fun setRecyclerView() = withContext(Dispatchers.Main) {
+        getDatabaseTimers()
+        customAdapter =
+            StopWatchCustomAdapter(this@StopWatchFragment.requireActivity(), stopwatches)
+        
+        recyclerView = root.findViewById(R.id.stopwatch_recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = customAdapter
+        
+        enableSwipe()
+        registerForContextMenu(recyclerView)
+        
+        
+    }
+    
+    private fun getDatabaseTimers() {//Creating DBHelper object
+        /* val time = 0L
+         stopwatches.add(TimerListItem(time, time, time, TimerListItem.ADDED))
+         */
+        //Creating DBHelper object
+        db = DBHelper(requireContext(), null)
+        
+        //Creating WritableDatabase object
+        wdb = db.writableDatabase
+        
+        //Creating Cursor object
+        cursor = db.getCursor(DBHelper.STOPWATCH_TABLE)!!
+        
+        //Uploading the timers when opening the app
+        val START_TIME_COL = cursor.getColumnIndex(DBHelper.START_TIME_COL)
+        val CURRENT_TIME_COL = cursor.getColumnIndex(DBHelper.CURRENT_TIME_COL)
+        val REMAIN_TIME_COL = cursor.getColumnIndex(DBHelper.REMAIN_TIME_COl)
+        val IS_FREEZE_COL = cursor.getColumnIndex(DBHelper.IS_FREEZE_COl)
+        if (cursor.moveToFirst()) {
+            do {
+                val stopwatch = TimerListItem(
+                        cursor.getLong(START_TIME_COL),
+                        cursor.getLong(CURRENT_TIME_COL),
+                        cursor.getLong(REMAIN_TIME_COL),
+                        cursor.getInt(IS_FREEZE_COL)
+                
+                )
+                
+                stopwatches.add(stopwatch)
+                
+                
+            } while (cursor.moveToNext())
+        }
+        
+    }
+    
+    private fun enableSwipe() {
+        //Attached the ItemTouchHelper
+        recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                        recyclerView.context,
+                        DividerItemDecoration.VERTICAL
+                )
+        )
+        
+        //Attached the ItemTouchHelper
+        val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
+            StopWatchRecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT, this)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
+    }
+    
+    
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
+        if (viewHolder is StopWatchCustomAdapter.ViewHolder) {
+            customAdapter.removeItem(position)
+            // deleting database item
+            db.removeById(table, position)
+            
+        }
+    }
+    
+    override fun onDestroy() {
+        val db = DBHelper(requireContext(), null)
+        
+        for ((index, stopwatch) in stopwatches.withIndex()) {
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(index)
+            if (viewHolder != null) {
+                val time = SimpleDateFormat("HH:mm:ss").parse(
+                        viewHolder.itemView.stopwatch_textview.text as String
+                )
+                
+                
+                val seconds = (time.hours * 3600) + (time.minutes * 60) + (time.seconds)
+                stopwatch.currentTime = seconds.toLong()
+                
+                stopwatch.remainTime = System.currentTimeMillis() + stopwatch.currentTime
+                stopwatch.status = stopwatch.status
+            }
+            
+            
+        }
+        db.updateAllTimersInDatabase(DBHelper.STOPWATCH_TABLE, stopwatches)
+        
+        
+        super.onDestroy()
+        
+    }
+    
+    
 }

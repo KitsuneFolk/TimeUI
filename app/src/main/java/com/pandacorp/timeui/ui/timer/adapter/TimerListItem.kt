@@ -1,4 +1,4 @@
-package com.pandacorp.timeui.adapter
+package com.pandacorp.timeui.ui.timer.adapter
 
 data class TimerListItem(
     var startTime: Long,

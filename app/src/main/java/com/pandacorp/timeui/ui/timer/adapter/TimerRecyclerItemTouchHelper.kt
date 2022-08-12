@@ -1,4 +1,4 @@
-package com.pandacorp.timeui.adapter
+package com.pandacorp.timeui.ui.timer.adapter
 
 import android.graphics.Canvas
 import android.util.Log

@@ -103,16 +103,11 @@ class StopWatchFragment : Fragment(),
         val timerListItem = TimerListItem(startTime, currentTime, remainTime, status)
         stopwatches.add(timerListItem)
         customAdapter.notifyItemInserted(stopwatches.size)
-        db.add(DBHelper.STOPWATCH_TABLE, timerListItem)
+        db.add(table, timerListItem)
         //Close the dialog. Without this expression dialog won't close
         // when accept btn is clicked
         
         
-    }
-    
-    private fun timeToTimeInMillis(hours: Int, minutes: Int, seconds: Int): Long {
-        val timeInMillis = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 1000)
-        return timeInMillis.toLong()
     }
     
     private suspend fun setRecyclerView() = withContext(Dispatchers.Main) {
@@ -203,19 +198,26 @@ class StopWatchFragment : Fragment(),
                 
                 
                 val seconds = (time.hours * 3600) + (time.minutes * 60) + (time.seconds)
-                stopwatch.currentTime = seconds.toLong()
+                stopwatch.currentTime = (seconds * 1000).toLong()
                 
                 stopwatch.remainTime = System.currentTimeMillis() + stopwatch.currentTime
                 stopwatch.status = stopwatch.status
+    
+    
             }
-            
-            
+    
+    
         }
         db.updateAllTimersInDatabase(DBHelper.STOPWATCH_TABLE, stopwatches)
-        
-        
+    
+        val sp = requireContext().defaultSharedPreferences
+        val edit = sp.edit()
+        edit.putLong("stopwatch_currentTimeMillis", System.currentTimeMillis())
+        edit.apply()
+    
+    
         super.onDestroy()
-        
+    
     }
     
     

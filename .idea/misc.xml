@@ -21,14 +21,14 @@
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-xxhdpi/timer_list_item.xml" value="0.25" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-xxxhdpi/timer_list_item.xml" value="0.14" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_main.xml" value="0.9425" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_stop_watch.xml" value="0.67" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_stop_watch.xml" value="0.25" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_timer.xml" value="0.67" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_clocks.xml" value="0.6504424778761062" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_stopwatch.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_timer.xml" value="0.9" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/stopwatch_list_item.xml" value="0.2734375" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_list_item.xml" value="0.6333333333333333" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_time_picker.xml" value="0.22" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_time_picker.xml" value="0.5" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/menu/timer_list_item_menu.xml" value="0.9" />
       </map>
     </option>

@@ -7,7 +7,7 @@
     tools:context=".ui.stopwatch.StopWatchActivity">
 
     <TextView
-        android:id="@+id/stopwatch_activity_countdown"
+        android:id="@+id/stopwatch_activity_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,10 +29,10 @@
         android:layout_marginTop="50dp"
         android:backgroundTint="?android:attr/windowBackground"
         android:src="@drawable/ic_start"
-        app:layout_constraintEnd_toEndOf="@+id/stopwatch_activity_countdown"
+        app:layout_constraintEnd_toEndOf="@+id/stopwatch_activity_textview"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/stopwatch_activity_countdown"
-        app:layout_constraintTop_toBottomOf="@+id/stopwatch_activity_countdown"
+        app:layout_constraintStart_toStartOf="@+id/stopwatch_activity_textview"
+        app:layout_constraintTop_toBottomOf="@+id/stopwatch_activity_textview"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton

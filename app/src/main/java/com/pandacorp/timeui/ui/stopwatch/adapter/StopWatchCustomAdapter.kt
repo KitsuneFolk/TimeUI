@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.pandacorp.timeui.ui.stopwatch.StopWatchActivity
 import com.pandacorp.timeui.ui.stopwatch.Stopwatch
 import com.pandacorp.timeui.ui.timer.adapter.TimerListItem
 import kotlinx.android.synthetic.main.stopwatch_list_item.view.*
+import org.jetbrains.anko.defaultSharedPreferences
 
 class StopWatchCustomAdapter(
     private var context: Context,
@@ -159,10 +161,18 @@ class StopWatchCustomAdapter(
             }
             
             TimerListItem.RUNNING -> {
-                holder.stopwatch_stopwatch.start(stopwatches[position].remainTime - System.currentTimeMillis())
+                Log.d(TAG, "currentTime = ${stopwatch.currentTime}")
+                Log.d(TAG, "remainTime = ${stopwatch.remainTime}")
+                Log.d(TAG, "System.currentTimeMillis() = ${System.currentTimeMillis()}")
+                val last_currentTimeMillis =
+                    context.defaultSharedPreferences.getLong("stopwatch_currentTimeMillis", 0)
+                holder.stopwatch_stopwatch.start(
+                        stopwatch.currentTime + (
+                                System.currentTimeMillis() - last_currentTimeMillis
+                                ))
                 holder.stopwatch_stop_btn.visibility = View.VISIBLE
                 holder.stopwatch_reset_btn.visibility = View.INVISIBLE
-                
+    
             }
             TimerListItem.RESETED -> {
                 holder.stopwatch_stopwatch.stop()

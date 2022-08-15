@@ -9,7 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import cn.iwgang.countdownview.CountdownView
+import com.google.android.material.textview.MaterialTextView
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.settings.MySettings
 import com.pandacorp.timeui.settings.SettingsActivity
@@ -21,7 +21,8 @@ class StopWatchActivity : AppCompatActivity() {
     private lateinit var stopwatch_stop_btn: ImageButton
     private lateinit var stopwatch_reset_btn: ImageButton
     private lateinit var stopwatch_start_btn: ImageButton
-    private lateinit var stopwatch_countdown: CountdownView
+    private lateinit var stopwatch_textview: MaterialTextView
+    private lateinit var stopwatch_stopwatch: Stopwatch
     
     private lateinit var db: DBHelper
     private lateinit var wdb: SQLiteDatabase
@@ -65,8 +66,10 @@ class StopWatchActivity : AppCompatActivity() {
         stopwatch_stop_btn = findViewById<ImageButton>(R.id.stopwatch_activity_stop_btn)
         stopwatch_reset_btn = findViewById<ImageButton>(R.id.stopwatch_activity_reset_btn)
         stopwatch_start_btn = findViewById<ImageButton>(R.id.stopwatch_activity_start_btn)
-        stopwatch_countdown = findViewById<CountdownView>(R.id.stopwatch_activity_countdown)
-        
+        stopwatch_textview = findViewById<MaterialTextView>(R.id.stopwatch_activity_textview)
+        stopwatch_stopwatch = Stopwatch(stopwatch_textview)
+    
+    
         stopwatch_start_btn.setOnClickListener {
             // if the stop btn is pressed, then when the start btn
             //  is pressed, start counting from currentTime,
@@ -74,7 +77,7 @@ class StopWatchActivity : AppCompatActivity() {
             //  is pressed, start counting from startTime
             when (stopwatch.status) {
                 TimerListItem.ADDED -> {
-                    stopwatch_countdown.start(stopwatch.startTime)
+                    stopwatch_stopwatch.start(stopwatch.startTime)
                     
                     stopwatch_stop_btn.visibility = View.VISIBLE
                     stopwatch_reset_btn.visibility = View.INVISIBLE
@@ -82,16 +85,16 @@ class StopWatchActivity : AppCompatActivity() {
                     stopwatch.status = TimerListItem.RUNNING
                 }
                 TimerListItem.FREEZED -> {
-                    
-                    stopwatch_countdown.start(stopwatch.currentTime)
-                    
+    
+                    stopwatch_stopwatch.start(stopwatch.currentTime)
+    
                     stopwatch_stop_btn.visibility = View.VISIBLE
                     stopwatch_reset_btn.visibility = View.INVISIBLE
-                    
+    
                     stopwatch.status = TimerListItem.RUNNING
                 }
                 TimerListItem.RUNNING -> {
-                    stopwatch_countdown.start(stopwatch.startTime)
+                    stopwatch_stopwatch.start(stopwatch.startTime)
                     
                     stopwatch_stop_btn.visibility = View.VISIBLE
                     stopwatch_reset_btn.visibility = View.INVISIBLE
@@ -99,7 +102,7 @@ class StopWatchActivity : AppCompatActivity() {
                     stopwatch.status = TimerListItem.RUNNING
                 }
                 TimerListItem.RESETED -> {
-                    stopwatch_countdown.start(stopwatch.startTime)
+                    stopwatch_stopwatch.start(stopwatch.startTime)
                     
                     stopwatch_stop_btn.visibility = View.VISIBLE
                     stopwatch_reset_btn.visibility = View.INVISIBLE
@@ -116,9 +119,9 @@ class StopWatchActivity : AppCompatActivity() {
         }
         
         stopwatch_stop_btn.setOnClickListener {
-            stopwatch_countdown.stop()
-            
-            stopwatch.currentTime = stopwatch_countdown.remainTime
+            stopwatch_stopwatch.stop()
+    
+            stopwatch.currentTime = stopwatch_stopwatch.getTime()
             
             stopwatch.status = TimerListItem.FREEZED
             stopwatch_stop_btn.visibility = View.INVISIBLE
@@ -129,7 +132,7 @@ class StopWatchActivity : AppCompatActivity() {
         }
         
         stopwatch_reset_btn.setOnClickListener {
-            stopwatch_countdown.stop()
+            stopwatch_stopwatch.stop()
             
             stopwatch.status = TimerListItem.RESETED
             stopwatch_stop_btn.visibility = View.VISIBLE
@@ -137,7 +140,7 @@ class StopWatchActivity : AppCompatActivity() {
             db.updateOneItemInDatabase(DBHelper.STOPWATCH_TABLE, stopwatch, list_id)
             
             resetItem(table, stopwatch, list_id)
-            stopwatch_countdown.updateShow(stopwatch.startTime)
+            stopwatch_stopwatch.setTime(stopwatch.startTime)
         }
         
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -148,29 +151,29 @@ class StopWatchActivity : AppCompatActivity() {
         
         when (stopwatch.status) {
             TimerListItem.ADDED -> {
-                stopwatch_countdown.updateShow(stopwatch.startTime)
+                stopwatch_stopwatch.setTime(stopwatch.startTime)
             }
             TimerListItem.FREEZED -> {
-                stopwatch_countdown.stop()
-                stopwatch_countdown.updateShow(stopwatch.currentTime)
+                stopwatch_stopwatch.stop()
+                stopwatch_stopwatch.setTime(stopwatch.currentTime)
                 stopwatch_stop_btn.visibility = View.INVISIBLE
                 stopwatch_reset_btn.visibility = View.VISIBLE
-                
+    
             }
             
             TimerListItem.RUNNING -> {
-                stopwatch_countdown.start(stopwatch.remainTime - System.currentTimeMillis())
+                stopwatch_stopwatch.start(stopwatch.remainTime - System.currentTimeMillis())
                 stopwatch_stop_btn.visibility = View.VISIBLE
                 stopwatch_reset_btn.visibility = View.INVISIBLE
                 
             }
             TimerListItem.RESETED -> {
-                stopwatch_countdown.stop()
-                stopwatch_countdown.updateShow(stopwatch.startTime)
-                
+                stopwatch_stopwatch.stop()
+                stopwatch_stopwatch.setTime(stopwatch.startTime)
+    
                 stopwatch_stop_btn.visibility = View.VISIBLE
                 stopwatch_reset_btn.visibility = View.INVISIBLE
-                
+    
             }
         }
         

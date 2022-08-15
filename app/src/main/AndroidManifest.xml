@@ -10,8 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/BlueTheme">
         <activity
-            android:name=".StopWatchActivity"
-            android:exported="false" />
+            android:name=".ui.stopwatch.StopWatchActivity"
+            android:exported="false"
+            android:label="@string/title_stopwatch"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.timer.TimerActivity"
             android:exported="false"

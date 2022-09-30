@@ -52,9 +52,9 @@
             android:layout_height="56dp"
             android:backgroundTint="?android:attr/windowBackground"
             android:src="@drawable/ic_stop"
-            app:layout_constraintBottom_toBottomOf="@+id/stopwatch_stopwatch"
+            app:layout_constraintBottom_toBottomOf="@+id/stopwatch_textview"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/stopwatch_stopwatch"
+            app:layout_constraintTop_toTopOf="@id/stopwatch_textview"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
@@ -64,9 +64,9 @@
             android:backgroundTint="?android:attr/windowBackground"
             android:src="@drawable/ic_reset"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/stopwatch_stopwatch"
+            app:layout_constraintBottom_toBottomOf="@+id/stopwatch_textview"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/stopwatch_stopwatch"
+            app:layout_constraintTop_toTopOf="@id/stopwatch_textview"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -95,9 +95,9 @@
             android:layout_marginEnd="5dp"
             android:backgroundTint="?android:attr/windowBackground"
             android:src="@drawable/ic_start"
-            app:layout_constraintBottom_toBottomOf="@id/stopwatch_stopwatch"
+            app:layout_constraintBottom_toBottomOf="@id/stopwatch_textview"
             app:layout_constraintEnd_toStartOf="@+id/stopwatch_three_dots_menu"
-            app:layout_constraintTop_toTopOf="@id/stopwatch_stopwatch"
+            app:layout_constraintTop_toTopOf="@id/stopwatch_textview"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton

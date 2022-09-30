@@ -1,5 +1,6 @@
 package com.pandacorp.timeui.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: //Метод обработки нажатия на кнопку home.
                 Log.w(TAG, "onOptionsItemSelected: home button is pressed");
+                setResult(RESULT_OK);
                 finish();
                 return super.onOptionsItemSelected(item);
             default:
@@ -100,8 +102,9 @@ public class SettingsActivity extends AppCompatActivity {
             language = sp.getString("Languages", "");
             theme = sp.getString("Themes", "");
 
-            getActivity().recreate();
-
+            getActivity().startActivity(new Intent(getContext(), SettingsActivity.class));
+            getActivity().finish();
+            getActivity().overridePendingTransition(0, 0);
             return true;
         }
 

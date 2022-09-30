@@ -176,7 +176,6 @@ class StopWatchFragment : Fragment(),
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
     }
     
-    
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
         if (viewHolder is StopWatchCustomAdapter.ViewHolder) {
             customAdapter.removeItem(position)

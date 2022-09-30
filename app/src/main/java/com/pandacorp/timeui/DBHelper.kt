@@ -148,7 +148,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         // went in the app
         val IS_FREEZE_COl = "is_freeze"
     
-    
         val STOPWATCH_TABLE = "stopwatch_table"
     
     

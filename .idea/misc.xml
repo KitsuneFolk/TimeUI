@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_add.xml" value="0.1045" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_dialog_close.xml" value="0.102" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
@@ -12,10 +13,16 @@
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_menu_timer.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_reset.xml" value="0.1015" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_settings_language.xml" value="0.1" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_start.xml" value="0.1045" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_stop.xml" value="0.1015" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_three_dots_menu.xml" value="0.1" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_widget_stopwatch_add.xml" value="0.1045" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_widget_stopwatch_reset.xml" value="0.1045" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_widget_stopwatch_start.xml" value="0.1045" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_widget_stopwatch_stop.xml" value="0.1045" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/drawable/ic_widget_three_dots_menu.xml" value="0.1045" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-hdpi/timer_list_item.xml" value="0.5" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-mdpi/timer_list_item.xml" value="1.25" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-mdpi/timer_list_item.xml" value="0.5433333333333333" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-mhdpi/timer_list_item.xml" value="1.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-xhdpi/timer_list_item.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout-xxhdpi/timer_list_item.xml" value="0.25" />
@@ -23,13 +30,17 @@
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_main.xml" value="0.9425" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_stop_watch.xml" value="0.25" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/activity_timer.xml" value="0.67" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_clocks.xml" value="0.6504424778761062" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_clocks.xml" value="0.22" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_stopwatch.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/fragment_timer.xml" value="0.9" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/stopwatch_list_item.xml" value="0.2734375" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/stopwatch_widget.xml" value="0.29296875" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_list_item.xml" value="0.6333333333333333" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/timer_time_picker.xml" value="0.5" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/widget_stopwatch.xml" value="0.33" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/layout/widget_stopwatch_listitem.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/menu/timer_list_item_menu.xml" value="0.9" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TimeUI/app/src/main/res/xml/stopwatch_widget_metadata.xml" value="0.2734375" />
       </map>
     </option>
   </component>

@@ -56,29 +56,31 @@ class StopWatchFragment : Fragment(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         root = inflater.inflate(R.layout.fragment_stopwatch, container, false)
-        
+    
         CoroutineScope(Dispatchers.Main).launch {
             initViews()
             checkIsFirstTime()
-            
-        }
         
+        }
+    
         return root
         
     }
     
     private suspend fun initViews() {
-        
+    
         setRecyclerView()
-        
+    
         fab = root.findViewById(R.id.stopwatch_add_fab)
-        fab.setOnClickListener { setDialog() }
-        
+        fab.setOnClickListener {
+            setDialog()
+        }
+    
     }
     
-    private fun checkIsFirstTime() {
+    private suspend fun checkIsFirstTime() = withContext(Dispatchers.IO) {
         //If app opened first time then add one test timer for user.
         val sp = requireActivity().defaultSharedPreferences
         val edit = sp.edit()
@@ -99,19 +101,18 @@ class StopWatchFragment : Fragment(),
         val currentTime = time
         val remainTime = time
         val status = TimerListItem.ADDED
-        
+    
         val timerListItem = TimerListItem(startTime, currentTime, remainTime, status)
         stopwatches.add(timerListItem)
         customAdapter.notifyItemInserted(stopwatches.size)
         db.add(table, timerListItem)
         //Close the dialog. Without this expression dialog won't close
         // when accept btn is clicked
-        
-        
+    
+    
     }
     
-    private suspend fun setRecyclerView() = withContext(Dispatchers.Main) {
-        getDatabaseTimers()
+    private suspend fun setRecyclerView() {
         customAdapter =
             StopWatchCustomAdapter(this@StopWatchFragment.requireActivity(), stopwatches)
         
@@ -122,13 +123,15 @@ class StopWatchFragment : Fragment(),
         enableSwipe()
         registerForContextMenu(recyclerView)
         
+        // Here we get get database stopwatches,
+        //then we update customAdapter array, so stopwatches is not null now.
+        //It's needed to make fragment loading smoother.
+        getDatabaseTimers()
+        customAdapter.notifyDataSetChanged()
         
     }
     
-    private fun getDatabaseTimers() {//Creating DBHelper object
-        /* val time = 0L
-         stopwatches.add(TimerListItem(time, time, time, TimerListItem.ADDED))
-         */
+    private suspend fun getDatabaseTimers() = withContext(Dispatchers.IO) {
         //Creating DBHelper object
         db = DBHelper(requireContext(), null)
         
@@ -158,7 +161,6 @@ class StopWatchFragment : Fragment(),
                 
             } while (cursor.moveToNext())
         }
-        
     }
     
     private fun enableSwipe() {

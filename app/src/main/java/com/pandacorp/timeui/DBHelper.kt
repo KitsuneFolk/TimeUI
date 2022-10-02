@@ -150,6 +150,5 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     
         val STOPWATCH_TABLE = "stopwatch_table"
     
-    
     }
 }

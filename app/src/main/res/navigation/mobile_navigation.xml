@@ -3,24 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_clocks"
-    >
+    app:startDestination="@id/navigation_clocks">
 
     <fragment
         android:id="@+id/navigation_clocks"
-        android:name="com.pandacorp.timeui.ui.clocks.ClocksFragment"
+        android:name="com.pandacorp.timeui.presentation.ui.clocks.ClockFragment"
         android:label="@string/title_clocks"
-        tools:layout="@layout/fragment_clocks" />
+        tools:layout="@layout/fragment_clock" />
 
     <fragment
         android:id="@+id/navigation_timer"
-        android:name="com.pandacorp.timeui.ui.timer.TimerFragment"
+        android:name="com.pandacorp.timeui.presentation.ui.timer.TimerFragment"
         android:label="@string/title_timer"
         tools:layout="@layout/fragment_timer" />
 
     <fragment
         android:id="@+id/navigation_stopWatch"
-        android:name="com.pandacorp.timeui.ui.stopwatch.StopWatchFragment"
+        android:name="com.pandacorp.timeui.presentation.ui.stopwatch.StopWatchFragment"
         android:label="@string/title_stopwatch"
         tools:layout="@layout/fragment_stopwatch" />
 </navigation>

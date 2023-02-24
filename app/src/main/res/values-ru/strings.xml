@@ -9,26 +9,26 @@
     <string name="stop_btn">Стоп</string>
     <string name="reset_btn">Сброс</string>
 
-    <string name="title_activity_settings">Настройки</string>
+    <string name="settings">Настройки</string>
 
     <string name="delete">Удалить</string>
 
     <!-- Preference Titles -->
-    <string name="settings_design">Внешний вид</string>
-    <string name="Language_text">Язык</string>
-    <string name="Theme_text">Тема</string>
+    <string name="appearance">Внешний вид</string>
+    <string name="language">Язык</string>
+    <string name="theme">Тема</string>
     <string name="version">Версия</string>
 
-    <string name="settings_theme_default_value">blue</string>
-    <string name="settings_theme_summary">Синяя</string>
     <string name="settings_language_default_value">ru</string>
     <string name="settings_language_summary">Русский</string>
+
 
     <!--  Share views  -->
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
     <string name="settings_another">Другое</string>
 
     <string name="timer_dialog_title">Время</string>
+    <string name="cancel">Отменить</string>
 
 
 </resources>

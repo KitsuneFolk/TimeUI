@@ -9,16 +9,14 @@
     <string name="stop_btn">Стоп</string>
     <string name="reset_btn">Сброс</string>
 
-    <string name="title_activity_settings">Настройки</string>
+    <string name="settings">Настройки</string>
 
     <!-- Preference Titles -->
-    <string name="settings_design">Зовнiшний вигляд</string>
-    <string name="Language_text">Мова</string>
-    <string name="Theme_text">Тема</string>
+    <string name="appearance">Зовнiшний вигляд</string>
+    <string name="language">Мова</string>
+    <string name="theme">Тема</string>
     <string name="version">Версія</string>
 
-    <string name="settings_theme_summary">Синя</string>
-    <string name="settings_theme_default_value">blue</string>
     <string name="settings_language_default_value">uk</string>
     <string name="settings_language_summary">Українська</string>
 
@@ -29,6 +27,7 @@
     <string name="settings_another">Iнше</string>
 
     <string name="timer_dialog_title">Час</string>
+    <string name="cancel">Вiдмiнити</string>
 
 
 </resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="@dimen/dialog_minWidth"
+            android:minHeight="@dimen/dialog_minHeight"
+            app:cardBackgroundColor="?android:colorBackground"
+            app:cardCornerRadius="@dimen/corners_radius">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/dialogTimerPickerTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/timer_dialog_title"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="@+id/dialogTimePicker"
+                    app:layout_constraintStart_toStartOf="@+id/dialogTimePicker"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.ikovac.timepickerwithseconds.TimePicker
+                    android:id="@+id/dialogTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:amPmTextColor="?android:textColor"
+                    android:timePickerMode="spinner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dialogTimerPickerTitle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dialogTimePicker">
+
+
+                    <Button
+                        android:id="@+id/dialogTimePickerCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:stateListAnimator="@animator/increase_size_normal_animator"
+                        android:text="@string/cancel" />
+
+                    <Button
+                        android:id="@+id/dialogTimePickerOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stateListAnimator="@animator/increase_size_normal_animator"
+                        android:text="@string/ok" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</layout>

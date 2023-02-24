@@ -1,64 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.stopwatch.StopWatchActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/stopwatch_activity_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.367"
-        android:textColor="@color/TextColor"
-        android:text="@string/start_time"
-        android:textSize="40sp"
-        android:fontFamily="@font/inter"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/stopwatch_activity_start_btn"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="?android:attr/windowBackground"
-        android:src="@drawable/ic_start"
-        app:layout_constraintEnd_toEndOf="@+id/stopwatch_activity_textview"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/stopwatch_activity_textview"
-        app:layout_constraintTop_toBottomOf="@+id/stopwatch_activity_textview"
-        tools:ignore="SpeakableTextPresentCheck" />
+        <include
+            android:id="@+id/stopwatchToolbarInclude"
+            layout="@layout/toolbar" />
 
-    <ImageButton
-        android:id="@+id/stopwatch_activity_stop_btn"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="?android:attr/windowBackground"
-        android:src="@drawable/ic_stop"
-        app:layout_constraintEnd_toEndOf="@+id/stopwatch_activity_start_btn"
-        app:layout_constraintStart_toStartOf="@+id/stopwatch_activity_start_btn"
-        app:layout_constraintTop_toBottomOf="@+id/stopwatch_activity_start_btn"
-        tools:ignore="SpeakableTextPresentCheck" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/stopwatch_activity_reset_btn"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="?android:attr/windowBackground"
-        android:src="@drawable/ic_reset"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/stopwatch_activity_start_btn"
-        app:layout_constraintStart_toStartOf="@+id/stopwatch_activity_start_btn"
-        app:layout_constraintTop_toBottomOf="@+id/stopwatch_activity_start_btn"
+            <com.pandacorp.timeui.presentation.utils.StopwatchView
+                android:id="@+id/stopwatchActivitySV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter"
+                android:maxLines="1"
+                android:text="@string/start_time"
+                android:textAlignment="center"
+                android:textSize="@dimen/timeTextSize"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.30" />
 
-        tools:ignore="SpeakableTextPresentCheck" />
+            <ImageButton
+                android:id="@+id/stopwatchActivityStartBtn"
+                android:layout_width="@dimen/imageViewSize"
+                android:layout_height="@dimen/imageViewSize"
+                android:layout_marginTop="50dp"
+                android:background="@null"
+                android:src="@drawable/ic_start"
+                android:stateListAnimator="@animator/increase_size_normal_animator"
+                app:layout_constraintEnd_toEndOf="@+id/stopwatchActivitySV"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/stopwatchActivitySV"
+                app:layout_constraintTop_toBottomOf="@+id/stopwatchActivitySV"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/stopwatchActivityStopBtn"
+                android:layout_width="@dimen/imageViewSize"
+                android:layout_height="@dimen/imageViewSize"
+                android:layout_marginTop="25dp"
+                android:background="@null"
+                android:src="@drawable/ic_stop"
+                android:stateListAnimator="@animator/increase_size_normal_animator"
+                app:layout_constraintEnd_toEndOf="@+id/stopwatchActivityStartBtn"
+                app:layout_constraintStart_toStartOf="@+id/stopwatchActivityStartBtn"
+                app:layout_constraintTop_toBottomOf="@+id/stopwatchActivityStartBtn"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/stopwatchActivityResetBtn"
+                android:layout_width="@dimen/imageViewSize"
+                android:layout_height="@dimen/imageViewSize"
+                android:layout_marginTop="25dp"
+                android:background="@null"
+                android:src="@drawable/ic_reset"
+                android:stateListAnimator="@animator/increase_size_normal_animator"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/stopwatchActivityStartBtn"
+                app:layout_constraintStart_toStartOf="@+id/stopwatchActivityStartBtn"
+                app:layout_constraintTop_toBottomOf="@+id/stopwatchActivityStartBtn"
+
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

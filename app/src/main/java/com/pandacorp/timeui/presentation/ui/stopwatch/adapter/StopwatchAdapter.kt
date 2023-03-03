@@ -140,13 +140,13 @@ class StopwatchAdapter(private var context: Context) :
         holder.threeDotsMenu.setOnClickListener {
             val menu = PopupMenu(holder.itemView.context, holder.threeDotsMenu)
             val inflater = menu.menuInflater
-            inflater.inflate(R.menu.timer_list_item_menu, menu.menu)
+            inflater.inflate(R.menu.item_list_menu, menu.menu)
             menu.setOnMenuItemClickListener { menu_item ->
                 when (menu_item.itemId) {
                     R.id.menu_item_delete -> {
                         stopwatchListener!!.onStopwatchRemove(holder, holder.adapterPosition)
                     }
-                    
+            
                 }
                 return@setOnMenuItemClickListener true
             }

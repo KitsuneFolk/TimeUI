@@ -171,7 +171,7 @@ class StopWatchFragment : Fragment() {
             if (viewHolder != null) {
                 (viewHolder as StopwatchAdapter.ViewHolder).stopwatch.cancel()
             }
-        
+    
         }
         super.onDestroy()
         _binding = null

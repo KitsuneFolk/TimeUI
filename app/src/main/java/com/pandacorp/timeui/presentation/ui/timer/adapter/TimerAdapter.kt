@@ -136,17 +136,34 @@ class TimerAdapter(private var context: Context) :
             
             holder.stopBtn.visibility = View.GONE
             holder.resetBtn.visibility = View.VISIBLE
-            
+    
             timerItem.status = TimerItem.STOPED
             timerItem.currentTime = holder.countdown.remainTime
-            
+    
             timerListener!!.onTimerUpdate(holder.adapterPosition, timerItem)
-            
+    
         }
-        
+    
         checkStatus(holder, timerItem)
-        createPopUpMenu(holder, holder.adapterPosition)
-        
+    
+        holder.threeDotsMenu.setOnClickListener {
+            val menu = PopupMenu(holder.itemView.context, holder.threeDotsMenu)
+            val inflater = menu.menuInflater
+            inflater.inflate(R.menu.item_list_menu, menu.menu)
+            menu.setOnMenuItemClickListener { menu_item ->
+                when (menu_item.itemId) {
+                    R.id.menu_item_delete -> {
+                        timerListener?.onTimerRemove(
+                                viewHolder = holder,
+                                position = holder.adapterPosition)
+                    }
+                
+                }
+                return@setOnMenuItemClickListener true
+            }
+            menu.show()
+        }
+    
     }
     
     private fun checkStatus(holder: ViewHolder, timerItem: TimerItem) {
@@ -176,25 +193,6 @@ class TimerAdapter(private var context: Context) :
                 holder.resetBtn.visibility = View.GONE
                 
             }
-        }
-        
-    }
-    
-    private fun createPopUpMenu(holder: ViewHolder, position: Int) {
-        holder.threeDotsMenu.setOnClickListener {
-            val menu = PopupMenu(holder.itemView.context, holder.threeDotsMenu)
-            val inflater = menu.menuInflater
-            inflater.inflate(R.menu.timer_list_item_menu, menu.menu)
-            menu.setOnMenuItemClickListener { menu_item ->
-                when (menu_item.itemId) {
-                    R.id.menu_item_delete -> {
-                        timerListener?.onTimerRemove(viewHolder = holder, position = position)
-                    }
-                    
-                }
-                return@setOnMenuItemClickListener true
-            }
-            menu.show()
         }
         
     }

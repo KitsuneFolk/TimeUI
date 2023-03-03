@@ -46,7 +46,7 @@ class DialogListView : CustomDialog() {
         }
         val adapter = ListAdapter(requireContext(), itemsList, preferenceKey)
         adapter.setOnClickListener(object : ListAdapter.OnListItemClickListener {
-            override fun onClick(view: View?, listItem: ListItem, position: Int) {
+            override fun onClick(view: View, listItem: ListItem, position: Int) {
                 sp.edit().putString(preferenceKey, listItem.value).apply()
                 dialog!!.cancel()
                 requireActivity().setResult(AppCompatActivity.RESULT_OK)
@@ -56,7 +56,6 @@ class DialogListView : CustomDialog() {
             }
         })
         binding.dialogListViewListView.adapter = adapter
-        
         
         return binding.root
     }

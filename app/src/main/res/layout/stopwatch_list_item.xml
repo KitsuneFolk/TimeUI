@@ -3,39 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/itemSize"
-    app:layout_constraintVertical_bias="0.0">
+    android:orientation="horizontal"
+    android:layout_height="@dimen/itemSize">
 
-    <LinearLayout
-        android:id="@+id/timer_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/red"
-        android:gravity="end|center_vertical"
-        android:orientation="horizontal"
-        tools:visibility="visible">
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/stopwatchBackground"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@color/red"-->
+    <!--        android:gravity="end|center_vertical"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        tools:visibility="gone">-->
 
-        <TextView
-            android:id="@+id/stopwatchDeleteTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:gravity="center_vertical"
-            android:text="@string/delete"
-            android:textColor="@android:color/white"
-            android:textSize="13sp" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/stopwatchDeleteTextView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginEnd="10dp"-->
+    <!--            android:gravity="center_vertical"-->
+    <!--            android:text="@string/delete"-->
+    <!--            android:textColor="@android:color/white"-->
+    <!--            android:textSize="13sp" />-->
 
-        <ImageView
-            android:id="@+id/stopwatchDeleteImageview"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete" />
+    <!--        <ImageView-->
+    <!--            android:id="@+id/stopwatchDeleteImageview"-->
+    <!--            android:layout_width="24dp"-->
+    <!--            android:layout_height="24dp"-->
+    <!--            android:layout_marginEnd="25dp"-->
+    <!--            app:srcCompat="@drawable/ic_delete" />-->
 
-    </LinearLayout>
+    <!--    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/stopwatchForeground"
@@ -53,7 +50,8 @@
             android:layout_marginStart="5dp"
             android:src="@drawable/ic_stop"
             android:stateListAnimator="@animator/increase_size_normal_animator"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/stopwatchResetBtn"
@@ -67,7 +65,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <com.pandacorp.timeui.presentation.utils.StopwatchView
-            android:id="@+id/stopwatchTextView"
+            android:id="@+id/stopwatchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -95,7 +93,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:backgroundTint="?android:colorBackground"
             android:stateListAnimator="@animator/increase_size_normal_animator"
             app:srcCompat="@drawable/ic_three_dots_menu" />
     </LinearLayout>

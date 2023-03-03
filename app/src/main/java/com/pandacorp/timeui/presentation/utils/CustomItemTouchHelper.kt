@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
-import android.util.Log
 import android.util.TypedValue
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
@@ -16,7 +15,7 @@ import com.pandacorp.timeui.presentation.ui.timer.adapter.TimerAdapter
 
 class CustomItemTouchHelper(
     private val context: Context,
-    private val key: Int,
+    private val key: Constans.ITHKey,
     private val onTouchListener: OnTouchListener
 ) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -103,7 +102,6 @@ class CustomItemTouchHelper(
         isCurrentlyActive: Boolean,
         foregroundView: LinearLayout
     ) {
-        Log.d(TAG, "setCorners: dX = $dX")
         if (dX < 0) { // add rounded corners
             if (isRoundCorners) {
                 isRoundCorners = false
@@ -175,7 +173,6 @@ class CustomItemTouchHelper(
         
         return when (key) {
             Constans.ITHKey.TIMER -> (viewHolder as TimerAdapter.ViewHolder).foreground
-            // Constans.ITHKey.STOPWATCH -> (viewHolder as StopwatchAdapter.ViewHolder).foreground
             Constans.ITHKey.STOPWATCH -> (viewHolder as StopwatchAdapter.ViewHolder).foreground
             else -> throw IllegalArgumentException("Unexpected value: key = $key")
         }

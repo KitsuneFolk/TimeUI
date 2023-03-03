@@ -2,7 +2,6 @@ package com.pandacorp.timeui.presentation.ui.stopwatch.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,32 +37,24 @@ class StopwatchAdapter(private var context: Context) :
     
     private class StopwatchDiffCallback : DiffUtil.ItemCallback<StopwatchItem>() {
         override fun areItemsTheSame(oldItem: StopwatchItem, newItem: StopwatchItem): Boolean {
-            Log.d(
-                    TAG,
-                    "areItemsTheSame: oldItem.status = ${oldItem.status}, newItem.status = ${newItem.status}")
             val result =
                 (oldItem.uuid == newItem.uuid && newItem.startSysTime == oldItem.startSysTime
                         && oldItem.stopTime == newItem.stopTime && oldItem.status == newItem.status)
-            Log.d(TAG, "areItemsTheSame: $result")
             return result
         }
         
         
         override fun areContentsTheSame(oldItem: StopwatchItem, newItem: StopwatchItem): Boolean {
-            Log.d(
-                    TAG,
-                    "areContentsTheSame: oldItem.status = ${oldItem.status}, newItem.status = ${newItem.status}")
-            Log.d(TAG, "areContentsTheSame: ${oldItem == newItem}")
             return oldItem == newItem
             
         }
     }
     
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val stopBtn = itemView.findViewById<ImageView>(R.id.stopwatchStopBtn)!!
         val resetBtn = itemView.findViewById<ImageView>(R.id.stopwatchResetBtn)!!
         val startBtn = itemView.findViewById<ImageView>(R.id.stopwatchStartBtn)!!
-        val stopwatch = itemView.findViewById<StopwatchView>(R.id.stopwatchTextView)!!
+        val stopwatch = itemView.findViewById<StopwatchView>(R.id.stopwatchView)!!
         val threeDotsMenu = itemView.findViewById<ImageView>(R.id.stopwatchMenu)!!
         val foreground = itemView.findViewById<LinearLayout>(R.id.stopwatchForeground)!!
     }
@@ -80,7 +71,6 @@ class StopwatchAdapter(private var context: Context) :
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val stopwatchItem = getItem(position)
-        Log.d(TAG, "onBindViewHolder: position = ${holder.adapterPosition}")
         holder.stopwatch.setOnClickListener {
             val intent =
                 Intent(context, StopWatchActivity::class.java)
@@ -196,7 +186,6 @@ class StopwatchAdapter(private var context: Context) :
     }
     
     override fun submitList(list: MutableList<StopwatchItem>?) {
-        Log.d(TAG, "submitList")
         val newList = list?.let { ArrayList(it) }
         super.submitList(newList)
     }

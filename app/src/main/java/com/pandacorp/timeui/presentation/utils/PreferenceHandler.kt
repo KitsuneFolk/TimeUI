@@ -8,15 +8,16 @@ import com.pandacorp.timeui.R
 import java.util.*
 
 class PreferenceHandler(private val context: Context) {
-    private val TAG = "Utils"
-    
-    private val themeFollowSystem = "follow_system"
-    private val themeBlue = "blue"
-    private val themeDark = "dark"
-    private val themeRed = "red"
-    private val themePurple = "purple"
-    
-    private val themeDefault = themeFollowSystem
+    companion object {
+        private const val TAG = Utils.TAG
+        const val themeFollowSystem = "follow_system"
+        const val themeBlue = "blue"
+        const val themeDark = "dark"
+        const val themeRed = "red"
+        const val themePurple = "purple"
+        
+        const val themeDefault = themeFollowSystem
+    }
     
     private val russianLocale = Locale("ru")
     private val englishLocale = Locale("en")
@@ -25,7 +26,6 @@ class PreferenceHandler(private val context: Context) {
     private var sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     
     fun load() {
-        val sp = PreferenceManager.getDefaultSharedPreferences(context)
         val theme = sp.getString(Constans.PreferencesKeys.themesKey, themeDefault)!!
         val language = sp.getString(Constans.PreferencesKeys.languagesKey, "")!!
         setMyTheme(context, theme)
@@ -66,7 +66,7 @@ class PreferenceHandler(private val context: Context) {
         context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
     }
     
-    private fun isDeviceDarkMode(): Boolean =
+    fun isDeviceDarkMode(): Boolean =
         (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     
 }

@@ -1,26 +1,26 @@
 package com.pandacorp.timeui.data.database
 
 import androidx.room.*
-import com.pandacorp.timeui.domain.models.StopwatchItem
+import com.pandacorp.timeui.data.models.StopwatchDataItem
 
 @Dao
 interface StopwatchDao {
-    @Query("SELECT * FROM stopwatchItem")
-    fun getAll(): MutableList<StopwatchItem>
+    @Query("SELECT * FROM stopwatchDataItem")
+    fun getAll(): MutableList<StopwatchDataItem>
     
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(item: StopwatchItem)
+    fun update(item: StopwatchDataItem)
     
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateAll(items: MutableList<StopwatchItem>)
+    fun updateAll(items: MutableList<StopwatchDataItem>)
     
     @Insert
-    fun insert(item: StopwatchItem)
+    fun insert(item: StopwatchDataItem)
     
     @Delete
-    fun remove(item: StopwatchItem)
+    fun remove(item: StopwatchDataItem)
     
-    @Query("DELETE FROM stopwatchItem")
+    @Query("DELETE FROM stopwatchDataItem")
     fun removeAll()
     
 }

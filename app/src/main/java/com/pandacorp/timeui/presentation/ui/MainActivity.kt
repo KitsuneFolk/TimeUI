@@ -6,10 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.databinding.ActivityMainBinding
+import com.pandacorp.timeui.presentation.di.app.App
 import com.pandacorp.timeui.presentation.ui.settings.SettingsActivity
 import com.pandacorp.timeui.presentation.utils.PreferenceHandler
 import dagger.android.AndroidInjection
@@ -19,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         const val TAG = "MainActivity"
     }
     
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     
     private val preferencesResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) {
@@ -34,12 +37,15 @@ class MainActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         PreferenceHandler(this).load()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbarInclude.toolbar)
-        
-        val navController = findNavController(R.id.nav_host_fragment)
+    
+        val navController: NavController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController)
+        val fragmentId = (application as App).getFragmentId()
+        if (fragmentId != 0) binding.navView.selectedItemId = fragmentId
+    
     }
     
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,7 +62,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-        
     }
     
+    override fun onStop() {
+        (application as App).setFragmentId(fragmentId = binding.navView.selectedItemId)
+        super.onStop()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

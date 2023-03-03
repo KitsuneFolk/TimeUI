@@ -2,7 +2,6 @@ package com.pandacorp.timeui.presentation.utils
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.appcompat.widget.AppCompatTextView
 import com.pandacorp.timeui.presentation.ui.stopwatch.adapter.StopwatchAdapter
 
@@ -24,7 +23,6 @@ class StopwatchView : AppCompatTextView {
      * @param milliseconds - the millisecond we should start count from
      */
     fun start(milliseconds: Long = 0L) {
-        Log.d(TAG, "start: milliseconds = $milliseconds")
         stopwatch?.cancel()
         stopwatch = null
         this.milliseconds = milliseconds - 1000L // Add delay
@@ -37,7 +35,6 @@ class StopwatchView : AppCompatTextView {
                 milliseconds += 1000L
                 val time = getFormattedTime(milliseconds)
                 text = time
-                Log.d(TAG, "onTick: text = $text")
             }
             
         }
@@ -60,7 +57,6 @@ class StopwatchView : AppCompatTextView {
     }
     
     fun setTime(milliseconds: Long) {
-        Log.d(TAG, "setTime: time = $milliseconds")
         stopwatch?.cancel()
         
         this.milliseconds = milliseconds

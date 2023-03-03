@@ -1,6 +1,5 @@
 package com.pandacorp.timeui.presentation.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +22,10 @@ class StopwatchViewModel @Inject constructor(
     private val updateAllUseCase: UpdateAllStopwatchesUseCase
 ) :
     ViewModel() {
-    private val TAG = StopWatchFragment.TAG
+    companion object {
+        private const val TAG = StopWatchFragment.TAG
+    }
+    
     private val _stopwatchesList = MutableLiveData<MutableList<StopwatchItem>>().apply {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -36,7 +38,6 @@ class StopwatchViewModel @Inject constructor(
     val stopwatchesList: LiveData<MutableList<StopwatchItem>> = _stopwatchesList
     
     fun addItem(stopwatchItem: StopwatchItem) {
-        Log.d(TAG, "addItem:")
         _stopwatchesList.value?.add(0, stopwatchItem)
         _stopwatchesList.postValue(_stopwatchesList.value)
         CoroutineScope(Dispatchers.IO).launch { addUseCase(stopwatchItem) }
@@ -50,7 +51,6 @@ class StopwatchViewModel @Inject constructor(
     }
     
     fun removeItemAt(position: Int): Boolean {
-        Log.d(TAG, "removeItemAt: position = $position")
         removeItem(_stopwatchesList.value?.get(position) ?: return false)
         return true
     }
@@ -74,9 +74,6 @@ class StopwatchViewModel @Inject constructor(
     }
     
     fun updateItem(position: Int, stopwatchItem: StopwatchItem) {
-        Log.d(
-                TAG,
-                "updateItem: position = $position, stopwatchItem.status = ${stopwatchItem.status}")
         _stopwatchesList.value?.set(position, stopwatchItem)
         _stopwatchesList.postValue(_stopwatchesList.value)
         CoroutineScope(Dispatchers.IO).launch {

@@ -22,7 +22,9 @@ class TimerViewModel @Inject constructor(
     private val updateAllTimersUseCase: UpdateAllTimersUseCase
 ) :
     ViewModel() {
-    private val TAG = TimerFragment.TAG
+    companion object {
+        private const val TAG = TimerFragment.TAG
+    }
     
     private val _timersList = MutableLiveData<MutableList<TimerItem>>().apply {
         viewModelScope.launch {
@@ -35,22 +37,13 @@ class TimerViewModel @Inject constructor(
     }
     val timersList: LiveData<MutableList<TimerItem>> = _timersList
     
-    
-    init {
-        _timersList.value?.clear()
-        CoroutineScope(Dispatchers.IO).launch {
-            val timers = getTimersUseCase()
-            this@TimerViewModel._timersList.postValue(timers)
-        }
-    }
-    
-    fun add(timerItem: TimerItem) {
+    fun addItem(timerItem: TimerItem) {
         _timersList.value?.add(0, timerItem)
         _timersList.postValue(_timersList.value)
         CoroutineScope(Dispatchers.IO).launch { addItemUseCase(timerItem) }
     }
     
-    fun remove(timerItem: TimerItem) {
+    fun removeItem(timerItem: TimerItem) {
         _timersList.value?.remove(timerItem)
         _timersList.postValue(_timersList.value)
         
@@ -58,7 +51,7 @@ class TimerViewModel @Inject constructor(
     }
     
     fun removeItemAt(position: Int): Boolean {
-        remove(_timersList.value?.get(position) ?: return false)
+        removeItem(_timersList.value?.get(position) ?: return false)
         return true
     }
     
@@ -73,6 +66,7 @@ class TimerViewModel @Inject constructor(
     }
     
     fun updateAll(timers: MutableList<TimerItem>) {
+        _timersList.value = timers
         _timersList.postValue(timers)
         CoroutineScope(Dispatchers.IO).launch {
             updateAllTimersUseCase(timers)

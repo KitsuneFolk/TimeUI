@@ -10,6 +10,6 @@ import javax.inject.Singleton
 @Singleton
 class RemoveStopwatchUseCase @Inject constructor(private val stopwatchRepository: StopwatchRepository) {
     suspend operator fun invoke(item: StopwatchItem) = withContext(Dispatchers.IO) {
-        stopwatchRepository.remove(item)
+        stopwatchRepository.removeItem(item)
     }
 }

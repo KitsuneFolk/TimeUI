@@ -59,11 +59,11 @@ class ListAdapter(
     }
     
     interface OnListItemClickListener {
-        fun onClick(view: View?, listItem: ListItem, position: Int)
+        fun onClick(view: View, listItem: ListItem, position: Int)
     }
     
     interface OnListItemLongClickListener {
-        fun onLongClick(view: View?, listItem: ListItem, position: Int)
+        fun onLongClick(view: View, listItem: ListItem, position: Int)
     }
 }
     

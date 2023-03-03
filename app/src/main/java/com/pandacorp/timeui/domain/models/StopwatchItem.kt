@@ -1,18 +1,14 @@
 package com.pandacorp.timeui.domain.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
 
-@Entity
 data class StopwatchItem(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    @ColumnInfo(name = "uuid") var uuid: UUID = UUID.randomUUID(),
-    @ColumnInfo(name = "startSysTime") var startSysTime: Long = 0L,
-    @ColumnInfo(name = "stopTime") var stopTime: Long = 0,
-    @ColumnInfo(name = "status") var status: Int = ADDED
+    var id: Long = 0,
+    var uuid: UUID = UUID.randomUUID(),
+    var startSysTime: Long = 0L,
+    var stopTime: Long = 0,
+    var status: Int = ADDED
 ) : Serializable {
     
     companion object {

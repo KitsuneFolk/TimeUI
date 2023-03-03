@@ -26,6 +26,10 @@ import com.pandacorp.timeui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.timeui.presentation.utils.Utils
 import com.pandacorp.timeui.presentation.vm.StopwatchViewModel
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StopWatchFragment : Fragment() {
@@ -40,7 +44,8 @@ class StopWatchFragment : Fragment() {
         viewModelFactory
     }
     
-    private lateinit var binding: FragmentStopwatchBinding
+    private var _binding: FragmentStopwatchBinding? = null
+    private val binding get() = _binding!!
     
     private lateinit var customAdapter: StopwatchAdapter
     
@@ -65,7 +70,7 @@ class StopWatchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         Utils.setupExceptionHandler()
-        binding = FragmentStopwatchBinding.inflate(inflater)
+        _binding = FragmentStopwatchBinding.inflate(inflater)
         
         checkIsFirstTime()
         initViews()
@@ -75,6 +80,7 @@ class StopWatchFragment : Fragment() {
     
     private fun initViews() {
         initRecyclerView()
+    
         binding.stopwatchAddFab.apply {
             stateListAnimator = AnimatorInflater.loadStateListAnimator(
                     requireContext(),
@@ -94,26 +100,31 @@ class StopWatchFragment : Fragment() {
                 viewHolder.stopwatch.cancel()
                 vm.removeItemAt(position)
             }
-            
+    
             override fun onStopwatchUpdate(position: Int, stopwatchItem: StopwatchItem) {
                 vm.updateItem(position, stopwatchItem)
             }
-            
-            
+    
+    
             override fun onStopwatchClicked():
                     ActivityResultLauncher<Intent> = onStopwatchClickedResultLauncher
-            
+    
         })
-        binding.stopwatchRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.stopwatchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    
         binding.stopwatchRecyclerView.adapter = customAdapter
-        
-        vm.stopwatchesList.observe(viewLifecycleOwner) {
-            customAdapter.submitList(it)
+    
+        // Add delay to properly animate transition between fragments and remove lags
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(Constans.TIME_DELAY)
+            vm.stopwatchesList.observe(viewLifecycleOwner) {
+                customAdapter.submitList(it)
+            }
         }
+    
         enableSwipe()
-        
+    
         registerForContextMenu(binding.stopwatchRecyclerView)
-        
     }
     
     private fun checkIsFirstTime() {
@@ -155,7 +166,7 @@ class StopWatchFragment : Fragment() {
     
     override fun onDestroy() {
         // Get all active StopwatchView's from adapter and cancel them
-        customAdapter.currentList.forEachIndexed { i, stopwatchItem ->
+        customAdapter.currentList.forEachIndexed { i, _ ->
             val viewHolder = binding.stopwatchRecyclerView.findViewHolderForAdapterPosition(i)
             if (viewHolder != null) {
                 (viewHolder as StopwatchAdapter.ViewHolder).stopwatch.cancel()
@@ -163,5 +174,6 @@ class StopWatchFragment : Fragment() {
         
         }
         super.onDestroy()
+        _binding = null
     }
 }

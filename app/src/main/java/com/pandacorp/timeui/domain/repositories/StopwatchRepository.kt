@@ -5,13 +5,13 @@ import com.pandacorp.timeui.domain.models.StopwatchItem
 interface StopwatchRepository {
     fun getAll(): MutableList<StopwatchItem>
     
-    fun updateItem(item: StopwatchItem)
+    fun updateItem(stopwatchItem: StopwatchItem)
     
-    fun updateAll(items: MutableList<StopwatchItem>)
+    fun updateAll(stopwatches: MutableList<StopwatchItem>)
     
-    fun insert(item: StopwatchItem)
+    fun insertItem(stopwatchItem: StopwatchItem)
     
-    fun remove(item: StopwatchItem)
+    fun removeItem(stopwatchItem: StopwatchItem)
     
     fun removeAll()
     

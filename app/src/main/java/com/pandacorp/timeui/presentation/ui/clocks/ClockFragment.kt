@@ -16,7 +16,8 @@ class ClockFragment : Fragment() {
         const val TAG = "ClockFragment"
     }
     
-    private lateinit var binding: FragmentClockBinding
+    private var _binding: FragmentClockBinding? = null
+    private val binding get() = _binding!!
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +26,7 @@ class ClockFragment : Fragment() {
     ): View {
         Utils.setupExceptionHandler()
         //Setting the app name for the action_bar
-        binding = FragmentClockBinding.inflate(inflater)
+        _binding = FragmentClockBinding.inflate(inflater)
         initViews()
         
         return binding.root
@@ -39,14 +40,18 @@ class ClockFragment : Fragment() {
             Locale.JAPAN -> "yyyy.dd.MM"
             else -> "dd.MM.yyyy"
         }
-        
+    
         val dateString = SimpleDateFormat(pattern).format(Date())
         binding.dateTv.text = dateString
-        
+    
         val dayString = SimpleDateFormat("EEEE").format(Date())
         binding.dayTv.text = dayString
-        
+    
     }
     
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
     
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.room.Room
 import com.pandacorp.timeui.data.database.Database
 import com.pandacorp.timeui.data.database.TimerDao
+import com.pandacorp.timeui.data.mappers.TimerMapper
 import com.pandacorp.timeui.data.repositories.TimerRepositoryImpl
 import com.pandacorp.timeui.domain.repositories.TimerRepository
 import com.pandacorp.timeui.domain.usecases.timer.*
@@ -26,11 +27,14 @@ class TimerModule {
     }
     
     @Provides
+    fun provideTimerMapper(): TimerMapper = TimerMapper()
+    
+    @Provides
     fun provideTimerDao(database: Database): TimerDao = database.timerDao()
     
     @Provides
-    fun provideTimerRepositoryImpl(timerDao: TimerDao): TimerRepository =
-        TimerRepositoryImpl(timerDao)
+    fun provideTimerRepositoryImpl(timerDao: TimerDao, timerMapper: TimerMapper): TimerRepository =
+        TimerRepositoryImpl(timerDao, timerMapper)
     
     @Provides
     fun provideAddTimerUseCase(timerRepositoryImpl: TimerRepository): AddTimerUseCase =

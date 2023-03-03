@@ -2,15 +2,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="BaseTheme" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorHint">@color/white</item>
-        <item name="rippleColor">@color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="rippleColor">@android:color/white</item>
         <item name="android:statusBarColor">?colorPrimary</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <!--  Needed for Bottom Navigation Menu selected item color  -->
         <item name="colorSecondaryContainer">@android:color/white</item>
         <!--  Needed for Back arrow color  -->
-        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>

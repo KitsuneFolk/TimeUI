@@ -11,7 +11,8 @@ import com.pandacorp.timeui.presentation.utils.Constans
 import com.pandacorp.timeui.presentation.utils.PreferenceHandler
 
 class TimerActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityTimerBinding
+    private var _binding: ActivityTimerBinding? = null
+    private val binding get() = _binding!!
     
     private var position: Int = -1
     private lateinit var timerItem: TimerItem
@@ -19,7 +20,7 @@ class TimerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceHandler(this).load()
-        binding = ActivityTimerBinding.inflate(layoutInflater)
+        _binding = ActivityTimerBinding.inflate(layoutInflater)
         setSupportActionBar(binding.timerToolbarInclude.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
@@ -140,6 +141,7 @@ class TimerActivity : AppCompatActivity() {
     override fun onDestroy() {
         binding.timerActivityCountdown.stop()
         super.onDestroy()
+        _binding = null
     }
     
     

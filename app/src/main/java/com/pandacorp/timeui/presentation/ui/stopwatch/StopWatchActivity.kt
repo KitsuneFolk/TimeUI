@@ -2,7 +2,6 @@ package com.pandacorp.timeui.presentation.ui.stopwatch
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +15,8 @@ class StopWatchActivity : AppCompatActivity() {
         private const val TAG = StopWatchFragment.TAG
     }
     
-    private lateinit var binding: ActivityStopWatchBinding
+    private var _binding: ActivityStopWatchBinding? = null
+    private val binding get() = _binding!!
     
     private lateinit var stopwatchItem: StopwatchItem
     private var position: Int = -1
@@ -24,7 +24,7 @@ class StopWatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceHandler(this).load()
-        binding = ActivityStopWatchBinding.inflate(layoutInflater)
+        _binding = ActivityStopWatchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.stopwatchToolbarInclude.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -72,7 +72,6 @@ class StopWatchActivity : AppCompatActivity() {
             binding.stopwatchActivitySV.cancel()
         
             stopwatchItem.stopTime = binding.stopwatchActivitySV.getTime()
-            Log.d(TAG, "initViews: stopTime = ${stopwatchItem.stopTime}")
         
             stopwatchItem.status = StopwatchItem.STOPED
             binding.stopwatchActivityStopBtn.visibility = View.GONE
@@ -148,5 +147,6 @@ class StopWatchActivity : AppCompatActivity() {
     override fun onDestroy() {
         binding.stopwatchActivitySV.cancel()
         super.onDestroy()
+        _binding = null
     }
 }

@@ -5,11 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.pandacorp.timeui.R;
-import com.pandacorp.timeui.presentation.ui.timer.adapter.TimerAdapter;
 
 /**
  * Countdown View
@@ -268,7 +266,6 @@ public class CountdownView extends View {
     }
 
     public void updateShow(long ms) {
-        Log.d(TimerAdapter.TAG, "updateShow: ms = " + ms);
         this.mRemainTime = ms;
 
         reSetTime(ms);

@@ -11,7 +11,9 @@ import androidx.preference.PreferenceManager
 import com.pandacorp.timeui.presentation.ui.settings.SettingsActivity
 
 abstract class CustomDialog : DialogFragment() {
-    protected val TAG = SettingsActivity.TAG
+    companion object {
+        protected const val TAG = SettingsActivity.TAG
+    }
     
     protected val sp: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(requireContext())

@@ -10,6 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.pandacorp.timeui.R
+import com.pandacorp.timeui.databinding.ActivitySettingsBinding
 import com.pandacorp.timeui.presentation.ui.settings.dialogs.DialogListView
 import com.pandacorp.timeui.presentation.utils.Constans
 import com.pandacorp.timeui.presentation.utils.PreferenceHandler
@@ -17,10 +18,14 @@ import com.pandacorp.timeui.presentation.utils.PreferenceHandler
 class SettingsActivity : AppCompatActivity() {
     private lateinit var sp: SharedPreferences
     
+    private var _binding: ActivitySettingsBinding? = null
+    private val binding get() = _binding!!
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PreferenceHandler(this).load()
-        setContentView(R.layout.activity_settings)
+        _binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.settings, SettingsFragment())
@@ -41,6 +46,11 @@ class SettingsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
+    }
+    
     class SettingsFragment : PreferenceFragmentCompat() {
         private lateinit var sp: SharedPreferences
         private var themesListPreference: ListPreference? = null
@@ -52,11 +62,11 @@ class SettingsActivity : AppCompatActivity() {
             themesListPreference = findPreference(Constans.PreferencesKeys.themesKey)
             languagesListPreference = findPreference(Constans.PreferencesKeys.languagesKey)
             versionPreference = findPreference(Constans.PreferencesKeys.versionKey)
+            // Here we add version title to this preference, we get version from build.gradle file.
             try {
                 versionPreference!!.title =
                     resources.getString(R.string.version) + " " + requireContext().packageManager
                         .getPackageInfo(requireContext().packageName, 0).versionName
-                //Тут происходит добавление загаловка в виде версии к пункту настроек.
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
             }

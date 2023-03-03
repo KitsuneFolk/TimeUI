@@ -31,6 +31,10 @@ import com.pandacorp.timeui.presentation.utils.Utils
 import com.pandacorp.timeui.presentation.vm.TimerViewModel
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -39,7 +43,8 @@ class TimerFragment : DaggerFragment() {
         const val TAG = "TimerFragment"
     }
     
-    private lateinit var binding: FragmentTimerBinding
+    private var _binding: FragmentTimerBinding? = null
+    private val binding get() = _binding!!
     
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -72,7 +77,7 @@ class TimerFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View {
         Utils.setupExceptionHandler()
-        binding = FragmentTimerBinding.inflate(inflater)
+        _binding = FragmentTimerBinding.inflate(inflater)
         
         initViews()
         checkIsFirstTime()
@@ -119,24 +124,25 @@ class TimerFragment : DaggerFragment() {
                             vm.removeItemAt(position)
                         }
                     }
-                    
+    
                 })
         ItemTouchHelper(ith).attachToRecyclerView(binding.timerRecyclerView)
-        
+    
         registerForContextMenu(binding.timerRecyclerView)
-        
+    
         val dialog = initDialog()
         binding.timerAddFab.setOnClickListener { dialog.show() }
         binding.timerAddFab.stateListAnimator = AnimatorInflater.loadStateListAnimator(
                 requireContext(),
                 R.animator.increase_size_normal_animator)
-        
-        
-        vm.timersList.observe(viewLifecycleOwner) {
-            customAdapter.submitList(it)
+    
+        // Add delay to properly animate transition between fragments and remove lags
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(Constans.TIME_DELAY)
+            vm.timersList.observe(viewLifecycleOwner) {
+                customAdapter.submitList(it)
+            }
         }
-        
-        
     }
     
     private fun initDialog(): Dialog {
@@ -161,7 +167,7 @@ class TimerFragment : DaggerFragment() {
             
             val timerItem =
                 TimerItem(startTime = startTime, currentTime = startTime, status = status)
-            vm.add(timerItem)
+            vm.addItem(timerItem)
             dialog.dismiss()
         }
         dialogTimePickerCancel.setOnClickListener {
@@ -181,7 +187,7 @@ class TimerFragment : DaggerFragment() {
             val startTime = (5 * 60 * 1000).toLong()
             val timerItem =
                 TimerItem(startTime = startTime, currentTime = startTime, status = TimerItem.ADDED)
-            vm.add(timerItem)
+            vm.addItem(timerItem)
             edit.putBoolean("isTimerFirstTime", false)
             edit.apply()
         }
@@ -197,5 +203,6 @@ class TimerFragment : DaggerFragment() {
         
         }
         super.onDestroy()
+        _binding = null
     }
 }

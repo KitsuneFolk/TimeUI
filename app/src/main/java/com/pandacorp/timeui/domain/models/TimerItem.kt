@@ -1,18 +1,14 @@
 package com.pandacorp.timeui.domain.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
 
-@Entity
 data class TimerItem(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
-    @ColumnInfo(name = "startTime") var startTime: Long,
-    @ColumnInfo(name = "currentTime") var currentTime: Long,
-    @ColumnInfo(name = "status") var status: Int,
-    @ColumnInfo(name = "uuid") var uuid: UUID = UUID.randomUUID()
+    var id: Int = 0,
+    var uuid: UUID = UUID.randomUUID(),
+    var startTime: Long,
+    var currentTime: Long,
+    var status: Int
 ) : Serializable {
     companion object STATUS {
         //If timer was added

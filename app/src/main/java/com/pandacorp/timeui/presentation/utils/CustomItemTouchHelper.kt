@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.pandacorp.timeui.presentation.ui.clock.ClockAdapter
 import com.pandacorp.timeui.presentation.ui.stopwatch.adapter.StopwatchAdapter
 import com.pandacorp.timeui.presentation.ui.timer.adapter.TimerAdapter
 
@@ -19,6 +20,8 @@ class CustomItemTouchHelper(
     private val onTouchListener: OnTouchListener
 ) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    
+    var isRoundedCornersEnabled: Boolean = true // Should we round corners on swipe or no
     
     interface OnTouchListener {
         fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int)
@@ -39,6 +42,14 @@ class CustomItemTouchHelper(
         val tv = TypedValue()
         context.theme.resolveAttribute(android.R.attr.colorBackground, tv, true)
         backgroundColor = tv.data
+    }
+    
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        if (viewHolder is ClockAdapter.ViewHolder && viewHolder.adapterPosition == 0) return 0 // don't allow to remove default clocks
+        return super.getSwipeDirs(recyclerView, viewHolder)
     }
     
     override fun onMove(
@@ -102,6 +113,8 @@ class CustomItemTouchHelper(
         isCurrentlyActive: Boolean,
         foregroundView: LinearLayout
     ) {
+        if (!isRoundedCornersEnabled) return
+    
         if (dX < 0) { // add rounded corners
             if (isRoundCorners) {
                 isRoundCorners = false
@@ -174,7 +187,7 @@ class CustomItemTouchHelper(
         return when (key) {
             Constans.ITHKey.TIMER -> (viewHolder as TimerAdapter.ViewHolder).foreground
             Constans.ITHKey.STOPWATCH -> (viewHolder as StopwatchAdapter.ViewHolder).foreground
-            else -> throw IllegalArgumentException("Unexpected value: key = $key")
+            Constans.ITHKey.CLOCK -> (viewHolder as ClockAdapter.ViewHolder).binding.clockForeground
         }
     }
 }

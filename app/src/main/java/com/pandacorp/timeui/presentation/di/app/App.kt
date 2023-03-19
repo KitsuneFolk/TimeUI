@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 
 class App : Application(), HasAndroidInjector {
-    private var fragmentId: Int = 0
+    var fragmentId: Int = 0
     
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
@@ -20,10 +20,4 @@ class App : Application(), HasAndroidInjector {
     }
     
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
-    
-    fun setFragmentId(fragmentId: Int) {
-        this.fragmentId = fragmentId
-    }
-    
-    fun getFragmentId(): Int = fragmentId
 }

@@ -31,10 +31,6 @@ import com.pandacorp.timeui.presentation.utils.Utils
 import com.pandacorp.timeui.presentation.vm.TimerViewModel
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -61,7 +57,7 @@ class TimerFragment : DaggerFragment() {
             it.data?.let { data -> // If it is null, then user didn't click any button
                 val position = data.getIntExtra(Constans.IntentItemPosition, -1)
                 val timerItem = data.getSerializableExtra(Constans.IntentItem) as TimerItem
-                
+    
                 vm.updateItem(position = position, timerItem = timerItem)
             }
         }
@@ -69,6 +65,13 @@ class TimerFragment : DaggerFragment() {
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm.timersList.observe(viewLifecycleOwner) {
+            customAdapter.submitList(it)
+        }
     }
     
     override fun onCreateView(
@@ -94,6 +97,7 @@ class TimerFragment : DaggerFragment() {
             ) {
                 viewHolder.countdown.stop()
                 vm.removeItemAt(position)
+                Utils.handleShowingFAB(binding.timerRecyclerView, binding.timerAddFab)
             }
             
             override fun onTimerUpdate(position: Int, timerItem: TimerItem) {
@@ -122,6 +126,7 @@ class TimerFragment : DaggerFragment() {
                             viewHolder.countdown.stop()
                             val position = viewHolder.adapterPosition
                             vm.removeItemAt(position)
+                            Utils.handleShowingFAB(binding.timerRecyclerView, binding.timerAddFab)
                         }
                     }
     
@@ -135,14 +140,6 @@ class TimerFragment : DaggerFragment() {
         binding.timerAddFab.stateListAnimator = AnimatorInflater.loadStateListAnimator(
                 requireContext(),
                 R.animator.increase_size_normal_animator)
-    
-        // Add delay to properly animate transition between fragments and remove lags
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(Constans.TIME_DELAY)
-            vm.timersList.observe(viewLifecycleOwner) {
-                customAdapter.submitList(it)
-            }
-        }
     }
     
     private fun initDialog(): Dialog {
@@ -180,15 +177,15 @@ class TimerFragment : DaggerFragment() {
     }
     
     private fun checkIsFirstTime() {
-        //If app opened first time then add one test timer for user.
+        //If app opened first time then add a timer for user.
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        if (sp.getBoolean("isTimerFirstTime", true)) {
+        if (sp.getBoolean(Constans.SP.isTimerFirstTime, true)) {
             val edit = sp.edit()
             val startTime = (5 * 60 * 1000).toLong()
             val timerItem =
                 TimerItem(startTime = startTime, currentTime = startTime, status = TimerItem.ADDED)
             vm.addItem(timerItem)
-            edit.putBoolean("isTimerFirstTime", false)
+            edit.putBoolean(Constans.SP.isTimerFirstTime, false)
             edit.apply()
         }
     }
@@ -200,7 +197,7 @@ class TimerFragment : DaggerFragment() {
             if (viewHolder != null) {
                 (viewHolder as TimerAdapter.ViewHolder).countdown.stop()
             }
-        
+    
         }
         super.onDestroy()
         _binding = null

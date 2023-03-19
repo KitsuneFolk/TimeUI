@@ -3,36 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_height="@dimen/itemSize">
+    android:layout_height="@dimen/itemSize"
+    android:orientation="horizontal">
 
-    <!--    <LinearLayout-->
-    <!--        android:id="@+id/stopwatchBackground"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="@color/red"-->
-    <!--        android:gravity="end|center_vertical"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        tools:visibility="gone">-->
+    <LinearLayout
+        android:id="@+id/stopwatchBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/red"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal"
+        tools:visibility="gone">
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/stopwatchDeleteTextView"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginEnd="10dp"-->
-    <!--            android:gravity="center_vertical"-->
-    <!--            android:text="@string/delete"-->
-    <!--            android:textColor="@android:color/white"-->
-    <!--            android:textSize="13sp" />-->
+        <TextView
+            android:id="@+id/stopwatchDeleteTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/delete"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
 
-    <!--        <ImageView-->
-    <!--            android:id="@+id/stopwatchDeleteImageview"-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_marginEnd="25dp"-->
-    <!--            app:srcCompat="@drawable/ic_delete" />-->
+        <ImageView
+            android:id="@+id/stopwatchDeleteImageview"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="25dp"
+            app:srcCompat="@drawable/ic_delete" />
 
-    <!--    </LinearLayout>-->
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/stopwatchForeground"

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pandacorp.timeui.domain.models.StopwatchItem
 import com.pandacorp.timeui.domain.usecases.stopwatch.*
-import com.pandacorp.timeui.presentation.ui.stopwatch.StopWatchFragment
+import com.pandacorp.timeui.presentation.ui.stopwatch.StopwatchFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class StopwatchViewModel @Inject constructor(
 ) :
     ViewModel() {
     companion object {
-        private const val TAG = StopWatchFragment.TAG
+        private const val TAG = StopwatchFragment.TAG
     }
     
     private val _stopwatchesList = MutableLiveData<MutableList<StopwatchItem>>().apply {

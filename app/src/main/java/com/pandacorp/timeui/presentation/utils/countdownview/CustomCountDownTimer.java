@@ -1,6 +1,7 @@
 package com.pandacorp.timeui.presentation.utils.countdownview;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 
@@ -92,7 +93,7 @@ public abstract class CustomCountDownTimer {
     public abstract void onFinish();
 
 
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
         @Override
         public void handleMessage(Message msg) {

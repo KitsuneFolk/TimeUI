@@ -27,8 +27,11 @@
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
     <string name="settings_another">Другое</string>
 
-    <string name="timer_dialog_title">Время</string>
+    <string name="selectTime">Выбирите время</string>
     <string name="cancel">Отменить</string>
 
+    <string name="selectTimeZone">Выберите часовую зону</string>
+    <string name="clockAlreadyAdded">Эти часы уже добавлены</string>
+    <string name="clockDefaultSwiped">Вы не можете удалить базовые часы</string>
 
 </resources>

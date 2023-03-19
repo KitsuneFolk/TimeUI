@@ -12,7 +12,7 @@ import com.pandacorp.timeui.presentation.utils.PreferenceHandler
 
 class StopWatchActivity : AppCompatActivity() {
     companion object {
-        private const val TAG = StopWatchFragment.TAG
+        private const val TAG = StopwatchFragment.TAG
     }
     
     private var _binding: ActivityStopWatchBinding? = null
@@ -146,7 +146,7 @@ class StopWatchActivity : AppCompatActivity() {
     
     override fun onDestroy() {
         binding.stopwatchActivitySV.cancel()
-        super.onDestroy()
         _binding = null
+        super.onDestroy()
     }
 }

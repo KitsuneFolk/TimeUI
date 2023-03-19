@@ -2,6 +2,7 @@ package com.pandacorp.timeui.presentation.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.pandacorp.timeui.presentation.vm.ClockViewModel
 import com.pandacorp.timeui.presentation.vm.StopwatchViewModel
 import com.pandacorp.timeui.presentation.vm.TimerViewModel
 import com.pandacorp.timeui.presentation.vm.ViewModelFactory
@@ -15,6 +16,11 @@ import kotlin.reflect.KClass
 @Suppress("unused")
 @Module
 abstract class ViewModelModule {
+    
+    @Binds
+    @IntoMap
+    @ViewModelKey(ClockViewModel::class)
+    abstract fun bindClockViewModel(clockViewModel: ClockViewModel): ViewModel
     
     @Binds
     @IntoMap

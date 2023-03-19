@@ -28,8 +28,12 @@
     <string name="share_thanks">Thanks for sharing the app!</string>
     <string name="settings_another">Another</string>
 
-    <string name="timer_dialog_title">Time</string>
+    <string name="selectTime">Select time</string>
     <string name="ok" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
+
+    <string name="selectTimeZone">Select a time zone</string>
+    <string name="clockAlreadyAdded">The clock is already added</string>
+    <string name="clockDefaultSwiped">You can\'t remove the default clock</string>
 
 </resources>

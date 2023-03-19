@@ -53,6 +53,7 @@
 
     <style name="SnackBarStyle" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">?android:attr/colorPrimary</item>
+        <item name="android:textColor">?android:textColor</item>
     </style>
 
     <style name="BottomNavigationViewStyle" parent="Widget.Material3.BottomNavigationView">
@@ -73,6 +74,8 @@
     <style name="FABStyle" parent="Widget.Material3.FloatingActionButton.Primary">
         <item name="rippleColor">@null</item>
         <item name="android:backgroundTint">?colorPrimaryDark</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="borderWidth">1dp</item>
     </style>
 
     <style name="PopUpMenuStyle" parent="Widget.Material3.PopupMenu">

@@ -26,15 +26,11 @@ import com.pandacorp.timeui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.timeui.presentation.utils.Utils
 import com.pandacorp.timeui.presentation.vm.StopwatchViewModel
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class StopWatchFragment : Fragment() {
+class StopwatchFragment : Fragment() {
     companion object {
-        const val TAG = "StopWatchFragment"
+        const val TAG = "StopwatchFragment"
     }
     
     @Inject
@@ -64,6 +60,13 @@ class StopWatchFragment : Fragment() {
         super.onAttach(context)
     }
     
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm.stopwatchesList.observe(viewLifecycleOwner) {
+            customAdapter.submitList(it)
+        }
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,8 +75,8 @@ class StopWatchFragment : Fragment() {
         Utils.setupExceptionHandler()
         _binding = FragmentStopwatchBinding.inflate(inflater)
         
-        checkIsFirstTime()
         initViews()
+        checkIsFirstTime()
         
         return binding.root
     }
@@ -94,11 +97,12 @@ class StopWatchFragment : Fragment() {
     
     private fun initRecyclerView() {
         customAdapter =
-            StopwatchAdapter(this@StopWatchFragment.requireActivity())
+            StopwatchAdapter(this@StopwatchFragment.requireActivity())
         customAdapter.setStopwatchListener(object : StopwatchAdapter.StopwatchListener {
             override fun onStopwatchRemove(viewHolder: StopwatchAdapter.ViewHolder, position: Int) {
                 viewHolder.stopwatch.cancel()
                 vm.removeItemAt(position)
+                Utils.handleShowingFAB(binding.stopwatchRecyclerView, binding.stopwatchAddFab)
             }
     
             override fun onStopwatchUpdate(position: Int, stopwatchItem: StopwatchItem) {
@@ -114,27 +118,19 @@ class StopWatchFragment : Fragment() {
     
         binding.stopwatchRecyclerView.adapter = customAdapter
     
-        // Add delay to properly animate transition between fragments and remove lags
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(Constans.TIME_DELAY)
-            vm.stopwatchesList.observe(viewLifecycleOwner) {
-                customAdapter.submitList(it)
-            }
-        }
-    
         enableSwipe()
     
         registerForContextMenu(binding.stopwatchRecyclerView)
     }
     
     private fun checkIsFirstTime() {
-        //If app opened first time then add one stopwatch for user.
+        //If app opened first time then add a stopwatch for user.
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        if (sp.getBoolean("isStopWatchFirstTime", true)) {
+        if (sp.getBoolean(Constans.SP.isStopwatchFirstTime, true)) {
             val edit = sp.edit()
             val stopwatchItem = StopwatchItem.create()
             vm.addItem(stopwatchItem)
-            edit.putBoolean("isStopWatchFirstTime", false)
+            edit.putBoolean(Constans.SP.isStopwatchFirstTime, false)
             edit.apply()
         }
     }
@@ -155,8 +151,10 @@ class StopWatchFragment : Fragment() {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                         if (viewHolder is StopwatchAdapter.ViewHolder) {
                             viewHolder.stopwatch.cancel()
-                            val position = viewHolder.adapterPosition
-                            vm.removeItemAt(position)
+                            vm.removeItemAt(viewHolder.adapterPosition)
+                            Utils.handleShowingFAB(
+                                    binding.stopwatchRecyclerView,
+                                    binding.stopwatchAddFab)
                         }
                     }
                     

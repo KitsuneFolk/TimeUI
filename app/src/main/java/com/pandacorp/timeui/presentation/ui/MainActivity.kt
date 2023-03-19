@@ -16,6 +16,7 @@ import com.pandacorp.timeui.presentation.ui.settings.SettingsActivity
 import com.pandacorp.timeui.presentation.utils.PreferenceHandler
 import dagger.android.AndroidInjection
 
+
 class MainActivity : AppCompatActivity() {
     companion object {
         const val TAG = "MainActivity"
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         if (it.resultCode == RESULT_OK) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-            overridePendingTransition(0, R.anim.slide_out_right)
+            overridePendingTransition(0, com.pandacorp.timeui.R.anim.slide_out_right)
         }
     }
     
@@ -43,19 +44,20 @@ class MainActivity : AppCompatActivity() {
     
         val navController: NavController = findNavController(R.id.nav_host_fragment)
         binding.navView.setupWithNavController(navController)
-        val fragmentId = (application as App).getFragmentId()
+    
+        val fragmentId = (application as App).fragmentId
         if (fragmentId != 0) binding.navView.selectedItemId = fragmentId
     
     }
     
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
+        menuInflater.inflate(com.pandacorp.timeui.R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
     
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings -> {
+            com.pandacorp.timeui.R.id.menu_settings -> {
                 preferencesResultLauncher.launch(
                         Intent(this@MainActivity, SettingsActivity::class.java))
                 return true
@@ -65,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     override fun onStop() {
-        (application as App).setFragmentId(fragmentId = binding.navView.selectedItemId)
+        (application as App).fragmentId = binding.navView.selectedItemId
         super.onStop()
     }
     

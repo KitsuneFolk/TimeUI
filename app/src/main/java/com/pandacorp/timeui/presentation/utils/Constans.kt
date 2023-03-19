@@ -13,6 +13,7 @@ sealed class Constans {
     sealed class ITHKey {
         object TIMER : ITHKey()
         object STOPWATCH : ITHKey()
+        object CLOCK : ITHKey()
     }
     
     object Room {
@@ -25,6 +26,12 @@ sealed class Constans {
         const val STOPWATCH = 2
     }
     
+    object SP {
+        const val isClockFirstTime = "isClockFirstTime"
+        const val isTimerFirstTime = "isTimerFirstTime"
+        const val isStopwatchFirstTime = "isStopWatchFirstTime"
+    }
+    
     companion object {
         // bundle key if value is stored in isolation and no need to create other keys
         const val valueKey = "valueKey"
@@ -35,8 +42,9 @@ sealed class Constans {
         // Key for intent to put and get position of StopwatchItem or TimerItem
         const val IntentItemPosition = "IntentItemPosition"
         
-        // Value for delay in fragments to properly draw transition and don't skip animation
-        const val TIME_DELAY: Long = 100
+        // Key for savedInstanceState to save selected item position in CountryActivity
+        const val SelectedPosition = "SelectedPosition"
         
+        const val SNACKBAR_DURATION = 3000
     }
 }

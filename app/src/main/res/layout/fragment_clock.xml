@@ -1,59 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextClock
-            android:id="@+id/timeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
-            android:format24Hour="HH:mm:ss"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:textSize="50sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/clockRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35"
-            tools:text="16:52:23" />
+            android:layout_marginTop="5dp"
+            app:layout_constraintVertical_bias="0"
+            tools:itemCount="12"
+            tools:listitem="@layout/clock_item" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/clockAddFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.75" />
+            android:src="@drawable/ic_add"
+            android:layout_marginEnd="25dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="25dp"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
-        <TextView
-            android:id="@+id/dayTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/dateTv"
-            app:layout_constraintEnd_toEndOf="@+id/timeTv"
-            app:layout_constraintStart_toStartOf="@+id/timeTv"
-            app:layout_constraintTop_toBottomOf="@+id/timeTv"
-            tools:text="Thursday" />
-
-        <TextView
-            android:id="@+id/dateTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
-            android:textSize="25sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintEnd_toEndOf="@id/dayTv"
-            app:layout_constraintStart_toStartOf="@+id/dayTv"
-            app:layout_constraintTop_toBottomOf="@+id/dayTv"
-            tools:text="06.06.2022" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

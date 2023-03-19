@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="selectionColor" format="color" />
+
     <declare-styleable name="CountdownView">
         <attr name="isHideTimeBackground" format="boolean" />
         <attr name="isShowTimeBgDivisionLine" format="boolean" />

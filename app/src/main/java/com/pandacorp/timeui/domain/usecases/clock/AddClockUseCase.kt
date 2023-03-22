@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AddClockUseCase @Inject constructor(private val repository: ClockRepository) {
-    suspend operator fun invoke(item: ClockItem) = withContext(Dispatchers.IO) {
-        repository.insertItem(item)
+    suspend operator fun invoke(item: ClockItem): Long = withContext(Dispatchers.IO) {
+        return@withContext repository.insertItem(item)
     }
 }

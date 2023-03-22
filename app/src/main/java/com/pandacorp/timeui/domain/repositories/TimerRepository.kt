@@ -9,7 +9,7 @@ interface TimerRepository {
     
     fun updateAll(timers: MutableList<TimerItem>)
     
-    fun insert(timerItem: TimerItem)
+    fun insert(timerItem: TimerItem): Long
     
     fun remove(timerItem: TimerItem)
     

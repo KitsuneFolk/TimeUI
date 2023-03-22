@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.pandacorp.timeui.R
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import com.pandacorp.timeui.databinding.FragmentStopwatchBinding
 import com.pandacorp.timeui.domain.models.StopwatchItem
 import com.pandacorp.timeui.presentation.ui.stopwatch.adapter.StopwatchAdapter
@@ -27,6 +28,7 @@ import com.pandacorp.timeui.presentation.utils.Utils
 import com.pandacorp.timeui.presentation.vm.StopwatchViewModel
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
+
 
 class StopwatchFragment : Fragment() {
     companion object {
@@ -64,6 +66,26 @@ class StopwatchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         vm.stopwatchesList.observe(viewLifecycleOwner) {
             customAdapter.submitList(it)
+            if (it.isEmpty()) {
+                val transition = Fade()
+                transition.duration = Constans.ANIMATION_DURATION
+                transition.addTarget(binding.stopwatchRecyclerView)
+                transition.addTarget(binding.stopwatchIncludeHint.EmptyHintRoot)
+        
+                TransitionManager.beginDelayedTransition(binding.stopwatchRoot, transition)
+                binding.stopwatchRecyclerView.visibility = View.GONE
+                binding.stopwatchIncludeHint.EmptyHintRoot.visibility = View.VISIBLE
+            } else {
+                if (binding.stopwatchIncludeHint.EmptyHintRoot.visibility != View.VISIBLE) return@observe // skip, user just entered the fragment
+                val transition = Fade()
+                transition.duration = Constans.ANIMATION_DURATION
+                transition.addTarget(binding.stopwatchRecyclerView)
+                transition.addTarget(binding.stopwatchIncludeHint.EmptyHintRoot)
+        
+                TransitionManager.beginDelayedTransition(binding.stopwatchRoot, transition)
+                binding.stopwatchRecyclerView.visibility = View.VISIBLE
+                binding.stopwatchIncludeHint.EmptyHintRoot.visibility = View.GONE
+            }
         }
     }
     
@@ -87,7 +109,7 @@ class StopwatchFragment : Fragment() {
         binding.stopwatchAddFab.apply {
             stateListAnimator = AnimatorInflater.loadStateListAnimator(
                     requireContext(),
-                    R.animator.increase_size_normal_animator)
+                    com.pandacorp.timeui.R.animator.increase_size_normal_animator)
             
             setOnClickListener {
                 vm.addItem(StopwatchItem.create())
@@ -128,8 +150,7 @@ class StopwatchFragment : Fragment() {
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
         if (sp.getBoolean(Constans.SP.isStopwatchFirstTime, true)) {
             val edit = sp.edit()
-            val stopwatchItem = StopwatchItem.create()
-            vm.addItem(stopwatchItem)
+            vm.addItem(StopwatchItem.create())
             edit.putBoolean(Constans.SP.isStopwatchFirstTime, false)
             edit.apply()
         }

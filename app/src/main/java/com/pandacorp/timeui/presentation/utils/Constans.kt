@@ -35,16 +35,18 @@ sealed class Constans {
     companion object {
         // bundle key if value is stored in isolation and no need to create other keys
         const val valueKey = "valueKey"
-        
+    
         // Key for intent to put and get serializable StopwatchItem or TimerItem
         const val IntentItem = "IntentItem"
-        
+    
         // Key for intent to put and get position of StopwatchItem or TimerItem
         const val IntentItemPosition = "IntentItemPosition"
-        
+    
         // Key for savedInstanceState to save selected item position in CountryActivity
         const val SelectedPosition = "SelectedPosition"
-        
+    
         const val SNACKBAR_DURATION = 3000
+    
+        const val ANIMATION_DURATION = 500L
     }
 }

@@ -2,6 +2,7 @@ package com.pandacorp.timeui.presentation.ui.stopwatch.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,16 +38,13 @@ class StopwatchAdapter(private var context: Context) :
     
     private class StopwatchDiffCallback : DiffUtil.ItemCallback<StopwatchItem>() {
         override fun areItemsTheSame(oldItem: StopwatchItem, newItem: StopwatchItem): Boolean {
-            val result =
-                (oldItem.uuid == newItem.uuid && newItem.startSysTime == oldItem.startSysTime
-                        && oldItem.stopTime == newItem.stopTime && oldItem.status == newItem.status)
-            return result
+            Log.d(TAG, "areItemsTheSame: ${newItem.id == oldItem.id}")
+            return newItem.id == oldItem.id
         }
         
-        
         override fun areContentsTheSame(oldItem: StopwatchItem, newItem: StopwatchItem): Boolean {
+            Log.d(TAG, "areContentsTheSame: ${oldItem == newItem}")
             return oldItem == newItem
-            
         }
     }
     

@@ -15,7 +15,7 @@ interface StopwatchDao {
     fun updateAll(items: MutableList<StopwatchDataItem>)
     
     @Insert
-    fun insert(item: StopwatchDataItem)
+    fun insert(item: StopwatchDataItem): Long
     
     @Delete
     fun remove(item: StopwatchDataItem)

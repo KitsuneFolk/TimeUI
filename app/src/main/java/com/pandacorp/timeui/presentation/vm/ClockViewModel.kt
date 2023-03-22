@@ -39,9 +39,12 @@ class ClockViewModel @Inject constructor(
     val clocksList: LiveData<MutableList<ClockItem>> = _clocksList
     
     fun addItem(clockItem: ClockItem) {
-        _clocksList.value?.add(clockItem)
-        _clocksList.postValue(_clocksList.value)
-        CoroutineScope(Dispatchers.IO).launch { addUseCase(clockItem) }
+        CoroutineScope(Dispatchers.IO).launch {
+            val id = addUseCase(clockItem)
+            clockItem.id = id
+            _clocksList.value?.add(clockItem)
+            _clocksList.postValue(_clocksList.value)
+        }
     }
     
     fun removeItem(clockItem: ClockItem) {

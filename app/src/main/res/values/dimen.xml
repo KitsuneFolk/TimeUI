@@ -8,4 +8,6 @@
     <dimen name="timeTextSize">35sp</dimen>
     <dimen name="imageViewSize">45dp</dimen>
     <dimen name="itemSize">50dp</dimen>
+    <dimen name="bigImageSize">200dp</dimen>
+    <dimen name="bigTextSize">20sp</dimen>
 </resources>

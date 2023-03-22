@@ -34,4 +34,6 @@
     <string name="clockAlreadyAdded">Эти часы уже добавлены</string>
     <string name="clockDefaultSwiped">Вы не можете удалить базовые часы</string>
 
+    <string name="emptyRecyclerView">Пусто. Добавьте элемент с помощью кнопки в углу</string>
+
 </resources>

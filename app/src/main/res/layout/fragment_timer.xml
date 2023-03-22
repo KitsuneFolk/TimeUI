@@ -4,19 +4,25 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/timerRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/timerIncludeHint"
+            layout="@layout/empty_hint_background" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timer_recyclerView"
+            android:id="@+id/timerRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="10dp"
+            tools:visibility="gone"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/timer_list_item" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/timer_add_fab"
+            android:id="@+id/timerAddFab"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="bottom|end"

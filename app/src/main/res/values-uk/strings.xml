@@ -33,4 +33,5 @@
     <string name="clockAlreadyAdded">Цей годинник вже доданний</string>
     <string name="clockDefaultSwiped">Ви не можете видалити базовий годинник</string>
 
+    <string name="emptyRecyclerView">Порожньо. Додайте елемент за допомогою кнопки в кутi</string>
 </resources>

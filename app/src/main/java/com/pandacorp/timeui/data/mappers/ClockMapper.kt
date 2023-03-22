@@ -8,7 +8,6 @@ class ClockMapper @Inject constructor() {
     fun toClockItem(clockDataItem: ClockDataItem): ClockItem {
         return ClockItem(
                 clockDataItem.id,
-                clockDataItem.uuid,
                 clockDataItem.timeZone,
                 clockDataItem.name)
     }
@@ -16,7 +15,6 @@ class ClockMapper @Inject constructor() {
     fun toClockDataItem(clockItem: ClockItem): ClockDataItem {
         return ClockDataItem(
                 clockItem.id,
-                clockItem.uuid,
                 clockItem.timeZoneId,
                 clockItem.name
         )

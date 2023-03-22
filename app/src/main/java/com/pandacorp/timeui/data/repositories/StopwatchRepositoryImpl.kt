@@ -18,8 +18,8 @@ class StopwatchRepositoryImpl(private val dao: StopwatchDao, private val mapper:
         dao.updateAll(stopwatches.map { mapper.toStopwatchDataItem(it) }.toMutableList())
     }
     
-    override fun insertItem(stopwatchItem: StopwatchItem) {
-        dao.insert(mapper.toStopwatchDataItem(stopwatchItem))
+    override fun insertItem(stopwatchItem: StopwatchItem): Long {
+        return dao.insert(mapper.toStopwatchDataItem(stopwatchItem))
     }
     
     override fun removeItem(stopwatchItem: StopwatchItem) {

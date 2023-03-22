@@ -3,15 +3,13 @@ package com.pandacorp.timeui.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity
 data class TimerDataItem(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
-    @ColumnInfo(name = "uuid") var uuid: UUID = UUID.randomUUID(),
-    @ColumnInfo(name = "startTime") var startTime: Long,
-    @ColumnInfo(name = "currentTime") var currentTime: Long,
-    @ColumnInfo(name = "status") var status: Int
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "startTime") val startTime: Long,
+    @ColumnInfo(name = "currentTime") val currentTime: Long,
+    @ColumnInfo(name = "status") val status: Int
 ) {
     companion object STATUS {
         //If timer was added

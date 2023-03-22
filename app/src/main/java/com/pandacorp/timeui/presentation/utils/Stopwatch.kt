@@ -2,6 +2,7 @@ package com.pandacorp.timeui.presentation.utils
 
 import android.annotation.SuppressLint
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 
 abstract class Stopwatch {
@@ -38,7 +39,7 @@ abstract class Stopwatch {
     abstract fun onTick()
     
     @SuppressLint("HandlerLeak")
-    private val mHandler: Handler = object : Handler() {
+    private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             synchronized(this@Stopwatch) {
                 if (mCancelled) {

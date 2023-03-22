@@ -9,17 +9,17 @@ interface TimerDao {
     fun getAll(): MutableList<TimerDataItem>
     
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(TimerDataItem: TimerDataItem)
+    fun update(item: TimerDataItem)
     
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateAll(TimerDataItems: MutableList<TimerDataItem>)
+    fun updateAll(items: MutableList<TimerDataItem>)
     
     @Insert
-    fun insert(TimerDataItem: TimerDataItem)
+    fun insert(item: TimerDataItem): Long
     
     @Delete
-    fun remove(TimerDataItem: TimerDataItem)
+    fun remove(item: TimerDataItem)
     
-    @Query("DELETE FROM TimerDataItem")
+    @Query("DELETE FROM timerDataItem")
     fun removeAll()
 }

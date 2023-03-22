@@ -36,4 +36,6 @@
     <string name="clockAlreadyAdded">The clock is already added</string>
     <string name="clockDefaultSwiped">You can\'t remove the default clock</string>
 
+    <string name="emptyRecyclerView">Empty. Add an item using the button in the corner</string>
+
 </resources>

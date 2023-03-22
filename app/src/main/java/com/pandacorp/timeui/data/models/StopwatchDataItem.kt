@@ -3,15 +3,13 @@ package com.pandacorp.timeui.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity
 data class StopwatchDataItem(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    @ColumnInfo(name = "uuid") var uuid: UUID = UUID.randomUUID(),
-    @ColumnInfo(name = "startSysTime") var startSysTime: Long = 0L,
-    @ColumnInfo(name = "stopTime") var stopTime: Long = 0,
-    @ColumnInfo(name = "status") var status: Int = ADDED
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "startSysTime") val startSysTime: Long = 0L,
+    @ColumnInfo(name = "stopTime") val stopTime: Long = 0,
+    @ColumnInfo(name = "status") val status: Int = ADDED
 ) {
     
     companion object {

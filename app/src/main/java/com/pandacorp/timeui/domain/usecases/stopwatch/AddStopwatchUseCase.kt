@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AddStopwatchUseCase @Inject constructor(private val stopwatchRepository: StopwatchRepository) {
-    suspend operator fun invoke(item: StopwatchItem) = withContext(Dispatchers.IO) {
-        stopwatchRepository.insertItem(item)
+    suspend operator fun invoke(item: StopwatchItem): Long = withContext(Dispatchers.IO) {
+        return@withContext stopwatchRepository.insertItem(item)
     }
 }

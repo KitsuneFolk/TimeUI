@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import com.ikovac.timepickerwithseconds.TimePicker
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.databinding.FragmentTimerBinding
@@ -54,10 +56,10 @@ class TimerFragment : DaggerFragment() {
     private var onTimerClickedResultLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()) {
-            it.data?.let { data -> // If it is null, then user didn't click any button
+            it.data?.let { data -> // If data is null, then user didn't click any button
                 val position = data.getIntExtra(Constans.IntentItemPosition, -1)
                 val timerItem = data.getSerializableExtra(Constans.IntentItem) as TimerItem
-    
+        
                 vm.updateItem(position = position, timerItem = timerItem)
             }
         }
@@ -71,6 +73,27 @@ class TimerFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         vm.timersList.observe(viewLifecycleOwner) {
             customAdapter.submitList(it)
+    
+            if (it.isEmpty()) {
+                val transition = Fade()
+                transition.duration = Constans.ANIMATION_DURATION
+                transition.addTarget(binding.timerRecyclerView)
+                transition.addTarget(binding.timerIncludeHint.EmptyHintRoot)
+        
+                TransitionManager.beginDelayedTransition(binding.timerRoot, transition)
+                binding.timerRecyclerView.visibility = View.GONE
+                binding.timerIncludeHint.EmptyHintRoot.visibility = View.VISIBLE
+            } else {
+                if (binding.timerIncludeHint.EmptyHintRoot.visibility != View.VISIBLE) return@observe // skip, user just entered the fragment
+                val transition = Fade()
+                transition.duration = Constans.ANIMATION_DURATION
+                transition.addTarget(binding.timerRecyclerView)
+                transition.addTarget(binding.timerIncludeHint.EmptyHintRoot)
+        
+                TransitionManager.beginDelayedTransition(binding.timerRoot, transition)
+                binding.timerRecyclerView.visibility = View.VISIBLE
+                binding.timerIncludeHint.EmptyHintRoot.visibility = View.GONE
+            }
         }
     }
     

@@ -5,7 +5,7 @@ import com.pandacorp.timeui.domain.models.ClockItem
 interface ClockRepository {
     fun getAll(): MutableList<ClockItem>
     
-    fun insertItem(clockItem: ClockItem)
+    fun insertItem(clockItem: ClockItem): Long
     
     fun removeItem(clockItem: ClockItem)
     

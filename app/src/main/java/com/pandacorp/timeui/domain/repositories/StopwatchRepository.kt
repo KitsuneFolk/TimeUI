@@ -9,7 +9,7 @@ interface StopwatchRepository {
     
     fun updateAll(stopwatches: MutableList<StopwatchItem>)
     
-    fun insertItem(stopwatchItem: StopwatchItem)
+    fun insertItem(stopwatchItem: StopwatchItem): Long
     
     fun removeItem(stopwatchItem: StopwatchItem)
     

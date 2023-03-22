@@ -38,9 +38,12 @@ class StopwatchViewModel @Inject constructor(
     val stopwatchesList: LiveData<MutableList<StopwatchItem>> = _stopwatchesList
     
     fun addItem(stopwatchItem: StopwatchItem) {
-        _stopwatchesList.value?.add(0, stopwatchItem)
-        _stopwatchesList.postValue(_stopwatchesList.value)
-        CoroutineScope(Dispatchers.IO).launch { addUseCase(stopwatchItem) }
+        CoroutineScope(Dispatchers.IO).launch {
+            val id = addUseCase(stopwatchItem)
+            stopwatchItem.id = id
+            _stopwatchesList.value?.add(0, stopwatchItem)
+            _stopwatchesList.postValue(_stopwatchesList.value)
+        }
     }
     
     fun removeItem(stopwatchItem: StopwatchItem) {

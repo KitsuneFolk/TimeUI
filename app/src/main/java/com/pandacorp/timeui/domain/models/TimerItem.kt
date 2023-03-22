@@ -1,11 +1,9 @@
 package com.pandacorp.timeui.domain.models
 
 import java.io.Serializable
-import java.util.*
 
 data class TimerItem(
-    var id: Int = 0,
-    var uuid: UUID = UUID.randomUUID(),
+    var id: Long = 0,
     var startTime: Long,
     var currentTime: Long,
     var status: Int

@@ -1,11 +1,9 @@
 package com.pandacorp.timeui.domain.models
 
 import java.io.Serializable
-import java.util.*
 
 data class StopwatchItem(
     var id: Long = 0,
-    var uuid: UUID = UUID.randomUUID(),
     var startSysTime: Long = 0L,
     var stopTime: Long = 0,
     var status: Int = ADDED

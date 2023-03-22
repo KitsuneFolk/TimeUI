@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AddTimerUseCase @Inject constructor(private val timerRepository: TimerRepository) {
-    suspend operator fun invoke(timerItem: TimerItem) = withContext(Dispatchers.IO) {
-        timerRepository.insert(timerItem)
+    suspend operator fun invoke(timerItem: TimerItem): Long = withContext(Dispatchers.IO) {
+        return@withContext timerRepository.insert(timerItem)
     }
 }

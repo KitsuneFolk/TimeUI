@@ -38,9 +38,12 @@ class TimerViewModel @Inject constructor(
     val timersList: LiveData<MutableList<TimerItem>> = _timersList
     
     fun addItem(timerItem: TimerItem) {
-        _timersList.value?.add(0, timerItem)
-        _timersList.postValue(_timersList.value)
-        CoroutineScope(Dispatchers.IO).launch { addItemUseCase(timerItem) }
+        CoroutineScope(Dispatchers.IO).launch {
+            val id = addItemUseCase(timerItem)
+            timerItem.id = id
+            _timersList.value?.add(0, timerItem)
+            _timersList.postValue(_timersList.value)
+        }
     }
     
     fun removeItem(timerItem: TimerItem) {

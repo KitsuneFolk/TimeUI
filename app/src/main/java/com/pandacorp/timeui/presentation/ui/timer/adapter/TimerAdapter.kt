@@ -2,6 +2,7 @@ package com.pandacorp.timeui.presentation.ui.timer.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.pandacorp.timeui.R
 import com.pandacorp.timeui.domain.models.TimerItem
+import com.pandacorp.timeui.presentation.ui.stopwatch.adapter.StopwatchAdapter
 import com.pandacorp.timeui.presentation.ui.timer.TimerActivity
 import com.pandacorp.timeui.presentation.utils.Constans
 import com.pandacorp.timeui.presentation.utils.countdownview.CountdownView
-
 
 class TimerAdapter(private var context: Context) :
     ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCallback()) {
@@ -40,15 +41,18 @@ class TimerAdapter(private var context: Context) :
     }
     
     class TimerDiffCallback : DiffUtil.ItemCallback<TimerItem>() {
-        override fun areItemsTheSame(oldItem: TimerItem, newItem: TimerItem): Boolean =
-            (oldItem.uuid == newItem.uuid && newItem.currentTime == oldItem.currentTime
-                    && oldItem.startTime == newItem.startTime && oldItem.status == newItem.status)
-        
-        override fun areContentsTheSame(oldItem: TimerItem, newItem: TimerItem): Boolean =
-            oldItem == newItem
+        override fun areItemsTheSame(oldItem: TimerItem, newItem: TimerItem): Boolean {
+            Log.d(StopwatchAdapter.TAG, "areItemsTheSame: ${newItem.id == oldItem.id}")
+            return newItem.id == oldItem.id
+        }
+    
+        override fun areContentsTheSame(oldItem: TimerItem, newItem: TimerItem): Boolean {
+            Log.d(StopwatchAdapter.TAG, "areContentsTheSame: ${oldItem == newItem}")
+            return oldItem == newItem
+        }
     }
     
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val stopBtn = itemView.findViewById<ImageView>(R.id.timer_stop_btn)!!
         val resetBtn = itemView.findViewById<ImageView>(R.id.timer_reset_btn)!!
         val startBtn = itemView.findViewById<ImageView>(R.id.timer_start_btn)!!

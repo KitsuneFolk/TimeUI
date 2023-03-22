@@ -26,7 +26,7 @@ class ClockAdapter(private var context: Context) :
     
     class ClockDiffCallback : DiffUtil.ItemCallback<ClockItem>() {
         override fun areItemsTheSame(oldItem: ClockItem, newItem: ClockItem): Boolean =
-            (oldItem.uuid == newItem.uuid && newItem.timeZoneId == oldItem.timeZoneId)
+            oldItem.id == newItem.id
         
         override fun areContentsTheSame(oldItem: ClockItem, newItem: ClockItem): Boolean =
             oldItem == newItem

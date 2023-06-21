@@ -1,15 +1,19 @@
-apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 android {
-    compileSdkVersion 32
+    namespace 'com.pandacorp.timeui'
+    def sdk = 33
+    compileSdkVersion sdk
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "com.pandacorp.timeui"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -21,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     dataBinding {
         enabled true
@@ -36,7 +40,7 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
     }
-    kotlinOptions{
+    kotlinOptions {
         freeCompilerArgs += [
                 "-Xjvm-default=all",
         ]
@@ -45,27 +49,24 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.kovachcode:timePickerWithSeconds:1.0.1'
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
     // room
-    def room_version = "2.4.3"
+    def room_version = "2.5.1"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     // dagger
-    def dagger_version = "2.44.2"
+    def dagger_version = "2.46.1"
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"

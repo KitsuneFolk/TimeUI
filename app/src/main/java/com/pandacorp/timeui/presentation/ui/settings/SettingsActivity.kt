@@ -71,16 +71,18 @@ class SettingsActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-        
-        override fun onDisplayPreferenceDialog(preference: Preference?) {
-            when (preference?.key) {
+
+
+        override fun onDisplayPreferenceDialog(preference: Preference) {
+            when (preference.key) {
                 Constans.PreferencesKeys.themesKey -> // rounded themes dialog with images
                     DialogListView.newInstance(Constans.PreferencesKeys.themesKey)
                         .show(parentFragmentManager, null)
-                
+
                 Constans.PreferencesKeys.languagesKey -> // rounded languages dialog with images
                     DialogListView.newInstance(Constans.PreferencesKeys.languagesKey)
                         .show(parentFragmentManager, null)
+
                 else -> {
                     super.onDisplayPreferenceDialog(preference)
                 }

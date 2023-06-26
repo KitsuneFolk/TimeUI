@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_clocks">
+
+    <fragment
+        android:id="@+id/nav_clocks"
+        android:name="com.pandacorp.timeui.presentation.ui.fragments.ClockFragment"
+        android:label="@string/clocks"
+        tools:layout="@layout/fragment_clock" />
+
+    <fragment
+        android:id="@+id/nav_stopwatch"
+        android:name="com.pandacorp.timeui.presentation.ui.fragments.StopwatchFragment"
+        android:label="@string/stopwatch"
+        tools:layout="@layout/fragment_stopwatch" />
+
+    <fragment
+        android:id="@+id/nav_timer"
+        android:name="com.pandacorp.timeui.presentation.ui.fragments.TimerFragment"
+        android:label="@string/timer"
+        tools:layout="@layout/fragment_timer" />
+
+</navigation>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/smallMargin"
+    android:layout_marginTop="@dimen/smallMargin"
+    android:layout_marginEnd="@dimen/smallMargin"
+    android:layout_marginBottom="@dimen/smallMargin"
+    android:clickable="true"
+    android:focusable="true"
+    app:strokeColor="@android:color/darker_gray"
+    app:cardBackgroundColor="?android:colorPrimary"
+    app:cardCornerRadius="@dimen/hugeCorners"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:id="@+id/clockBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/red"
+        android:gravity="end|center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/mediumMargin"
+            android:text="@string/delete"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="@dimen/bigMargin"
+            app:srcCompat="@drawable/ic_delete" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/foreground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorPrimary"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextClock
+            android:id="@+id/textClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginEnd="@dimen/smallMargin"
+            android:fontFamily="@font/inter"
+            android:format24Hour="HH:mm:ss"
+            android:textSize="50sp"
+            tools:text="16:52:23" />
+
+        <TextView
+            android:id="@+id/dateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/smallMargin"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="@dimen/smallMargin"
+            android:fontFamily="@font/inter"
+            android:textSize="25sp"
+            tools:text="06.06.2022" />
+
+        <TextView
+            android:id="@+id/dayTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:textSize="25sp"
+            tools:text="Thursday" />
+
+        <TextView
+            android:id="@+id/countryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/smallMargin"
+            android:layout_marginEnd="@dimen/smallMargin"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:gravity="center"
+            android:textSize="20sp"
+            tools:text="United States of Philadelphia and Arabic Republic of Turkmenistan" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

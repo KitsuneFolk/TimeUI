@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">TimeUI</string>
 
-    <string name="title_clocks">Clocks</string>
-    <string name="title_timer">Timer</string>
-    <string name="title_stopwatch">StopWatch</string>
+    <string name="clocks">Clocks</string>
+    <string name="timer">Timer</string>
+    <string name="stopwatch">StopWatch</string>
 
     <string name="set_btn">Set</string>
     <string name="start_btn">Start</string>
@@ -19,14 +19,14 @@
     <string name="appearance">Appearance</string>
     <string name="language">Language</string>
     <string name="theme">Theme</string>
-    <string name="version">Version</string>
+    <string name="version">Version %1$s</string>
 
     <string name="settings_language_default_value">en</string>
     <string name="settings_language_summary">English</string>
 
     <!--  Share views  -->
     <string name="share_thanks">Thanks for sharing the app!</string>
-    <string name="settings_another">Another</string>
+    <string name="another">Another</string>
 
     <string name="selectTime">Select time</string>
     <string name="ok" translatable="false">OK</string>
@@ -34,8 +34,6 @@
 
     <string name="selectTimeZone">Select a time zone</string>
     <string name="clockAlreadyAdded">The clock is already added</string>
-    <string name="clockDefaultSwiped">You can\'t remove the default clock</string>
 
     <string name="emptyRecyclerView">Empty. Add an item using the button in the corner</string>
-
 </resources>

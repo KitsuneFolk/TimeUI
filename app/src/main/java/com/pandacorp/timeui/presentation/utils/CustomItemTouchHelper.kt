@@ -6,44 +6,34 @@ import android.graphics.Canvas
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.util.TypedValue
-import android.widget.LinearLayout
-import androidx.annotation.ColorInt
+import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.pandacorp.timeui.presentation.ui.clock.ClockAdapter
-import com.pandacorp.timeui.presentation.ui.stopwatch.adapter.StopwatchAdapter
-import com.pandacorp.timeui.presentation.ui.timer.adapter.TimerAdapter
+import com.pandacorp.timeui.presentation.ui.adapters.StopwatchAdapter
+import com.pandacorp.timeui.presentation.ui.adapters.TimerAdapter
+import com.pandacorp.timeui.presentation.ui.adapters.clocks.ClockAdapter
 
 class CustomItemTouchHelper(
-    private val context: Context,
-    private val key: Constans.ITHKey,
-    private val onTouchListener: OnTouchListener
+    context: Context,
+    private val key: Constants.ITHKey,
+    private val itemTouchHelperListener: ItemTouchHelperListener
 ) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-    
-    var isRoundedCornersEnabled: Boolean = true // Should we round corners on swipe or no
-    
-    interface OnTouchListener {
+
+    interface ItemTouchHelperListener {
         fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int)
     }
-    
-    companion object {
-        private const val TAG = Utils.TAG
-        private const val CORNERS_RADIUS = 15f
-        
-    }
-    
+
+    var isRoundCornersEnabled: Boolean = true
+
     private var isRoundCorners = false
-    
-    @ColorInt
-    private val backgroundColor: Int
-    
-    init {
+
+    private val backgroundColor: Int by lazy {
         val tv = TypedValue()
         context.theme.resolveAttribute(android.R.attr.colorBackground, tv, true)
-        backgroundColor = tv.data
+        tv.data
     }
-    
+
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -59,7 +49,7 @@ class CustomItemTouchHelper(
     ): Boolean = false
     
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onTouchListener.onSwiped(viewHolder, direction)
+        itemTouchHelperListener.onSwiped(viewHolder, direction)
     }
     
     override fun onChildDraw(
@@ -111,9 +101,9 @@ class CustomItemTouchHelper(
     private fun setCorners(
         dX: Float,
         isCurrentlyActive: Boolean,
-        foregroundView: LinearLayout
+        foregroundView: ViewGroup
     ) {
-        if (!isRoundedCornersEnabled) return
+        if (!isRoundCornersEnabled) return
     
         if (dX < 0) { // add rounded corners
             if (isRoundCorners) {
@@ -172,22 +162,24 @@ class CustomItemTouchHelper(
                     addUpdateListener {
                         val value = it.animatedValue as Float
                         shapeDrawable.shape = RoundRectShape(
-                                floatArrayOf(0f, 0f, value, value, value, value, 0f, 0f),
-                                null,
-                                null)
+                            floatArrayOf(0f, 0f, value, value, value, value, 0f, 0f),
+                            null,
+                            null
+                        )
                         foregroundView.background = shapeDrawable
                     }
                 }.start()
             }
         }
     }
-    
-    private fun getForegroundView(viewHolder: RecyclerView.ViewHolder): LinearLayout {
-        
-        return when (key) {
-            Constans.ITHKey.TIMER -> (viewHolder as TimerAdapter.ViewHolder).foreground
-            Constans.ITHKey.STOPWATCH -> (viewHolder as StopwatchAdapter.ViewHolder).foreground
-            Constans.ITHKey.CLOCK -> (viewHolder as ClockAdapter.ViewHolder).binding.clockForeground
-        }
+
+    private fun getForegroundView(viewHolder: RecyclerView.ViewHolder): ViewGroup = when (key) {
+        Constants.ITHKey.TIMER -> (viewHolder as TimerAdapter.ViewHolder).binding.foreground
+        Constants.ITHKey.STOPWATCH -> (viewHolder as StopwatchAdapter.ViewHolder).binding.foreground
+        Constants.ITHKey.CLOCK -> (viewHolder as ClockAdapter.ViewHolder).binding.foreground
+    }
+
+    companion object {
+        private const val CORNERS_RADIUS = 15f
     }
 }

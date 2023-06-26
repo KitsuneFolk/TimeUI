@@ -29,13 +29,10 @@
     <color name="PurpleTheme_colorPrimaryDark">#6614B5</color>
     <color name="PurpleTheme_colorBackground">#9966CC</color>
     <color name="PurpleTheme_colorAccent">#8C9EFF</color>
-    <color name="PurpleTheme_colorSecondary">#D3D3D3</color>
     <color name="PurpleTheme_textColorSecondary">#EFB3FF</color>
     <color name="PurpleTheme_selectionColor">#6D40EA</color>
 
     <!-- Another -->
-    <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
 
 </resources>
-

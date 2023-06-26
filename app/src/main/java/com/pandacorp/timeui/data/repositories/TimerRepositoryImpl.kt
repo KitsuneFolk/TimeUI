@@ -10,25 +10,14 @@ class TimerRepositoryImpl(private val timerDao: TimerDao, private val mapper: Ti
     override fun getAll(): MutableList<TimerItem> =
         timerDao.getAll().map { mapper.toTimerItem(it) }.toMutableList()
     
-    override fun updateItem(timerItem: TimerItem) {
-        timerDao.update(mapper.toTimerDataItem(timerItem))
-    }
-    
-    override fun updateAll(timers: MutableList<TimerItem>) {
+    override fun updateItem(timerItem: TimerItem) = timerDao.update(mapper.toTimerDataItem(timerItem))
+
+    override fun updateAll(timers: MutableList<TimerItem>) =
         timerDao.updateAll(timers.map { mapper.toTimerDataItem(it) }.toMutableList())
-    }
-    
-    override fun insert(timerItem: TimerItem): Long {
-        return timerDao.insert(mapper.toTimerDataItem(timerItem))
-    }
-    
-    override fun remove(timerItem: TimerItem) {
-        timerDao.remove(mapper.toTimerDataItem(timerItem))
-    }
-    
-    override fun removeAll() {
-        timerDao.removeAll()
-    }
-    
-    
+
+    override fun insert(timerItem: TimerItem): Long = timerDao.insert(mapper.toTimerDataItem(timerItem))
+
+    override fun remove(timerItem: TimerItem) = timerDao.remove(mapper.toTimerDataItem(timerItem))
+
+    override fun removeAll() = timerDao.removeAll()
 }

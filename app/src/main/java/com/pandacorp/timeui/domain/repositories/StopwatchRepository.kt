@@ -14,5 +14,4 @@ interface StopwatchRepository {
     fun removeItem(stopwatchItem: StopwatchItem)
     
     fun removeAll()
-    
 }

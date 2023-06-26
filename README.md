@@ -1,6 +1,4 @@
-# TimeUI
-
 This app helps you:
-  to see time in multiple regions;
-  to create and use multiple timers;
-  to create and use multiple stopwatch;
+see time in multiple regions
+create and use multiple timers
+create and use multiple stopwatches

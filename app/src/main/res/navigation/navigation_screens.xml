@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/nav_main_screen">
+
+    <swipeable
+        android:id="@+id/nav_main_screen"
+        android:name="com.pandacorp.timeui.presentation.ui.screen.MainScreen"
+        tools:layout="@layout/screen_main" />
+
+    <swipeable
+        android:id="@+id/nav_clock_screen"
+        android:name="com.pandacorp.timeui.presentation.ui.screen.TimeZoneScreen"
+        tools:layout="@layout/screen_timezone" />
+
+    <swipeable
+        android:id="@+id/nav_stopwatch_screen"
+        android:name="com.pandacorp.timeui.presentation.ui.screen.StopWatchScreen"
+        tools:layout="@layout/screen_stopwatch" />
+
+    <swipeable
+        android:id="@+id/nav_timer_screen"
+        android:name="com.pandacorp.timeui.presentation.ui.screen.TimerScreen"
+        tools:layout="@layout/screen_timer" />
+
+    <swipeable
+        android:id="@+id/nav_settings_screen"
+        android:name="com.pandacorp.timeui.presentation.ui.screen.SettingsScreen"
+        android:label="@string/settings"
+        tools:layout="@layout/screen_settings" />
+
+</navigation>

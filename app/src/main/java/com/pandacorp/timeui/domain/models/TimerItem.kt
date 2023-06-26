@@ -1,24 +1,26 @@
 package com.pandacorp.timeui.domain.models
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class TimerItem(
     var id: Long = 0,
     var startTime: Long,
     var currentTime: Long,
     var status: Int
-) : Serializable {
+) : Parcelable {
     companion object STATUS {
-        //If timer was added
+        // Timer was added
         const val ADDED = -2
-        
-        //If reset btn was clicked
-        const val RESETED = -1
-        
-        //If stop btn was clicked
-        const val STOPED = 1
-        
-        //If start btn was clicked
+
+        // Reset button was clicked
+        const val RESET = -1
+
+        // Stop button was clicked
+        const val STOPPED = 1
+
+        // Start button was clicked
         const val RUNNING = 0
     }
 }

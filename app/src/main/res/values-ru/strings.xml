@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_clocks">Часы</string>
-    <string name="title_timer">Таймер</string>
-    <string name="title_stopwatch">Секундомер</string>
+    <string name="clocks">Часы</string>
+    <string name="timer">Таймер</string>
+    <string name="stopwatch">Секундомер</string>
 
     <string name="set_btn">Установить</string>
     <string name="start_btn">Старт</string>
@@ -17,7 +17,7 @@
     <string name="appearance">Внешний вид</string>
     <string name="language">Язык</string>
     <string name="theme">Тема</string>
-    <string name="version">Версия</string>
+    <string name="version">Версия %1$s</string>
 
     <string name="settings_language_default_value">ru</string>
     <string name="settings_language_summary">Русский</string>
@@ -25,14 +25,13 @@
 
     <!--  Share views  -->
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
-    <string name="settings_another">Другое</string>
+    <string name="another">Другое</string>
 
     <string name="selectTime">Выбирите время</string>
     <string name="cancel">Отменить</string>
 
     <string name="selectTimeZone">Выберите часовую зону</string>
     <string name="clockAlreadyAdded">Эти часы уже добавлены</string>
-    <string name="clockDefaultSwiped">Вы не можете удалить базовые часы</string>
 
     <string name="emptyRecyclerView">Пусто. Добавьте элемент с помощью кнопки в углу</string>
 

@@ -5,18 +5,13 @@ import com.pandacorp.timeui.domain.models.ClockItem
 import javax.inject.Inject
 
 class ClockMapper @Inject constructor() {
-    fun toClockItem(clockDataItem: ClockDataItem): ClockItem {
-        return ClockItem(
-                clockDataItem.id,
-                clockDataItem.timeZone,
-                clockDataItem.name)
-    }
-    
-    fun toClockDataItem(clockItem: ClockItem): ClockDataItem {
-        return ClockDataItem(
-                clockItem.id,
-                clockItem.timeZoneId,
-                clockItem.name
-        )
-    }
+    fun toClockItem(clockDataItem: ClockDataItem): ClockItem = ClockItem(
+        clockDataItem.id,
+        clockDataItem.timeZone
+    )
+
+    fun toClockDataItem(clockItem: ClockItem): ClockDataItem = ClockDataItem(
+        clockItem.id,
+        clockItem.timeZone
+    )
 }

@@ -5,7 +5,7 @@ import com.pandacorp.timeui.data.models.StopwatchDataItem
 
 @Dao
 interface StopwatchDao {
-    @Query("SELECT * FROM stopwatchDataItem")
+    @Query("SELECT * FROM stopwatches_table ORDER BY id DESC")
     fun getAll(): MutableList<StopwatchDataItem>
     
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -19,8 +19,8 @@ interface StopwatchDao {
     
     @Delete
     fun remove(item: StopwatchDataItem)
-    
-    @Query("DELETE FROM stopwatchDataItem")
+
+    @Query("DELETE FROM stopwatches_table")
     fun removeAll()
     
 }

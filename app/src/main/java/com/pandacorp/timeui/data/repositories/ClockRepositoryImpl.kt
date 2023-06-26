@@ -10,17 +10,9 @@ class ClockRepositoryImpl(private val dao: ClockDao, private val mapper: ClockMa
     override fun getAll(): MutableList<ClockItem> =
         dao.getAll().map { mapper.toClockItem(it) }.toMutableList()
     
-    override fun insertItem(clockItem: ClockItem): Long {
-        return dao.insert(mapper.toClockDataItem(clockItem))
-    }
-    
-    override fun removeItem(clockItem: ClockItem) {
-        dao.remove(mapper.toClockDataItem(clockItem))
-    }
-    
-    override fun removeAll() {
-        dao.removeAll()
-    }
-    
-    
+    override fun insertItem(clockItem: ClockItem): Long = dao.insert(mapper.toClockDataItem(clockItem))
+
+    override fun removeItem(clockItem: ClockItem) = dao.remove(mapper.toClockDataItem(clockItem))
+
+    override fun removeAll() = dao.removeAll()
 }

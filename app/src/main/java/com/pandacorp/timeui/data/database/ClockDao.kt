@@ -8,7 +8,7 @@ import com.pandacorp.timeui.data.models.ClockDataItem
 
 @Dao
 interface ClockDao {
-    @Query("SELECT * FROM clockDataItem")
+    @Query("SELECT * FROM clocks_table")
     fun getAll(): MutableList<ClockDataItem>
     
     @Insert
@@ -16,8 +16,8 @@ interface ClockDao {
     
     @Delete
     fun remove(item: ClockDataItem)
-    
-    @Query("DELETE FROM clockDataItem")
+
+    @Query("DELETE FROM clocks_table")
     fun removeAll()
 }
     

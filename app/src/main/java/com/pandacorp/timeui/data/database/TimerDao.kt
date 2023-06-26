@@ -5,7 +5,7 @@ import com.pandacorp.timeui.data.models.TimerDataItem
 
 @Dao
 interface TimerDao {
-    @Query("SELECT * FROM timerDataItem")
+    @Query("SELECT * FROM timers_table ORDER BY id DESC")
     fun getAll(): MutableList<TimerDataItem>
     
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -19,7 +19,7 @@ interface TimerDao {
     
     @Delete
     fun remove(item: TimerDataItem)
-    
-    @Query("DELETE FROM timerDataItem")
+
+    @Query("DELETE FROM timers_table")
     fun removeAll()
 }

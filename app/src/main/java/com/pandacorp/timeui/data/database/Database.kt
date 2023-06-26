@@ -14,5 +14,4 @@ abstract class Database : RoomDatabase() {
     abstract fun clockDao(): ClockDao
     abstract fun timerDao(): TimerDao
     abstract fun stopwatchDao(): StopwatchDao
-    
 }

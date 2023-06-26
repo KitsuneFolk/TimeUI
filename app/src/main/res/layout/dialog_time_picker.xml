@@ -1,76 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="@dimen/mediumMargin"
+    android:layout_marginTop="@dimen/mediumMargin"
+    android:layout_marginEnd="@dimen/mediumMargin"
+    android:layout_marginBottom="@dimen/mediumMargin"
+    android:minWidth="@dimen/dialog_minWidth"
+    android:minHeight="@dimen/dialog_minHeight"
+    app:cardBackgroundColor="?android:colorPrimary"
+    app:cardCornerRadius="@dimen/hugeCorners"
+    app:strokeColor="@android:color/darker_gray">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
-        <androidx.cardview.widget.CardView
+        <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:minWidth="@dimen/dialog_minWidth"
-            android:minHeight="@dimen/dialog_minHeight"
-            app:cardBackgroundColor="?android:colorBackground"
-            app:cardCornerRadius="@dimen/corners_radius">
+            android:layout_marginTop="@dimen/smallMargin"
+            android:text="@string/selectTime"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="@+id/timePicker"
+            app:layout_constraintStart_toStartOf="@+id/timePicker"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
+        <com.ikovac.timepickerwithseconds.TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:amPmTextColor="?android:textColor"
+            android:timePickerMode="spinner"
+            app:layout_constraintBottom_toTopOf="@id/cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
-                <TextView
-                    android:id="@+id/dialogTimerPickerTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/selectTime"
-                    android:textSize="25sp"
-                    app:layout_constraintEnd_toEndOf="@+id/dialogTimePicker"
-                    app:layout_constraintStart_toStartOf="@+id/dialogTimePicker"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginBottom="@dimen/mediumMargin"
+            android:text="@string/cancel"
+            android:layout_marginEnd="@dimen/bigMargin"
+            app:layout_constraintBottom_toBottomOf="@id/ok"
+            app:layout_constraintEnd_toStartOf="@+id/ok"
+            app:layout_constraintTop_toTopOf="@id/ok" />
 
-                <com.ikovac.timepickerwithseconds.TimePicker
-                    android:id="@+id/dialogTimePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:amPmTextColor="?android:textColor"
-                    android:timePickerMode="spinner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dialogTimerPickerTitle" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bigMargin"
+            android:layout_marginEnd="@dimen/bigMargin"
+            android:text="@string/ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:rippleColor="@android:color/darker_gray" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dialogTimePicker">
-
-
-                    <Button
-                        android:id="@+id/dialogTimePickerCancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:stateListAnimator="@animator/increase_size_normal_animator"
-                        android:text="@string/cancel" />
-
-                    <Button
-                        android:id="@+id/dialogTimePickerOk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:stateListAnimator="@animator/increase_size_normal_animator"
-                        android:text="@string/ok" />
-
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

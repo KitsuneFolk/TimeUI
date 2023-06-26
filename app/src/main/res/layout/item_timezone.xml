@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginStart="@dimen/mediumMargin"
+    android:layout_marginTop="@dimen/smallMargin"
+    android:layout_marginEnd="@dimen/mediumMargin"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackgroundBorderless"
+    android:orientation="horizontal"
+    app:cardBackgroundColor="?colorPrimary"
+    app:cardCornerRadius="@dimen/hugeCorners"
+    app:strokeColor="@android:color/darker_gray">
+
+    <TextView
+        android:id="@+id/countryTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingStart="@dimen/bigMargin"
+        android:paddingTop="@dimen/mediumMargin"
+        android:paddingBottom="@dimen/mediumMargin"
+        android:paddingEnd="@dimen/bigMargin"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxWidth="@dimen/maxWidth"
+        android:singleLine="true"
+        android:textSize="18sp"
+        tools:text="United states of Ohio and United Arabic Emirates of Zanzibar" />
+
+</com.google.android.material.card.MaterialCardView>

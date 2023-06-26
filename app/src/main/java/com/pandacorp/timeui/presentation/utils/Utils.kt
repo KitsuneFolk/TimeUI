@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pandacorp.timeui.domain.models.ClockItem
-import java.util.*
+import java.util.TimeZone
 
 class Utils {
     companion object {
-        const val TAG = "CustomUtils"
-        
         val clocksList: List<ClockItem> by lazy {
             TimeZone.getAvailableIDs().map {
                 TimeZone.getTimeZone(it)
@@ -22,7 +20,7 @@ class Utils {
                     { it.displayName.startsWith("GMT") }, // Sort by whether the name starts with "GMT"
                     { it.displayName } // Sort by the display name
             )).map {
-                ClockItem(timeZoneId = it.id, name = it.displayName)
+                ClockItem(timeZone = it.id)
             }
         }
         

@@ -1,32 +1,29 @@
 package com.pandacorp.timeui.domain.models
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class StopwatchItem(
     var id: Long = 0,
-    var startSysTime: Long = 0L,
-    var stopTime: Long = 0,
+    var startSysTime: Long = START_TIME,
+    var stopTime: Long = START_TIME,
     var status: Int = ADDED
-) : Serializable {
-    
+) : Parcelable {
+
     companion object {
-        // If timer was added
-        const val ADDED = 0
-        
-        // If reset btn was clicked
-        const val RESETED = 1
-        
-        // If stop btn was clicked
-        const val STOPED = 2
-        
-        // If start btn was clicked
-        const val RUNNING = 3
-        
-        // Default start time
+        // Stopwatch was added
+        const val ADDED = -2
+
+        // Reset button was clicked
+        const val RESET = -1
+
+        // Stop button was clicked
+        const val STOPPED = 1
+
+        // Start button was clicked
+        const val RUNNING = 0
+
         const val START_TIME = 0L
-        
-        fun create(): StopwatchItem {
-            return StopwatchItem()
-        }
     }
 }

@@ -14,5 +14,4 @@ interface TimerRepository {
     fun remove(timerItem: TimerItem)
     
     fun removeAll()
-    
 }

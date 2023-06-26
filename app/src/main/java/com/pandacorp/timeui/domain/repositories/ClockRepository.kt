@@ -10,5 +10,4 @@ interface ClockRepository {
     fun removeItem(clockItem: ClockItem)
     
     fun removeAll()
-    
 }

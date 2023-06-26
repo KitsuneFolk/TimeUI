@@ -1,7 +1,12 @@
 package com.pandacorp.timeui.presentation.di.app
 
 import android.app.Application
-import com.pandacorp.timeui.presentation.di.modules.*
+import com.pandacorp.timeui.presentation.di.modules.ClockModule
+import com.pandacorp.timeui.presentation.di.modules.DependenciesModule
+import com.pandacorp.timeui.presentation.di.modules.InjectorModule
+import com.pandacorp.timeui.presentation.di.modules.StopwatchModule
+import com.pandacorp.timeui.presentation.di.modules.TimerModule
+import com.pandacorp.timeui.presentation.di.modules.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -13,13 +18,13 @@ import javax.inject.Singleton
         modules = [
             AndroidInjectionModule::class,
             InjectorModule::class,
+            DependenciesModule::class,
             ClockModule::class,
             TimerModule::class,
             StopwatchModule::class,
             ViewModelModule::class
         ])
 interface AppComponent : AndroidInjector<App> {
-    
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -27,6 +32,5 @@ interface AppComponent : AndroidInjector<App> {
         
         fun build(): AppComponent
     }
-    
 }
 

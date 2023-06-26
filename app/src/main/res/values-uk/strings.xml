@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_clocks">Годинник</string>
-    <string name="title_timer">Таймер</string>
-    <string name="title_stopwatch">Секундомiр</string>
+    <string name="clocks">Годинник</string>
+    <string name="timer">Таймер</string>
+    <string name="stopwatch">Секундомiр</string>
 
     <string name="set_btn">Встановити</string>
     <string name="start_btn">Старт</string>
@@ -15,7 +15,7 @@
     <string name="appearance">Зовнiшний вигляд</string>
     <string name="language">Мова</string>
     <string name="theme">Тема</string>
-    <string name="version">Версія</string>
+    <string name="version">Версія %1$s</string>
 
     <string name="settings_language_default_value">uk</string>
     <string name="settings_language_summary">Українська</string>
@@ -24,14 +24,13 @@
 
     <!--  Share views  -->
     <string name="share_thanks">Дякую що поширили наш додаток!</string>
-    <string name="settings_another">Iнше</string>
+    <string name="another">Iнше</string>
 
     <string name="selectTime">Оберiть час</string>
     <string name="cancel">Вiдмiнити</string>
 
     <string name="selectTimeZone">Оберiть часовий пояс</string>
     <string name="clockAlreadyAdded">Цей годинник вже доданний</string>
-    <string name="clockDefaultSwiped">Ви не можете видалити базовий годинник</string>
 
     <string name="emptyRecyclerView">Порожньо. Додайте елемент за допомогою кнопки в кутi</string>
 </resources>

@@ -1,31 +1,22 @@
 package com.pandacorp.timeui.presentation.di.modules
 
-import android.app.Application
-import android.content.Context
-import androidx.room.Room
 import com.pandacorp.timeui.data.database.Database
 import com.pandacorp.timeui.data.database.TimerDao
 import com.pandacorp.timeui.data.mappers.TimerMapper
 import com.pandacorp.timeui.data.repositories.TimerRepositoryImpl
 import com.pandacorp.timeui.domain.repositories.TimerRepository
-import com.pandacorp.timeui.domain.usecases.timer.*
-import com.pandacorp.timeui.presentation.utils.Constans
+import com.pandacorp.timeui.domain.usecases.timer.AddTimerUseCase
+import com.pandacorp.timeui.domain.usecases.timer.GetTimersUseCase
+import com.pandacorp.timeui.domain.usecases.timer.RemoveAllTimersUseCase
+import com.pandacorp.timeui.domain.usecases.timer.RemoveTimerUseCase
+import com.pandacorp.timeui.domain.usecases.timer.UpdateAllTimersUseCase
+import com.pandacorp.timeui.domain.usecases.timer.UpdateTimerUseCase
 import com.pandacorp.timeui.presentation.vm.TimerViewModel
 import dagger.Module
 import dagger.Provides
 
 @Module
 class TimerModule {
-    
-    @Provides
-    fun provideContext(application: Application): Context = application
-    
-    @Provides
-    fun provideDatabase(context: Context): Database {
-        return Room.databaseBuilder(context, Database::class.java, Constans.Room.NAME)
-            .build()
-    }
-    
     @Provides
     fun provideTimerMapper(): TimerMapper = TimerMapper()
     

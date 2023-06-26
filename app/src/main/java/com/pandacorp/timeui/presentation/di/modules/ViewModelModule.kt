@@ -13,20 +13,21 @@ import dagger.multibindings.IntoMap
 import javax.inject.Singleton
 import kotlin.reflect.KClass
 
-@Suppress("unused")
 @Module
 abstract class ViewModelModule {
-    
+
+    @Singleton
     @Binds
     @IntoMap
     @ViewModelKey(ClockViewModel::class)
     abstract fun bindClockViewModel(clockViewModel: ClockViewModel): ViewModel
-    
+
+    @Singleton
     @Binds
     @IntoMap
     @ViewModelKey(TimerViewModel::class)
     abstract fun bindTimerViewModel(timerViewModel: TimerViewModel): ViewModel
-    
+
     @Singleton
     @Binds
     @IntoMap

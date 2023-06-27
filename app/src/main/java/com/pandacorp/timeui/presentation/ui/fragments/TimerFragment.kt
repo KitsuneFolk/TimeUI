@@ -74,7 +74,7 @@ class TimerFragment : DaggerFragment(R.layout.fragment_timer) {
     }
 
     override fun onDestroyView() {
-        // Get all active CountdownView's from adapter and cancel them
+        // Get all active CountdownViews from adapter and cancel them
         timerAdapter.currentList.forEachIndexed { position, _ ->
             val viewHolder = binding.timerRecyclerView.findViewHolderForAdapterPosition(position)
             if (viewHolder != null)

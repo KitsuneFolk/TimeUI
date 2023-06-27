@@ -77,7 +77,6 @@ class StopWatchScreen : DaggerFragment(R.layout.screen_stopwatch) {
         }
 
         binding.resetButton.setOnClickListener {
-            binding.stopwatchView.cancel()
             binding.stopwatchView.setTime(StopwatchItem.START_TIME)
 
             binding.stopButton.visibility = View.VISIBLE
@@ -93,12 +92,12 @@ class StopWatchScreen : DaggerFragment(R.layout.screen_stopwatch) {
     }
 
     private fun checkStatus() {
+        binding.stopwatchView.cancel()
         val stopwatchItem = viewModel.stopwatchItem
         when (stopwatchItem.status) {
             StopwatchItem.ADDED -> binding.stopwatchView.setTime(StopwatchItem.START_TIME)
 
             StopwatchItem.STOPPED -> {
-                binding.stopwatchView.cancel()
                 binding.stopwatchView.setTime(stopwatchItem.stopTime)
 
                 binding.stopButton.visibility = View.GONE
@@ -113,18 +112,11 @@ class StopWatchScreen : DaggerFragment(R.layout.screen_stopwatch) {
             }
 
             StopwatchItem.RESET -> {
-                binding.stopwatchView.cancel()
                 binding.stopwatchView.setTime(0)
 
                 binding.stopButton.visibility = View.VISIBLE
                 binding.resetButton.visibility = View.GONE
             }
         }
-
-    }
-
-    override fun onDestroy() {
-        binding.stopwatchView.cancel()
-        super.onDestroy()
     }
 }

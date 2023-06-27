@@ -7,23 +7,72 @@ import androidx.appcompat.widget.AppCompatTextView
 class StopwatchView : AppCompatTextView {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int)
-            : super(context, attrs, defStyleAttr)
-    
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
     private var stopwatch: Stopwatch? = null
     private var milliseconds: Long = -1000L
-    
+
+    private var mRegistered = false
+    private var isRunning = false
+
+    private var mPreviousIntervalCallbackTime: Long? = null
+
     /**
-     * Start the stopwatch with given milliseconds;
-     * @param milliseconds - the millisecond we should start count from
+     * Start the stopwatch with given milliseconds
+     * @param milliseconds the millisecond we should start count from
      */
-    fun start(milliseconds: Long = 0L) {
+    fun start(milliseconds: Long = this.milliseconds) {
         stopwatch?.cancel()
         stopwatch = null
-        this.milliseconds = milliseconds - 1000L // Add delay
+
+        mPreviousIntervalCallbackTime = null
+        isRunning = true
+        this.milliseconds = milliseconds - 1000
+
         setTimer()
     }
-    
+
+    /**
+     * Set the stopwatch time text with given milliseconds
+     * @param milliseconds Long variable
+     */
+    fun setTime(milliseconds: Long = 0) {
+        this.milliseconds = milliseconds
+        text = getFormattedTime(milliseconds)
+    }
+
+    /**
+     * Cancel the stopwatch
+     */
+    fun cancel() {
+        stopwatch?.cancel()
+        stopwatch = null
+        isRunning = false
+        mPreviousIntervalCallbackTime = null
+    }
+
+    fun getTime(): Long = milliseconds
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        if (mRegistered || isRunning) {
+            stopwatch?.cancel()
+            mRegistered = false
+            mPreviousIntervalCallbackTime = System.currentTimeMillis()
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (!mRegistered && isRunning) {
+            mRegistered = true
+            mPreviousIntervalCallbackTime?.let {
+                setTime(milliseconds + System.currentTimeMillis() - it)
+            }
+            start()
+        }
+    }
+
     private fun setTimer() {
         stopwatch = object : Stopwatch() {
             override fun onTick() {
@@ -31,11 +80,10 @@ class StopwatchView : AppCompatTextView {
                 val time = getFormattedTime(milliseconds)
                 text = time
             }
-            
         }
         stopwatch?.start()
     }
-    
+
     private fun getFormattedTime(time: Long): String {
         val seconds = (time / 1000) % 60
         val minutes = (time / 1000 / 60) % 60
@@ -49,20 +97,5 @@ class StopwatchView : AppCompatTextView {
             0L -> String.format(pattern, hours, minutes, seconds)
             else -> String.format(pattern, days, hours, minutes, seconds)
         }
-    }
-    
-    fun setTime(milliseconds: Long) {
-        stopwatch?.cancel()
-        
-        this.milliseconds = milliseconds
-        text = getFormattedTime(milliseconds)
-    }
-    
-    fun cancel() {
-        stopwatch?.cancel()
-    }
-    
-    fun getTime(): Long {
-        return milliseconds
     }
 }

@@ -34,9 +34,8 @@ class StopwatchFragment : DaggerFragment(R.layout.fragment_stopwatch) {
     private val stopwatchAdapter by lazy {
         StopwatchAdapter().apply {
             stopwatchListener = object : StopwatchAdapter.StopwatchListener {
-                override fun onStopwatchRemove(viewHolder: StopwatchAdapter.ViewHolder) {
-                    super.onStopwatchRemove(viewHolder)
-                    viewModel.removeItemAt(viewHolder.adapterPosition)
+                override fun onStopwatchRemove(position: Int) {
+                    viewModel.removeItemAt(position)
                     Utils.handleShowingFAB(binding.recyclerView, binding.addFab)
                 }
 
@@ -100,7 +99,7 @@ class StopwatchFragment : DaggerFragment(R.layout.fragment_stopwatch) {
                 object : CustomItemTouchHelper.ItemTouchHelperListener {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                         if (viewHolder is StopwatchAdapter.ViewHolder)
-                            stopwatchAdapter.stopwatchListener!!.onStopwatchRemove(viewHolder)
+                            stopwatchAdapter.stopwatchListener!!.onStopwatchRemove(viewHolder.adapterPosition)
                     }
                 })
             ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerView)
@@ -112,13 +111,4 @@ class StopwatchFragment : DaggerFragment(R.layout.fragment_stopwatch) {
         }
     }
 
-    override fun onDestroyView() {
-        // Cancel all active StopwatchViews
-        stopwatchAdapter.currentList.forEachIndexed { i, _ ->
-            val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(i)
-            if (viewHolder != null)
-                (viewHolder as StopwatchAdapter.ViewHolder).binding.stopwatchView.cancel()
-        }
-        super.onDestroyView()
-    }
 }

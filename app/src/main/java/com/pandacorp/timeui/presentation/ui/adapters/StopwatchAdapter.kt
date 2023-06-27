@@ -1,9 +1,9 @@
 package com.pandacorp.timeui.presentation.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,10 +15,7 @@ import com.pandacorp.timeui.domain.models.StopwatchItem
 class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>(StopwatchDiffCallback()) {
 
     interface StopwatchListener {
-        @CallSuper
-        fun onStopwatchRemove(viewHolder: ViewHolder) {
-            viewHolder.binding.stopwatchView.cancel()
-        }
+        fun onStopwatchRemove(position: Int)
 
         fun onStopwatchUpdate(stopwatchItem: StopwatchItem)
 
@@ -32,6 +29,7 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
             binding.stopwatchView.setOnClickListener {
                 stopwatchListener!!.onStopwatchClicked(stopwatchItem)
             }
+
             binding.startButton.setOnClickListener {
                 when (stopwatchItem.status) {
                     StopwatchItem.RUNNING -> {
@@ -70,7 +68,6 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
 
                 binding.stopButton.visibility = View.GONE
                 binding.resetButton.visibility = View.VISIBLE
-
             }
             binding.resetButton.setOnClickListener {
                 binding.stopwatchView.cancel()
@@ -91,11 +88,10 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
 
             binding.menu.setOnClickListener {
                 val menu = PopupMenu(itemView.context, binding.menu)
-                val inflater = menu.menuInflater
-                inflater.inflate(R.menu.item_list_menu, menu.menu)
+                menu.menuInflater.inflate(R.menu.item_list_menu, menu.menu)
                 menu.setOnMenuItemClickListener { menu_item ->
                     when (menu_item.itemId) {
-                        R.id.menu_item_delete -> stopwatchListener!!.onStopwatchRemove(this)
+                        R.id.menu_item_delete -> stopwatchListener!!.onStopwatchRemove(adapterPosition)
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -132,9 +128,11 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
 
     private fun checkStatus(binding: ItemStopwatchBinding, stopwatchItem: StopwatchItem) {
         // Reset values
+        binding.stopwatchView.cancel()
         binding.stopButton.visibility = View.VISIBLE
         binding.resetButton.visibility = View.GONE
 
+        Log.d("Stopwatch", "checkStatus: stopwatchItem.status = ${stopwatchItem.status}")
         when (stopwatchItem.status) {
             StopwatchItem.ADDED -> {
                 binding.stopwatchView.setTime(StopwatchItem.START_TIME)
@@ -155,7 +153,6 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
             }
 
             StopwatchItem.RESET -> {
-                binding.stopwatchView.cancel()
                 binding.stopwatchView.setTime(StopwatchItem.START_TIME)
 
                 binding.stopButton.visibility = View.VISIBLE
@@ -163,5 +160,4 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
             }
         }
     }
-
 }

@@ -1,6 +1,7 @@
 package com.pandacorp.timeui.presentation.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +30,7 @@ class ClockFragment : DaggerFragment(R.layout.fragment_clock) {
 
     private val viewModel by viewModels<ClockViewModel>({ activity as MainActivity }) { viewModelFactory }
 
-    private val customAdapter by lazy {
+    private val clockAdapter by lazy {
         ClockAdapter(this@ClockFragment.requireActivity())
     }
 
@@ -39,40 +40,47 @@ class ClockFragment : DaggerFragment(R.layout.fragment_clock) {
         initViews()
 
         viewModel.clocksList.observe(viewLifecycleOwner) {
-            customAdapter.submitList(it)
+            clockAdapter.submitList(it)
         }
     }
 
     private fun initViews() {
-        binding.clockRV.layoutManager = LinearLayoutManager(requireContext())
+        binding.clockRV.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = clockAdapter
+            addOnChildAttachStateChangeListener(
+                object : RecyclerView.OnChildAttachStateChangeListener {
+                    override fun onChildViewAttachedToWindow(view: View) {}
 
-        binding.clockRV.adapter = customAdapter
+                    override fun onChildViewDetachedFromWindow(view: View) {
+                        Log.d("TAG", "onChildViewDetachedFromWindow: position = ${getChildAdapterPosition(view)}")
+                    }
+                })
 
-        // TODO: Also do I need to clear the viwemodel's item?
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+
+            val itemTouchHelper = CustomItemTouchHelper(
+                requireContext(),
+                Constants.ITHKey.CLOCK,
+                object : CustomItemTouchHelper.ItemTouchHelperListener {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
+                        if (viewHolder is ClockAdapter.ViewHolder) {
+                            viewModel.removeAt(viewHolder.adapterPosition)
+                            Utils.handleShowingFAB(binding.clockRV, binding.addFab)
+                        }
+                    }
+                })
+            itemTouchHelper.isRoundCornersEnabled = false
+            ItemTouchHelper(itemTouchHelper).attachToRecyclerView(this)
+        }
 
         binding.addFab.setOnClickListener {
             fragulaNavController.navigate(R.id.nav_clock_screen)
         }
-
-        binding.clockRV.addItemDecoration(
-            DividerItemDecoration(
-                binding.clockRV.context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
-
-        val itemTouchHelper = CustomItemTouchHelper(
-            requireContext(),
-            Constants.ITHKey.CLOCK,
-            object : CustomItemTouchHelper.ItemTouchHelperListener {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-                    if (viewHolder is ClockAdapter.ViewHolder) {
-                        viewModel.removeAt(viewHolder.adapterPosition)
-                        Utils.handleShowingFAB(binding.clockRV, binding.addFab)
-                    }
-                }
-            })
-        itemTouchHelper.isRoundCornersEnabled = false
-        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.clockRV)
     }
 }

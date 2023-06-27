@@ -11,23 +11,14 @@ abstract class Stopwatch {
     
     private val mCountdownInterval: Long = 1000L
     
-    /**
-     * boolean representing if the timer was cancelled
-     */
     private var mCancelled = false
     
-    /**
-     * Cancel the countdown.
-     */
     @Synchronized
     fun cancel() {
         mCancelled = true
         mHandler.removeMessages(MSG)
     }
     
-    /**
-     * Start the countdown.
-     */
     @Synchronized
     fun start() {
         mCancelled = false

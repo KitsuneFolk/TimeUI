@@ -52,6 +52,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
         binding.navView.apply {
             setupWithNavController(navController)
             setOnItemSelectedListener {
+                if (it.itemId == binding.navView.selectedItemId) return@setOnItemSelectedListener false
                 navigateFragment(it.itemId)
                 true
             }

@@ -21,11 +21,11 @@ class ClockAdapter(private var context: Context) :
         private const val datePattern = "dd.MM.yyyy"
         private const val dayPattern = "EEEE" // Show the full day name e.g Thursday
     }
-    
+
     class ClockDiffCallback : DiffUtil.ItemCallback<ClockItem>() {
         override fun areItemsTheSame(oldItem: ClockItem, newItem: ClockItem): Boolean =
             oldItem.id == newItem.id
-        
+
         override fun areContentsTheSame(oldItem: ClockItem, newItem: ClockItem): Boolean =
             oldItem == newItem
     }
@@ -38,7 +38,7 @@ class ClockAdapter(private var context: Context) :
             val timeZone = TimeZone.getTimeZone(clockItem.timeZone)
             val date = Calendar.getInstance(timeZone).time
 
-            dateFormatter.timeZone = timeZone //TODO: Replace with https://github.com/andrea-liu87/MyClock
+            dateFormatter.timeZone = timeZone
             dayFormatter.timeZone = timeZone
 
             val dateString = dateFormatter.format(date)
@@ -52,18 +52,18 @@ class ClockAdapter(private var context: Context) :
             binding.textClock.typeface = ResourcesCompat.getFont(context, R.font.inter)
         }
     }
-    
+
     override fun getItemCount(): Int = currentList.size
-    
+
     override fun submitList(list: MutableList<ClockItem>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
-    
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemClockBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-    
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val clockItem = getItem(position)
         holder.bind(clockItem)

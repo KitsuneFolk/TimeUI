@@ -132,7 +132,6 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
         binding.stopButton.visibility = View.VISIBLE
         binding.resetButton.visibility = View.GONE
 
-        Log.d("Stopwatch", "checkStatus: stopwatchItem.status = ${stopwatchItem.status}")
         when (stopwatchItem.status) {
             StopwatchItem.ADDED -> {
                 binding.stopwatchView.setTime(StopwatchItem.START_TIME)

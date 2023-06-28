@@ -1,7 +1,6 @@
 package com.pandacorp.timeui.presentation.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -48,15 +47,6 @@ class ClockFragment : DaggerFragment(R.layout.fragment_clock) {
         binding.clockRV.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = clockAdapter
-            addOnChildAttachStateChangeListener(
-                object : RecyclerView.OnChildAttachStateChangeListener {
-                    override fun onChildViewAttachedToWindow(view: View) {}
-
-                    override fun onChildViewDetachedFromWindow(view: View) {
-                        Log.d("TAG", "onChildViewDetachedFromWindow: position = ${getChildAdapterPosition(view)}")
-                    }
-                })
-
             addItemDecoration(
                 DividerItemDecoration(
                     context,

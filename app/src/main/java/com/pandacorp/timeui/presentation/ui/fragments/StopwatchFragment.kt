@@ -1,6 +1,8 @@
 package com.pandacorp.timeui.presentation.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -60,28 +62,30 @@ class StopwatchFragment : DaggerFragment(R.layout.fragment_stopwatch) {
     private fun initViews() {
         viewModel.stopwatchesList.observe(viewLifecycleOwner) {
             stopwatchAdapter.submitList(it)
-            if (it.isEmpty()) {
-                val transition = Fade().apply {
-                    duration = Constants.ANIMATION_DURATION
-                    addTarget(binding.recyclerView)
-                    addTarget(binding.hintInclude.root)
-                }
+            Handler(Looper.getMainLooper()).postDelayed({ // Add a delay for recyclerview to call onDetachedFromWindow
+                if (it.isEmpty()) {
+                    val transition = Fade().apply {
+                        duration = Constants.ANIMATION_DURATION
+                        addTarget(binding.recyclerView)
+                        addTarget(binding.hintInclude.root)
+                    }
 
-                TransitionManager.beginDelayedTransition(binding.root, transition)
-                binding.recyclerView.visibility = View.GONE
-                binding.hintInclude.root.visibility = View.VISIBLE
-            } else {
-                if (binding.hintInclude.root.visibility != View.VISIBLE) return@observe // skip, user just entered the fragment
-                val transition = Fade().apply {
-                    duration = Constants.ANIMATION_DURATION
-                    addTarget(binding.recyclerView)
-                    addTarget(binding.hintInclude.root)
-                }
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
+                    binding.recyclerView.visibility = View.GONE
+                    binding.hintInclude.root.visibility = View.VISIBLE
+                } else {
+                    if (binding.hintInclude.root.visibility != View.VISIBLE) return@postDelayed // skip, user just entered the fragment
+                    val transition = Fade().apply {
+                        duration = Constants.ANIMATION_DURATION
+                        addTarget(binding.recyclerView)
+                        addTarget(binding.hintInclude.root)
+                    }
 
-                TransitionManager.beginDelayedTransition(binding.root, transition)
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.hintInclude.root.visibility = View.GONE
-            }
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
+                    binding.recyclerView.visibility = View.VISIBLE
+                    binding.hintInclude.root.visibility = View.GONE
+                }
+            }, 50)
         }
 
         binding.recyclerView.apply {

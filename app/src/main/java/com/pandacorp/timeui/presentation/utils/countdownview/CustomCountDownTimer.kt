@@ -3,57 +3,30 @@ package com.pandacorp.timeui.presentation.utils.countdownview
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.os.SystemClock
 
-abstract class CustomCountDownTimer(var millisInFuture: Long, countDownInterval: Long) {
-    private val mMillisInFuture: Long
+abstract class CustomCountDownTimer(countDownInterval: Long) {
     private val mCountdownInterval: Long = countDownInterval
-    private var mStopTimeInFuture: Long = 0
-    private var mPauseTimeInFuture: Long = 0
-    private var isStop = false
-    private var isPause = false
+    private var isRunning = false
 
-    init {
-        if (countDownInterval > 1000) millisInFuture += 15
-        mMillisInFuture = millisInFuture
-    }
+    var milliseconds: Long = 0
+        private set
 
     @Synchronized
-    private fun start(millisInFuture: Long): CustomCountDownTimer {
-        isStop = false
-        if (millisInFuture <= 0) {
+    fun start(milliseconds: Long = this.milliseconds) {
+        isRunning = true
+        this.milliseconds = milliseconds
+        if (milliseconds <= 0) {
             onFinish()
-            return this
+            isRunning = false
+            return
         }
-        mStopTimeInFuture = SystemClock.elapsedRealtime() + millisInFuture
         mHandler.sendMessage(mHandler.obtainMessage(MSG))
-        return this
     }
 
     @Synchronized
-    fun start() {
-        start(mMillisInFuture)
-    }
-
-    @Synchronized
-    fun stop() {
-        isStop = true
+    fun cancel() {
+        isRunning = false
         mHandler.removeMessages(MSG)
-    }
-
-    @Synchronized
-    fun pause() {
-        if (isStop) return
-        isPause = true
-        mPauseTimeInFuture = mStopTimeInFuture - SystemClock.elapsedRealtime()
-        mHandler.removeMessages(MSG)
-    }
-
-    @Synchronized
-    fun restart() {
-        if (isStop || !isPause) return
-        isPause = false
-        start(mPauseTimeInFuture)
     }
 
     abstract fun onTick(millisUntilFinished: Long)
@@ -62,16 +35,15 @@ abstract class CustomCountDownTimer(var millisInFuture: Long, countDownInterval:
     private val mHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             synchronized(this@CustomCountDownTimer) {
-                if (isStop || isPause) {
-                    return
-                }
-                val millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime()
-                if (millisLeft <= 0) {
+                if (milliseconds <= 0) {
                     onFinish()
-                } else {
-                    val lastTickStart = SystemClock.elapsedRealtime()
-                    onTick(millisLeft)
-                    var delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime()
+                    isRunning = false
+                }
+                else {
+                    val lastTickStart = System.currentTimeMillis()
+                    onTick(milliseconds)
+                    milliseconds -= mCountdownInterval
+                    var delay = lastTickStart + mCountdownInterval - System.currentTimeMillis()
                     while (delay < 0) delay += mCountdownInterval
                     sendMessageDelayed(obtainMessage(MSG), delay)
                 }

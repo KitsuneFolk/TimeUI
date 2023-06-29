@@ -3,7 +3,6 @@ package com.pandacorp.timeui.presentation.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -16,10 +15,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
     var timerListener: TimerListener? = null
 
     interface TimerListener {
-        @CallSuper
-        fun onTimerRemove(viewHolder: TimerAdapter.ViewHolder) {
-            viewHolder.binding.countdown.stop()
-        } // Remove in Room
+        fun onTimerRemove(viewHolder: TimerAdapter.ViewHolder) // Remove in Room
 
         fun onTimerUpdate(position: Int, timerItem: TimerItem) // Update in Room
 
@@ -64,7 +60,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
                 binding.resetButton.visibility = View.GONE
 
                 timerItem.apply {
-                    currentTime = binding.countdown.remainTime + System.currentTimeMillis()
+                    currentTime = binding.countdown.milliseconds + System.currentTimeMillis()
                     status = TimerItem.RUNNING
                 }
 
@@ -72,7 +68,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
             }
 
             binding.resetButton.setOnClickListener {
-                binding.countdown.stop()
+                binding.countdown.cancel()
 
                 timerItem.status = TimerItem.RESET
                 binding.stopButton.visibility = View.VISIBLE
@@ -87,14 +83,14 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
             }
 
             binding.stopButton.setOnClickListener {
-                binding.countdown.stop()
+                binding.countdown.cancel()
 
                 binding.stopButton.visibility = View.GONE
                 binding.resetButton.visibility = View.VISIBLE
 
                 timerItem.apply {
                     status = TimerItem.STOPPED
-                    currentTime = binding.countdown.remainTime
+                    currentTime = binding.countdown.milliseconds
                 }
 
                 timerListener!!.onTimerUpdate(adapterPosition, timerItem)
@@ -107,7 +103,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
                 menu.setOnMenuItemClickListener { menu_item ->
                     when (menu_item.itemId) {
                         R.id.menu_item_delete ->
-                            timerListener?.onTimerRemove(this)
+                            timerListener!!.onTimerRemove(this)
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -131,14 +127,13 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
     }
 
     private fun checkStatus(binding: ItemTimerBinding, timerItem: TimerItem) {
-        binding.countdown.stop()
+        binding.countdown.cancel()
         binding.countdown.allShowZero()
 
         when (timerItem.status) {
             TimerItem.ADDED -> binding.countdown.updateShow(timerItem.startTime)
 
             TimerItem.STOPPED -> {
-                binding.countdown.stop()
                 binding.countdown.updateShow(timerItem.currentTime)
 
                 binding.stopButton.visibility = View.GONE
@@ -146,7 +141,6 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
             }
 
             TimerItem.RUNNING -> {
-                binding.countdown.stop()
                 binding.countdown.start(timerItem.currentTime - System.currentTimeMillis())
 
                 binding.stopButton.visibility = View.VISIBLE
@@ -154,7 +148,6 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
             }
 
             TimerItem.RESET -> {
-                binding.countdown.stop()
                 binding.countdown.updateShow(timerItem.startTime)
 
                 binding.stopButton.visibility = View.VISIBLE

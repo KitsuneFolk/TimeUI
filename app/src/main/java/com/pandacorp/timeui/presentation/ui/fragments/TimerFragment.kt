@@ -1,6 +1,8 @@
 package com.pandacorp.timeui.presentation.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -38,7 +40,6 @@ class TimerFragment : DaggerFragment(R.layout.fragment_timer) {
         TimerAdapter().apply {
             timerListener = object : TimerAdapter.TimerListener {
                 override fun onTimerRemove(viewHolder: TimerAdapter.ViewHolder) {
-                    super.onTimerRemove(viewHolder)
                     viewModel.removeItemAt(viewHolder.adapterPosition)
                     Utils.handleShowingFAB(binding.timerRecyclerView, binding.addFab)
                 }
@@ -73,16 +74,6 @@ class TimerFragment : DaggerFragment(R.layout.fragment_timer) {
         initViews()
     }
 
-    override fun onDestroyView() {
-        // Get all active CountdownViews from adapter and cancel them
-        timerAdapter.currentList.forEachIndexed { position, _ ->
-            val viewHolder = binding.timerRecyclerView.findViewHolderForAdapterPosition(position)
-            if (viewHolder != null)
-                (viewHolder as TimerAdapter.ViewHolder).binding.countdown.stop()
-        }
-        super.onDestroyView()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         if (addDialog.isShowing) outState.putInt(Constants.Dialog.SAVE_KEY, Constants.Dialog.TIMER_DIALOG)
         super.onSaveInstanceState(outState)
@@ -101,28 +92,30 @@ class TimerFragment : DaggerFragment(R.layout.fragment_timer) {
         viewModel.timersList.observe(viewLifecycleOwner) {
             timerAdapter.submitList(it)
 
-            if (it.isEmpty()) {
-                val transition = Fade().apply {
-                    duration = Constants.ANIMATION_DURATION
-                    addTarget(binding.timerRecyclerView)
-                    addTarget(binding.timerIncludeHint.root)
-                }
+            Handler(Looper.getMainLooper()).postDelayed({ // Add a delay for recyclerview to call onDetachedFromWindow
+                if (it.isEmpty()) {
+                    val transition = Fade().apply {
+                        duration = Constants.ANIMATION_DURATION
+                        addTarget(binding.timerRecyclerView)
+                        addTarget(binding.timerIncludeHint.root)
+                    }
 
-                TransitionManager.beginDelayedTransition(binding.root, transition)
-                binding.timerRecyclerView.visibility = View.GONE
-                binding.timerIncludeHint.root.visibility = View.VISIBLE
-            } else {
-                if (binding.timerIncludeHint.root.visibility != View.VISIBLE) return@observe // skip, user just entered the fragment
-                val transition = Fade().apply {
-                    duration = Constants.ANIMATION_DURATION
-                    addTarget(binding.timerRecyclerView)
-                    addTarget(binding.timerIncludeHint.root)
-                }
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
+                    binding.timerRecyclerView.visibility = View.GONE
+                    binding.timerIncludeHint.root.visibility = View.VISIBLE
+                } else {
+                    if (binding.timerIncludeHint.root.visibility != View.VISIBLE) return@postDelayed // Skip, user just entered the fragment
+                    val transition = Fade().apply {
+                        duration = Constants.ANIMATION_DURATION
+                        addTarget(binding.timerRecyclerView)
+                        addTarget(binding.timerIncludeHint.root)
+                    }
 
-                TransitionManager.beginDelayedTransition(binding.root, transition)
-                binding.timerRecyclerView.visibility = View.VISIBLE
-                binding.timerIncludeHint.root.visibility = View.GONE
-            }
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
+                    binding.timerRecyclerView.visibility = View.VISIBLE
+                    binding.timerIncludeHint.root.visibility = View.GONE
+                }
+            }, 50)
         }
 
         binding.timerRecyclerView.apply {

@@ -28,7 +28,7 @@ class TimerScreen : DaggerFragment(R.layout.screen_timer) {
     }
 
     override fun onDestroyView() {
-        binding.countdown.stop()
+        binding.countdown.cancel()
         super.onDestroyView()
     }
 
@@ -60,21 +60,20 @@ class TimerScreen : DaggerFragment(R.layout.screen_timer) {
             binding.stopButton.visibility = View.VISIBLE
             binding.resetButton.visibility = View.GONE
 
-            timerItem.currentTime =
-                binding.countdown.remainTime + System.currentTimeMillis()
+            timerItem.currentTime = binding.countdown.milliseconds + System.currentTimeMillis()
             timerItem.status = TimerItem.RUNNING
 
             viewModel.updateItem(timerItem)
         }
 
         binding.stopButton.setOnClickListener {
-            binding.countdown.stop()
+            binding.countdown.cancel()
 
             binding.stopButton.visibility = View.GONE
             binding.resetButton.visibility = View.VISIBLE
 
             val timerItem = viewModel.timerItem.apply {
-                currentTime = binding.countdown.remainTime
+                currentTime = binding.countdown.milliseconds
                 status = TimerItem.STOPPED
             }
 
@@ -93,7 +92,7 @@ class TimerScreen : DaggerFragment(R.layout.screen_timer) {
             binding.stopButton.visibility = View.VISIBLE
             binding.resetButton.visibility = View.GONE
 
-            binding.countdown.stop()
+            binding.countdown.cancel()
             binding.countdown.updateShow(timerItem.startTime)
         }
     }
@@ -103,7 +102,7 @@ class TimerScreen : DaggerFragment(R.layout.screen_timer) {
         when (timerItem.status) {
             TimerItem.ADDED -> binding.countdown.updateShow(timerItem.startTime)
             TimerItem.STOPPED -> {
-                binding.countdown.stop()
+                binding.countdown.cancel()
                 binding.countdown.updateShow(timerItem.currentTime)
 
                 binding.stopButton.visibility = View.GONE
@@ -118,7 +117,7 @@ class TimerScreen : DaggerFragment(R.layout.screen_timer) {
             }
 
             TimerItem.RESET -> {
-                binding.countdown.stop()
+                binding.countdown.cancel()
                 binding.countdown.updateShow(timerItem.startTime)
 
                 binding.stopButton.visibility = View.VISIBLE

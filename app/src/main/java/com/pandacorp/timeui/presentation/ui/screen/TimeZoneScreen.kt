@@ -46,7 +46,6 @@ class TimeZoneScreen : DaggerFragment(R.layout.screen_timezone) {
 
         binding.ok.setOnClickListener {
             timeZoneAdapter.selectedPosition?.let {
-                // TODO: https://stackoverflow.com/questions/56243119/pass-data-back-to-previous-fragment-using-android-navigation and update in ClockScreen
                 val clockItem = Utils.clocksList[it]
                 if ((viewModel.clocksList.value?.any { item -> item.timeZone == clockItem.timeZone } != true)) {
                     viewModel.addItem(clockItem)

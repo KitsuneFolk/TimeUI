@@ -1,13 +1,10 @@
 package com.pandacorp.timeui.presentation.ui.adapters.clocks
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.pandacorp.timeui.R
 import com.pandacorp.timeui.databinding.ItemClockBinding
 import com.pandacorp.timeui.domain.models.ClockItem
 import java.text.SimpleDateFormat
@@ -15,8 +12,7 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 
-class ClockAdapter(private var context: Context) :
-    ListAdapter<ClockItem, ClockAdapter.ViewHolder>(ClockDiffCallback()) {
+class ClockAdapter : ListAdapter<ClockItem, ClockAdapter.ViewHolder>(ClockDiffCallback()) {
     companion object {
         private const val datePattern = "dd.MM.yyyy"
         private const val dayPattern = "EEEE" // Show the full day name e.g Thursday
@@ -48,8 +44,6 @@ class ClockAdapter(private var context: Context) :
             binding.dateTv.text = dateString
             binding.dayTv.text = dayString
             binding.countryTextView.text = timeZone.displayName
-
-            binding.textClock.typeface = ResourcesCompat.getFont(context, R.font.inter)
         }
     }
 

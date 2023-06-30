@@ -48,7 +48,7 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <TextClock
+        <com.pandacorp.timeui.presentation.utils.clock.AppCompatTextClock
             android:id="@+id/textClock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +57,8 @@
             android:layout_marginTop="@dimen/smallMargin"
             android:layout_marginEnd="@dimen/smallMargin"
             android:fontFamily="@font/inter"
-            android:format24Hour="HH:mm:ss"
+            app:format12Hour="hh:mm:ss a"
+            app:format24Hour="HH:mm:ss"
             android:textSize="50sp"
             tools:text="16:52:23" />
 

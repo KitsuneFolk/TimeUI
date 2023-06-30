@@ -30,7 +30,7 @@ class ClockFragment : DaggerFragment(R.layout.fragment_clock) {
     private val viewModel by viewModels<ClockViewModel>({ activity as MainActivity }) { viewModelFactory }
 
     private val clockAdapter by lazy {
-        ClockAdapter(this@ClockFragment.requireActivity())
+        ClockAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

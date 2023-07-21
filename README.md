@@ -4,6 +4,8 @@ App that combines Clocks, Stopwatches and Timers, has 4 themes and 3 languages(E
 
 Built with Dagger 2, Fragula, MVVM, Clean Architecture.
 
+![Android CI](https://github.com/MrRuslanYT/TimeUI/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Here's a video of the app's work: 
 
 

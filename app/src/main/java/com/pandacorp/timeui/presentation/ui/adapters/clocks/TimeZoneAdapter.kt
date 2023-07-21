@@ -35,17 +35,16 @@ class TimeZoneAdapter : ListAdapter<ClockItem, TimeZoneAdapter.ViewHolder>(Clock
 
             binding.root.apply {
                 strokeColor =
-                    if (selectedPosition == adapterPosition) selectionColor!! // Select
+                    if (selectedPosition == bindingAdapterPosition) selectionColor!! // Select
                     else Color.LTGRAY // Unselect
                 setOnClickListener {
                     val previousSelectedPosition = selectedPosition ?: RecyclerView.NO_POSITION
-                    selectedPosition = adapterPosition
+                    selectedPosition = bindingAdapterPosition
 
                     notifyItemChanged(previousSelectedPosition)
-                    notifyItemChanged(adapterPosition)
+                    notifyItemChanged(bindingAdapterPosition)
                 }
             }
-
         }
     }
 

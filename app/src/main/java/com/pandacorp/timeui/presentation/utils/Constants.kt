@@ -7,7 +7,7 @@ sealed class Constants {
         const val SHOWED_DIALOG = "SHOWED_DIALOG"
     }
 
-    // Item touch helper sealed class with keys to detect what adapter's viewholder use.
+    // Item touch helper sealed class with keys to detect what adapter's viewHolder use.
     sealed class ITHKey {
         object TIMER : ITHKey()
         object STOPWATCH : ITHKey()
@@ -27,11 +27,6 @@ sealed class Constants {
     }
 
     companion object {
-        // Key for intent to put and get parcelable StopwatchItem and TimerItem
-        const val IntentItem = "IntentItem"
-
-        const val SNACKBAR_DURATION = 3000
-
         const val ANIMATION_DURATION = 500L
     }
 }

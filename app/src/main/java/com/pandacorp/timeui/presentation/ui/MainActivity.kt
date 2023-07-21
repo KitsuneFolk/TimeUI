@@ -9,7 +9,6 @@ import com.fragula2.animation.SwipeController
 import com.fragula2.utils.findSwipeController
 import com.pandacorp.timeui.databinding.ActivityMainBinding
 import com.pandacorp.timeui.presentation.utils.PreferenceHandler
-import com.pandacorp.timeui.presentation.utils.Utils
 import dagger.android.AndroidInjection
 
 
@@ -22,10 +21,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        Thread.setDefaultUncaughtExceptionHandler { _, throwable -> throw (throwable) } // Throw any uncaught exceptions
         AndroidInjection.inject(this)
-        Utils.setupExceptionHandler()
+        PreferenceHandler.setLanguage(this)
         super.onCreate(savedInstanceState)
-        PreferenceHandler.load(this)
+        PreferenceHandler.setTheme(this)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

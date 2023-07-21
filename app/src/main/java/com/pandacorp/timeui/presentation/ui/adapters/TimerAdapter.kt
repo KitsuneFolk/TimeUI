@@ -35,7 +35,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
             checkStatus(binding, timerItem)
 
             binding.countdown.setOnClickListener {
-                timerListener!!.onTimerClicked(adapterPosition, timerItem)
+                timerListener!!.onTimerClicked(bindingAdapterPosition, timerItem)
             }
 
             binding.startButton.setOnClickListener {
@@ -64,7 +64,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
                     status = TimerItem.RUNNING
                 }
 
-                timerListener!!.onTimerUpdate(adapterPosition, timerItem)
+                timerListener!!.onTimerUpdate(bindingAdapterPosition, timerItem)
             }
 
             binding.resetButton.setOnClickListener {
@@ -79,7 +79,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
 
                 binding.countdown.updateShow(timerItem.startTime)
 
-                timerListener!!.onTimerUpdate(adapterPosition, timerItem)
+                timerListener!!.onTimerUpdate(bindingAdapterPosition, timerItem)
             }
 
             binding.stopButton.setOnClickListener {
@@ -93,7 +93,7 @@ class TimerAdapter : ListAdapter<TimerItem, TimerAdapter.ViewHolder>(TimerDiffCa
                     currentTime = binding.countdown.milliseconds
                 }
 
-                timerListener!!.onTimerUpdate(adapterPosition, timerItem)
+                timerListener!!.onTimerUpdate(bindingAdapterPosition, timerItem)
             }
 
             binding.menu.setOnClickListener {

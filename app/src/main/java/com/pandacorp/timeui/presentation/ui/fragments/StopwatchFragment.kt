@@ -103,7 +103,7 @@ class StopwatchFragment : DaggerFragment(R.layout.fragment_stopwatch) {
                 object : CustomItemTouchHelper.ItemTouchHelperListener {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                         if (viewHolder is StopwatchAdapter.ViewHolder)
-                            stopwatchAdapter.stopwatchListener!!.onStopwatchRemove(viewHolder.adapterPosition)
+                            stopwatchAdapter.stopwatchListener!!.onStopwatchRemove(viewHolder.bindingAdapterPosition)
                     }
                 })
             ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerView)

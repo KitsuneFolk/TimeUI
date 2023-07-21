@@ -90,7 +90,7 @@ class StopwatchAdapter : ListAdapter<StopwatchItem, StopwatchAdapter.ViewHolder>
                 menu.menuInflater.inflate(R.menu.item_list_menu, menu.menu)
                 menu.setOnMenuItemClickListener { menu_item ->
                     when (menu_item.itemId) {
-                        R.id.menu_item_delete -> stopwatchListener!!.onStopwatchRemove(adapterPosition)
+                        R.id.menu_item_delete -> stopwatchListener!!.onStopwatchRemove(bindingAdapterPosition)
                     }
                     return@setOnMenuItemClickListener true
                 }

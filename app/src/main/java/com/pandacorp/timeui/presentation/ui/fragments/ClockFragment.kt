@@ -60,7 +60,7 @@ class ClockFragment : DaggerFragment(R.layout.fragment_clock) {
                 object : CustomItemTouchHelper.ItemTouchHelperListener {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                         if (viewHolder is ClockAdapter.ViewHolder) {
-                            viewModel.removeAt(viewHolder.adapterPosition)
+                            viewModel.removeAt(viewHolder.bindingAdapterPosition)
                             Utils.handleShowingFAB(binding.clockRV, binding.addFab)
                         }
                     }

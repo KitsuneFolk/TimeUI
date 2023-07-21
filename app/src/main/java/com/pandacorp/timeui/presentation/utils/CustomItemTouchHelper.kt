@@ -38,7 +38,7 @@ class CustomItemTouchHelper(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (viewHolder is ClockAdapter.ViewHolder && viewHolder.adapterPosition == 0) return 0 // don't allow to remove default clocks
+        if (viewHolder is ClockAdapter.ViewHolder && viewHolder.bindingAdapterPosition == 0) return 0 // don't allow to remove default clocks
         return super.getSwipeDirs(recyclerView, viewHolder)
     }
     

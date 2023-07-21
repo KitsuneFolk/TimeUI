@@ -2,6 +2,8 @@ package com.pandacorp.timeui.presentation.utils
 
 import android.content.Context
 import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.preference.PreferenceManager
 import com.pandacorp.timeui.R
 import java.util.Locale
@@ -15,27 +17,18 @@ object PreferenceHandler {
 
     private const val themeDefault = themeFollowSystem
 
-    private val russianLocale = Locale("ru")
-    private val englishLocale = Locale("en")
-    private val ukrainianLocale = Locale("uk")
-
-    fun load(context: Context) {
-        val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        val theme = sp.getString(Constants.PreferencesKeys.THEME, themeDefault)!!
-        val language = sp.getString(Constants.PreferencesKeys.LANGUAGE, "")!!
-        setMyTheme(context, theme)
-        setMyLanguage(context, language)
-    }
-
     private fun isDeviceDarkMode(context: Context): Boolean =
         (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
-    private fun setMyTheme(context: Context, theme: String) {
+    fun setTheme(
+        context: Context,
+        theme: String = PreferenceManager.getDefaultSharedPreferences(context)
+            .getString(Constants.PreferencesKeys.THEME, themeDefault)!!,
+    ) {
         when (theme) {
             themeFollowSystem -> {
                 if (isDeviceDarkMode(context)) context.setTheme(R.style.DarkTheme)
                 else context.setTheme(R.style.BlueTheme)
-
             }
 
             themeBlue -> context.setTheme(R.style.BlueTheme)
@@ -45,24 +38,15 @@ object PreferenceHandler {
         }
     }
 
-    private fun setMyLanguage(context: Context, language: String) {
-        val configuration = Configuration()
-        when (language) {
-            "ru" -> {
-                Locale.setDefault(russianLocale)
-                configuration.setLocale(russianLocale)
-            }
-
-            "en" -> {
-                Locale.setDefault(englishLocale)
-                configuration.setLocale(englishLocale)
-            }
-
-            "uk" -> {
-                Locale.setDefault(ukrainianLocale)
-                configuration.setLocale(ukrainianLocale)
-            }
-        }
-        context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
+    fun setLanguage(
+        context: Context,
+        language: String = PreferenceManager.getDefaultSharedPreferences(context)
+            .getString(
+                Constants.PreferencesKeys.LANGUAGE,
+                context.resources.getString(R.string.settings_theme_default_value)
+            )!!,
+    ) {
+        Locale.setDefault(Locale(language)) // Still need to rewrite locale despite using AppCompatDelegate
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language))
     }
 }

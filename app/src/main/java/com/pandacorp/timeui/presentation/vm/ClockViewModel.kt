@@ -44,7 +44,7 @@ class ClockViewModel @Inject constructor(
         }
     }
 
-    fun removeItem(clockItem: ClockItem) {
+    private fun removeItem(clockItem: ClockItem) {
         _clocksList.apply {
             value?.remove(clockItem)
             postValue(value)

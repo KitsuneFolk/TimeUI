@@ -40,7 +40,7 @@ class TimerFragment : DaggerFragment(R.layout.fragment_timer) {
         TimerAdapter().apply {
             timerListener = object : TimerAdapter.TimerListener {
                 override fun onTimerRemove(viewHolder: TimerAdapter.ViewHolder) {
-                    viewModel.removeItemAt(viewHolder.adapterPosition)
+                    viewModel.removeItemAt(viewHolder.bindingAdapterPosition)
                     Utils.handleShowingFAB(binding.timerRecyclerView, binding.addFab)
                 }
 

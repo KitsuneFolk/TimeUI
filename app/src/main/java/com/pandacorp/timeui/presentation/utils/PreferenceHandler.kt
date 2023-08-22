@@ -43,7 +43,7 @@ object PreferenceHandler {
         language: String = PreferenceManager.getDefaultSharedPreferences(context)
             .getString(
                 Constants.PreferencesKeys.LANGUAGE,
-                context.resources.getString(R.string.settings_theme_default_value)
+                context.resources.getString(R.string.settings_language_default_value)
             )!!,
     ) {
         Locale.setDefault(Locale(language)) // Still need to rewrite locale despite using AppCompatDelegate

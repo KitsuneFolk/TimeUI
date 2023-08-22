@@ -18,14 +18,10 @@
     <string name="language">Язык</string>
     <string name="theme">Тема</string>
     <string name="version">Версия %1$s</string>
+    <string name="another">Другое</string>
 
     <string name="settings_language_default_value">ru</string>
     <string name="settings_language_summary">Русский</string>
-
-
-    <!--  Share views  -->
-    <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
-    <string name="another">Другое</string>
 
     <string name="selectTime">Выбирите время</string>
     <string name="cancel">Отменить</string>
@@ -34,5 +30,4 @@
     <string name="clockAlreadyAdded">Эти часы уже добавлены</string>
 
     <string name="emptyRecyclerView">Пусто. Добавьте элемент с помощью кнопки в углу</string>
-
 </resources>

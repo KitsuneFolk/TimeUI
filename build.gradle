@@ -1,13 +1,16 @@
 buildscript {
-    ext.kotlin_version = '1.8.10'
     repositories {
         google()
         jcenter() // A dependency still requires it
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
     }
+}
+
+plugins {
+    id 'com.google.devtools.ksp' version '1.8.10-1.0.9' apply false
 }
 
 allprojects {
@@ -16,10 +19,9 @@ allprojects {
         mavenCentral()
         maven { url 'https://maven.google.com' }
         jcenter()
-
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

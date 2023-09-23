@@ -2,15 +2,14 @@ package com.pandacorp.timeui.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.fragula2.animation.SwipeController
 import com.fragula2.utils.findSwipeController
+import com.pandacorp.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pandacorp.timeui.databinding.ActivityMainBinding
 import com.pandacorp.timeui.presentation.utils.PreferenceHandler
 import dagger.android.AndroidInjection
-
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
